@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
-import Hero_img from "../../assets/img/Group124.png";
+import Hero_img from "../../assets/img/group124.png";
 
 const HeroSection = () => {
   return (
