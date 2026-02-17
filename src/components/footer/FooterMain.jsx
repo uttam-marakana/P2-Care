@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaPhoneAlt, FaFacebook, FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaXTwitter } from "react-icons/fa6";
+import { IoCall } from "react-icons/io5";
 import { AiFillInstagram } from "react-icons/ai";
 import Logo from "../../assets/img/logo1.png";
 
@@ -65,7 +66,7 @@ const FooterMain = () => {
       <div className="footer-call">
         <div className="call-box">
           <div className="call-icon">
-            <FaPhoneAlt />
+            <IoCall />
           </div>
           <div className="call-text">
             <h6>Call Us Today</h6>
