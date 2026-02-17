@@ -2,9 +2,9 @@ import React from "react";
 import HeroSection from "../features/home/HeroSection";
 import SearchSection from "../features/home/SearchSection";
 import DoctorSection from "../features/home/DoctorSection";
+import ServicesSection from "../features/service/ServicesSection";
 
-import Services from "./Services";
-import About from "./About";
+import AboutSection from "../features/about/AboutSection";
 import Appointment from "./Appointment";
 import FeedBack from "./FeedBack";
 import Blogs from "./Blogs";
@@ -14,9 +14,9 @@ const Home = () => {
     <>
       <HeroSection />
       <SearchSection />
-      <Services />
+      <ServicesSection />
       <DoctorSection />
-      <About />
+      <AboutSection />
       <Appointment />
       <FeedBack />
       <Blogs />

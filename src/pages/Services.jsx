@@ -1,57 +1,47 @@
 import React from "react";
-import Service_List from "../components/page_comp/Service_List";
-import "../App.css";
+import ServiceHero from "../features/service/ServiceHero";
+import ServiceList from "../features/service/ServiceList";
 
-import General_img from "../assets/img/general.png";
-import Psychiatry_img from "../assets/img/psychiatry.png";
-import Dentist_img from "../assets/img/dentist.png";
-import Baby_img from "../assets/img/baby.png";
+import General from "../assets/img/general.png";
+import Psychiatry from "../assets/img/psychiatry.png";
+import Dentist from "../assets/img/dentist.png";
+import Baby from "../assets/img/baby.png";
 
-function Services() {
+const servicesData = [
+  {
+    img: General,
+    tag: "Child Care",
+    detail: "Specialized healthcare focused on children's growth.",
+  },
+  {
+    img: Psychiatry,
+    tag: "Psychiatry",
+    detail: "Professional mental health consultation.",
+  },
+  {
+    img: Dentist,
+    tag: "Dentist",
+    detail: "Complete dental care and treatments.",
+  },
+  {
+    img: Baby,
+    tag: "Pediatrics",
+    detail: "Medical care for infants and adolescents.",
+  },
+];
+
+const Services = () => {
   return (
-    <div className="container ">
-      <div className="serv-menu">
-        <div className="services">
-          <h4>Services</h4>
-          <p>Our Specialities</p>
-        </div>
-        <div className="serv-btn">
-          <button className="">View All</button>
-        </div>
-      </div>
+    <>
+      <ServiceHero />
 
-      <div className="serv-list">
-        <div className="col-md-5">
-          <Service_List
-            img={General_img}
-            tag="Child Care"
-            detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
+      <section className="section">
+        <div className="container">
+          <ServiceList services={servicesData} />
         </div>
-        <div className="col-md-5">
-          <Service_List
-            img={Psychiatry_img}
-            tag="Psychiatry"
-            detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-        </div>
-        <div className="col-md-5">
-          <Service_List
-            img={Dentist_img}
-            tag="Dentist"
-            detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-        </div>
-        <div className="col-md-5">
-          <Service_List
-            img={Baby_img}
-            tag="Pediatrics"
-            detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
-}
+};
 
 export default Services;

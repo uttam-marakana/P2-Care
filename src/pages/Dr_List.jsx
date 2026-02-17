@@ -1,161 +1,81 @@
-import React from "react";
-import Doctor2 from "../components/Doctor2";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import DoctorHero from "../features/doctor/DoctorHero";
+import DoctorSearch from "../features/doctor/DoctorSearch";
+import DoctorList from "../features/doctor/DoctorList";
+import SpecialistList from "../features/doctor/SpecialistList";
 import Feedback from "./Feedback";
 
+import Psychiatry from "../assets/img/psychiatry.png";
+import General from "../assets/img/general.png";
+import Dentist from "../assets/img/dentist.png";
+import Baby from "../assets/img/baby.png";
+
+import { doctors } from "../features/doctor/data/doctors";
+
 const specialists = [
-  { img: "assets/img/psychiatry.png", name: "Psychiatry" },
-  { img: "assets/img/general.png", name: "Child Care" },
-  { img: "assets/img/dentist.png", name: "Dentist" },
-  { img: "assets/img/baby.png", name: "Pediatrics" },
+  { img: Psychiatry, name: "Psychiatry" },
+  { img: General, name: "Child Care" },
+  { img: Dentist, name: "Dentist" },
+  { img: Baby, name: "Pediatrics" },
 ];
 
-const doctors = [
-  {
-    img: "assets/img/member.png",
-    name: "Dr. Addition Smith",
-    specialty: "Dentist",
-    profile: "/doctoreprofile",
-  },
-  {
-    img: "assets/img/member.png",
-    name: "Dr. Addition Smith",
-    specialty: "Dentist",
-    profile: "/doctoreprofile",
-  },
-  {
-    img: "assets/img/member.png",
-    name: "Dr. Addition Smith",
-    specialty: "Dentist",
-    profile: "/doctoreprofile",
-  },
-  {
-    img: "assets/img/member.png",
-    name: "Dr. Addition Smith",
-    specialty: "Dentist",
-    profile: "/doctoreprofile",
-  },
-  {
-    img: "assets/img/member.png",
-    name: "Dr. Addition Smith",
-    specialty: "Dentist",
-    profile: "/doctoreprofile",
-  },
-];
+const DOCTORS_PER_PAGE = 12;
+const page = Number(searchParams.get("page")) || 1;
+
+const startIndex = (page - 1) * DOCTORS_PER_PAGE;
+const paginatedDoctors = filteredDoctors.slice(
+  startIndex,
+  startIndex + DOCTORS_PER_PAGE,
+);
+
+const [searchParams, setSearchParams] = useSearchParams();
+const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+
+useEffect(() => {
+  const specialty = searchParams.get("specialty");
+  const doctorName = searchParams.get("doctor");
+
+  let filtered = doctors;
+
+  if (specialty) {
+    filtered = filtered.filter(
+      (doc) => doc.specialty.toLowerCase() === specialty.toLowerCase(),
+    );
+  }
+
+  if (doctorName) {
+    filtered = filtered.filter((doc) =>
+      doc.name.toLowerCase().includes(doctorName.toLowerCase()),
+    );
+  }
+
+  setFilteredDoctors(filtered);
+}, [searchParams]);
 
 const Dr_List = () => {
   return (
     <>
-      <div className="position-relative">
-        <img
-          src="assets/img/femaledoc.png"
-          className="w-100"
-          alt="Doctor"
-          height="695px"
-        />
-        <div className="position-absolute top-50 start-50 translate-middle text-white text-center">
-          <h1 className="fw-bold">
-            Search Best <br /> Doctors at Best <br /> Locations
-          </h1>
-          <div className="d-flex justify-content-center gap-4 mt-4">
-            <h3>
-              400+ <br />
-              <span className="text-dark">Doctors</span>
-            </h3>
-            <h3>
-              50+ <br />
-              <span className="text-dark">Specialists</span>
-            </h3>
-            <h3>
-              45+ <br />
-              <span className="text-dark">Cities</span>
-            </h3>
-          </div>
-        </div>
-      </div>
+      <DoctorHero />
+      <DoctorSearch doctors={doctors} setSearchParams={setSearchParams} />
 
-      <div className="container my-5">
-        <div className="row justify-content-center">
-          <div className="col-md-5">
-            <label className="fw-bold">Specialist</label>
-            <select className="form-select">
-              <option value="">Select a Specialist</option>
-              {[
-                "Name or disease",
-                "top-center",
-                "top-end",
-                "middle-start",
-                "middle-center",
-                "middle-end",
-                "bottom-start",
-                "bottom-center",
-                "bottom-end",
-              ].map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-md-5">
-            <label className="fw-bold">Specialist</label>
-            <select className="form-select">
-              <option value="">Select a Specialist</option>
-              {[
-                "Name or disease",
-                "top-center",
-                "top-end",
-                "middle-start",
-                "middle-center",
-                "middle-end",
-                "bottom-start",
-                "bottom-center",
-                "bottom-end",
-              ].map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-md-2 d-flex align-items-end">
-            <button className="btn btn-primary w-100">Search</button>
-          </div>
+      <section className="section">
+        <div className="container">
+          <SpecialistList specialists={specialists} />
         </div>
-      </div>
+      </section>
 
-      <div className="container text-center my-5">
-        <div className="row justify-content-center">
-          {specialists.map((item, index) => (
-            <div key={index} className="col-md-3">
-              <div className="card border-0 shadow-sm p-3">
-                <img
-                  src={item.img}
-                  width="45px"
-                  height="45px"
-                  alt={item.name}
-                />
-                <p className="fw-bold mt-2">{item.name}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <section className="section">
+        <div className="container">
+          <h3 className="heading-lg text-center mb-lg">
+            Specialist Doctors in Your Area
+          </h3>
 
-      <div className="container text-center my-5">
-        <h3 className="mb-4">Specialist Doctors in Your Area</h3>
-        <div className="row justify-content-center">
-          {doctors.map((doctor, index) => (
-            <div key={index} className="col-md-2">
-              <Doctor2
-                img={doctor.img}
-                title={doctor.name}
-                sec={doctor.specialty}
-                profile={doctor.profile}
-              />
-            </div>
-          ))}
+          {/* dynamic data */}
+          <DoctorList doctors={paginatedDoctors} />
         </div>
-      </div>
+      </section>
 
       <Feedback />
     </>
