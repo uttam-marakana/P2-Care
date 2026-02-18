@@ -5,13 +5,13 @@ import { Outlet } from "react-router-dom";
 
 const FullLayout = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

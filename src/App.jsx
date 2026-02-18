@@ -33,8 +33,8 @@ const Reviews = lazy(() => import("./pages/Reviews"));
 
 /* ----- AUTH ----- */
 const Login = lazy(() => import("./pages/auth/Login"));
-const Register = lazy(() => import("./pages/auth/Register"))
-import PrivateRoute from "./components/auth/PrivateRoute";;
+const Register = lazy(() => import("./pages/auth/Register"));
+import PrivateRoute from "./components/auth/PrivateRoute";
 
 /* ----- ERROR ----- */
 const Error_Page = lazy(() => import("./pages/Error"));
