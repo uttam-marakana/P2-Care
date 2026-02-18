@@ -2,13 +2,15 @@ import React, { lazy, Suspense } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-/* ================= LAYOUTS ================= */
+// ✅ FIX: Loading must be a regular import — it cannot be lazy-loaded
+// because it's used as the Suspense fallback before lazy chunks resolve.
+import Loading from "./components/loading/Loading";
 
+/* ----- LAYOUTS ----- */
 const FullLayout = lazy(() => import("./layouts/FullLayout"));
 const BlankLayout = lazy(() => import("./layouts/BlankLayout"));
 
-/* ================= PUBLIC PAGES ================= */
-
+/* ----- PUBLIC PAGES ----- */
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const About_Hosp = lazy(() => import("./pages/About_Hosp"));
@@ -29,14 +31,13 @@ const Hospital = lazy(() => import("./pages/Hospital"));
 const Patients_Details = lazy(() => import("./pages/Patients_Details"));
 const Reviews = lazy(() => import("./pages/Reviews"));
 
-/* ================= AUTH ================= */
-
+/* ----- AUTH ----- */
 const Login = lazy(() => import("./pages/auth/Login"));
-const Register = lazy(() => import("./pages/auth/Register"));
+const Register = lazy(() => import("./pages/auth/Register"))
+import PrivateRoute from "./components/auth/PrivateRoute";;
 
-/* ================= LOADING ================= */
-
-const Loading = lazy(() => import("./components/loading/Loading"));
+/* ----- ERROR ----- */
+const Error_Page = lazy(() => import("./pages/Error"));
 
 function App() {
   return (
@@ -66,8 +67,13 @@ function App() {
 
             <Route path="/feedback" element={<FeedBack />} />
             <Route path="/hospital" element={<Hospital />} />
-            <Route path="/patient-details" element={<Patients_Details />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/patient-details" element={<Patients_Details />} />
+            </Route>
             <Route path="/reviews" element={<Reviews />} />
+
+            {/* ✅ 404 catch-all */}
+            <Route path="*" element={<Error_Page />} />
           </Route>
 
           {/* AUTH ROUTES */}
