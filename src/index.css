@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   🔥 PREMIUM DESIGN SYSTEM (FINAL MERGED)
+   🔥 PREMIUM DESIGN SYSTEM (MASTER FILE)
 ───────────────────────────────────────────── */
 
 @import "tailwindcss";
@@ -125,6 +125,20 @@ p {
   }
 }
 
+/* ─── SECTION HEADER ─── */
+.section-header {
+  margin-bottom: var(--space-5);
+}
+
+.section-header h2 {
+  margin-bottom: 8px;
+}
+
+.section-header p {
+  max-width: 600px;
+  color: var(--color-muted);
+}
+
 /* ─── GRID ─── */
 .grid {
   display: grid;
@@ -188,6 +202,42 @@ p {
   color: white;
 }
 
+/* ─── INPUT SYSTEM ─── */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+.input-field {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(28, 163, 156, 0.15);
+}
+
+.input-error {
+  border-color: #ef4444;
+}
+
+.input-error-text {
+  font-size: 12px;
+  color: #ef4444;
+}
+
 /* ─── NAVBAR ─── */
 .navbar {
   background: var(--color-dark);
@@ -227,117 +277,133 @@ p {
   text-align: center;
 }
 
-/* ─────────────────────────────────────────────
-   🏥 HOSPITAL LOADER (MERGED)
-──────────────────────────────────────────── */
-
+/* ─── LOADER ─── */
 .loading-wrapper {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f0fdfa, #ffffff);
-  padding: 20px;
 }
 
 .loading-card {
   background: white;
-  padding: 40px 30px;
+  padding: 40px;
   border-radius: var(--radius-lg);
   text-align: center;
-  max-width: 400px;
-  width: 100%;
   box-shadow: var(--shadow-lg);
 }
 
-/* Loader Visual */
-.loader-visual {
-  position: relative;
-  margin-bottom: 25px;
+/* ─── FOOTER SYSTEM ─── */
+.footer {
+  background: #0f172a;
+  color: white;
 }
 
-.pulse-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(28, 163, 156, 0.15);
-  margin: auto;
-  animation: pulse 1.8s infinite;
+.footer-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 20px 0;
 }
 
-.medical-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 28px;
-  font-weight: bold;
+/* Newsletter */
+.newsletter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  align-items: center;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Footer Grid */
+.footer-grid {
+  display: grid;
+  gap: 30px;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 2fr 2fr 1.5fr;
+  }
+}
+
+/* Brand */
+.footer-logo {
+  width: 140px;
+  margin-bottom: 10px;
+}
+
+.footer-brand p {
+  color: #94a3b8;
+}
+
+/* Links */
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-links h4 {
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 6px;
+}
+
+.footer-links a {
+  color: #cbd5f5;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+/* Social */
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon {
+  font-size: 18px;
+  color: #cbd5f5;
+}
+
+/* Contact */
+.footer-contact {
+  background: #1e293b;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.call-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.call-icon {
+  font-size: 22px;
   color: var(--color-primary);
 }
 
-/* Text */
-.loading-content h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: var(--color-dark);
-}
-
-.loading-content p {
+/* Copyright */
+.footer-copy {
   font-size: 14px;
-  margin-bottom: 20px;
-}
-
-/* Progress */
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: #e5e7eb;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--color-primary);
-  animation: loadingProgress 2s infinite;
-}
-
-/* Animations */
-@keyframes pulse {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.7;
-  }
-  70% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-}
-
-@keyframes loadingProgress {
-  0% {
-    width: 0%;
-  }
-  50% {
-    width: 70%;
-  }
-  100% {
-    width: 0%;
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .loading-card {
-    padding: 30px 20px;
-  }
-
-  .loading-content h2 {
-    font-size: 18px;
-  }
+  color: #94a3b8;
+  padding: 10px 0;
 }

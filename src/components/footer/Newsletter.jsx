@@ -1,29 +1,25 @@
 import React from "react";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 const Newsletter = () => {
   return (
-    <div className="container newsletter">
-      <div>
-        <h4 className="mb-4">Subscribe Our Newsletter</h4>
-        <p>
-          Stay updated with health tips, medical articles, and service updates
-          from our expert team.
-        </p>
-      </div>
+    <section className="section">
+      <div className="container newsletter-box card">
+        <div className="newsletter-content">
+          <h2>Stay Informed. Stay Healthy.</h2>
+          <p>
+            Get expert health tips, appointment updates, and trusted medical
+            insights directly to your inbox.
+          </p>
+        </div>
 
-      <div className="email-sect">
-        <form className="d-flex">
-          <input
-            type="email"
-            className="email-btn p-2"
-            placeholder="Your Email"
-          />
-          <button type="submit" className="subscribe-btn">
-            Subscribe
-          </button>
+        <form className="newsletter-form">
+          <Input type="email" placeholder="Enter your email address" />
+          <Button type="submit">Subscribe</Button>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 

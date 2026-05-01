@@ -5,15 +5,17 @@ import Copyright from "./Copyright";
 
 const Footer = () => {
   return (
-    <div className="footer">
+    <footer className="footer">
       <Newsletter />
-      <div className="borderLine"></div>
+
+      <div className="footer-divider"></div>
 
       <FooterMain />
-      <div className="borderLine"></div>
+
+      <div className="footer-divider"></div>
 
       <Copyright />
-    </div>
+    </footer>
   );
 };
 

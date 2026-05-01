@@ -7,13 +7,14 @@ import Logo from "../../assets/images/logo1.png";
 
 const FooterMain = () => {
   return (
-    <div className="container footer-container">
-      <div className="footer-left">
-        <img src={Logo} alt="logo" className="footer-logo" />
+    <div className="container footer-grid">
+      {/* LEFT */}
+      <div className="footer-brand">
+        <img src={Logo} alt="Hospital Logo" className="footer-logo" />
 
-        <p className="footer-text">
-          We connect patients with trusted healthcare professionals, providing
-          reliable consultations and better access to care.
+        <p>
+          Providing trusted healthcare services with certified doctors, modern
+          facilities, and patient-first care. Your health is our priority.
         </p>
 
         <div className="social-icons">
@@ -29,50 +30,61 @@ const FooterMain = () => {
         </div>
       </div>
 
+      {/* LINKS */}
       <div className="footer-links">
-        <ul className="fcont">
-          <p className="fw-bold">Quick Links</p>
-          <li>
-            <Link to="/about">About Us</Link>
-          </li>
-          <li>
-            <Link to="/services">Services</Link>
-          </li>
-          <li>
-            <Link to="/dr-list">Doctors</Link>
-          </li>
-          <li>
-            <Link to="/hospital">Contact</Link>
-          </li>
-        </ul>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li>
+              <Link to="/services">Medical Services</Link>
+            </li>
+            <li>
+              <Link to="/dr-list">Find Doctors</Link>
+            </li>
+            <li>
+              <Link to="/appointment">Book Appointment</Link>
+            </li>
+            <li>
+              <Link to="/reviews">Patient Reviews</Link>
+            </li>
+          </ul>
+        </div>
 
-        <ul className="fcont">
-          <p className="fw-bold">Useful Links</p>
-          <li>
-            <Link to="#">Privacy Policy</Link>
-          </li>
-          <li>
-            <Link to="#">Terms & Conditions</Link>
-          </li>
-          <li>
-            <Link to="#">Disclaimer</Link>
-          </li>
-          <li>
-            <Link to="#">FAQ</Link>
-          </li>
-        </ul>
+        <div>
+          <h4>Information</h4>
+          <ul>
+            <li>
+              <Link to="/about">About Hospital</Link>
+            </li>
+            <li>
+              <Link to="/hospital">Contact Us</Link>
+            </li>
+            <li>
+              <Link to="#">Privacy Policy</Link>
+            </li>
+            <li>
+              <Link to="#">Terms & Conditions</Link>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div className="footer-call">
+      {/* CONTACT */}
+      <div className="footer-contact card">
         <div className="call-box">
-          <div className="call-icon">
-            <IoCall />
-          </div>
-          <div className="call-text">
-            <h6>Call Us Today</h6>
-            <p>+91 3256523561</p>
+          <IoCall className="call-icon" />
+
+          <div>
+            <h5>24/7 Emergency Support</h5>
+            <p>+91 9876xxxxxx</p>
           </div>
         </div>
+
+        <p className="footer-address">
+          Rajkot, Gujarat, India
+          <br />
+          Mon - Sun | 24 Hours Service
+        </p>
       </div>
     </div>
   );

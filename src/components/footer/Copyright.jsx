@@ -2,9 +2,12 @@ import React from "react";
 
 const Copyright = () => {
   return (
-    <h5 className="container pt-3">
-      Copyright &copy; <em>2026</em>. All rights reserved.
-    </h5>
+    <div className="container text-center">
+      <p className="footer-copy">
+        © 2026 <strong>P2Care</strong>. All rights reserved. Trusted
+        healthcare platform.
+      </p>
+    </div>
   );
 };
 
