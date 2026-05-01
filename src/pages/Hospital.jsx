@@ -3,6 +3,8 @@ import { FaChevronRight, FaStar, FaAmbulance } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import About_Hosp from "./About_Hosp";
 
+import { faqs } from "./hospitalFaqs";
+
 const Hospital = () => {
   return (
     <div className="head">
@@ -102,33 +104,27 @@ const Hospital = () => {
 
           <div className="mt-5">
             <h2 className="faq">FAQs</h2>
-            <div className="accordion" id="faqAccordion">
-              {[...Array(5)].map((_, index) => (
-                <div className="accordion-item" key={index}>
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#collapse${index}`}
-                    >
-                      {index + 1}. What is Lorem Ipsum?
-                    </button>
-                  </h2>
-                  <div
-                    id={`collapse${index}`}
-                    className="accordion-collapse collapse"
-                    data-bs-parent="#faqAccordion"
+            {faqs.map((faq, index) => (
+              <div className="accordion-item" key={index}>
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={`#collapse${index}`}
                   >
-                    <div className="accordion-body">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
-                    </div>
-                  </div>
+                    {index + 1}. {faq.question}
+                  </button>
+                </h2>
+                <div
+                  id={`collapse${index}`}
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div className="accordion-body">{faq.answer}</div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

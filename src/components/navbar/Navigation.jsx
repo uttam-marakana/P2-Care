@@ -29,8 +29,9 @@ const Navigation = () => {
                 About
               </Link>
             </li>
+            {/* ✅ FIX: Was /dr-profile (nonexistent). Changed to /dr-list */}
             <li className="nav-item">
-              <Link className="nav-link text-dark" to="/dr-profile">
+              <Link className="nav-link text-dark" to="/dr-list">
                 Doctor
               </Link>
             </li>

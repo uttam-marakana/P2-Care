@@ -5,7 +5,7 @@ import DoctorHero from "../features/doctor/DoctorHero";
 import DoctorSearch from "../features/doctor/DoctorSearch";
 import DoctorList from "../features/doctor/DoctorList";
 import SpecialistList from "../features/doctor/SpecialistList";
-import Feedback from "./Feedback";
+import FeedBack from "./FeedBack";
 
 import Psychiatry from "../assets/img/psychiatry.png";
 import General from "../assets/img/general.png";
@@ -22,39 +22,41 @@ const specialists = [
 ];
 
 const DOCTORS_PER_PAGE = 12;
-const page = Number(searchParams.get("page")) || 1;
 
-const startIndex = (page - 1) * DOCTORS_PER_PAGE;
-const paginatedDoctors = filteredDoctors.slice(
-  startIndex,
-  startIndex + DOCTORS_PER_PAGE,
-);
-
-const [searchParams, setSearchParams] = useSearchParams();
-const [filteredDoctors, setFilteredDoctors] = useState(doctors);
-
-useEffect(() => {
-  const specialty = searchParams.get("specialty");
-  const doctorName = searchParams.get("doctor");
-
-  let filtered = doctors;
-
-  if (specialty) {
-    filtered = filtered.filter(
-      (doc) => doc.specialty.toLowerCase() === specialty.toLowerCase(),
-    );
-  }
-
-  if (doctorName) {
-    filtered = filtered.filter((doc) =>
-      doc.name.toLowerCase().includes(doctorName.toLowerCase()),
-    );
-  }
-
-  setFilteredDoctors(filtered);
-}, [searchParams]);
-
+// ✅ FIX: All hooks and derived state moved INSIDE the component
 const Dr_List = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+
+  useEffect(() => {
+    const specialty = searchParams.get("specialty");
+    const doctorName = searchParams.get("doctor");
+
+    let filtered = doctors;
+
+    if (specialty) {
+      filtered = filtered.filter(
+        (doc) => doc.specialty.toLowerCase() === specialty.toLowerCase(),
+      );
+    }
+
+    if (doctorName) {
+      filtered = filtered.filter((doc) =>
+        doc.name.toLowerCase().includes(doctorName.toLowerCase()),
+      );
+    }
+
+    setFilteredDoctors(filtered);
+  }, [searchParams]);
+
+  // Derived values also inside the component
+  const page = Number(searchParams.get("page")) || 1;
+  const startIndex = (page - 1) * DOCTORS_PER_PAGE;
+  const paginatedDoctors = filteredDoctors.slice(
+    startIndex,
+    startIndex + DOCTORS_PER_PAGE,
+  );
+
   return (
     <>
       <DoctorHero />
@@ -71,13 +73,11 @@ const Dr_List = () => {
           <h3 className="heading-lg text-center mb-lg">
             Specialist Doctors in Your Area
           </h3>
-
-          {/* dynamic data */}
           <DoctorList doctors={paginatedDoctors} />
         </div>
       </section>
 
-      <Feedback />
+      <FeedBack />
     </>
   );
 };
