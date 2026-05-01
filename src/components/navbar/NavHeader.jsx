@@ -1,7 +1,7 @@
 import React from "react";
 import { MdAddCall } from "react-icons/md";
 import { IoIosMail } from "react-icons/io";
-import LogoFull from "../../assets/img/logo2.png";
+import LogoFull from "../../assets/images/logo2.png";
 
 const NavHeader = () => {
   return (

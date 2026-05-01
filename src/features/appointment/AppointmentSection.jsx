@@ -1,6 +1,6 @@
 import React from "react";
 import AppointmentStepList from "./AppointmentStepList";
-import AppointmentImg from "../../assets/img/doctor.png";
+import AppointmentImg from "../../assets/images/doctor.png";
 
 const steps = [
   {

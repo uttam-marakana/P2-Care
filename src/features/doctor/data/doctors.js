@@ -1,5 +1,5 @@
-import Member from "../../../assets/img/member.png";
-import DoctorImg from "../../../assets/img/member41.png";
+import Member from "../../../assets/images/member.png";
+import DoctorImg from "../../../assets/images/member41.png";
 
 export const doctors = [
   {

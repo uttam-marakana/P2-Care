@@ -1,7 +1,7 @@
 import React from "react";
 import { MdGroups, MdLibraryAddCheck } from "react-icons/md";
 import { Link } from "react-router-dom";
-import about_img from "../../assets/img/group110.png";
+import about_img from "../../assets/images/group110.png";
 
 const AboutSection = () => {
   return (

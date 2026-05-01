@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
-// const HeroImage = lazy(() => import("../../assets/img/serviceHero.png"));
-import HeroImage from "../../assets/img/serviceHero.png";
+// const HeroImage = lazy(() => import("../../assets/images/serviceHero.png"));
+import HeroImage from "../../assets/images/serviceHero.png";
 
 
 
@@ -8,7 +8,7 @@ const ServiceHero = () => {
   return (
     <section className="position-relative">
       <img
-        src="../../assets/img/serviceHero.png"
+        src="../../assets/images/serviceHero.png"
         className="w-full"
         alt="Services"
       />

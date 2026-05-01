@@ -1,7 +1,7 @@
 import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import FeedbackList from "./FeedbackList";
-import FeedBack_img from "../../assets/img/testimonial.png";
+import FeedBack_img from "../../assets/images/testimonial.png";
 
 const feedbackData = [
   {

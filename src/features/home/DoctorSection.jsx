@@ -2,7 +2,7 @@ import React, { lazy } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import DoctorList from "../doctor/DoctorList";
 
-const Dr_img = lazy(() => import("../../assets/img/doctor.png"));
+const Dr_img = lazy(() => import("../../assets/images/doctor.png"));
 
 
 function DoctorSection() {

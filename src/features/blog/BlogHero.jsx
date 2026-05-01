@@ -2,11 +2,11 @@ import React from "react";
 import BlogList from "./BlogList";
 import FeaturedBlog from "./FeaturedBlog";
 
-import Blog1 from "../../assets/img/blog1.png";
-import Blog2 from "../../assets/img/blog2.png";
-import Blog3 from "../../assets/img/blog3.png";
-import Blog4 from "../../assets/img/blog4.png";
-import Blog5 from "../../assets/img/blog5.png";
+import Blog1 from "../../assets/images/blog1.png";
+import Blog2 from "../../assets/images/blog2.png";
+import Blog3 from "../../assets/images/blog3.png";
+import Blog4 from "../../assets/images/blog4.png";
+import Blog5 from "../../assets/images/blog5.png";
 
 const blogsData = [
   {

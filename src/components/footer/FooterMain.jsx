@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaFacebook, FaXTwitter } from "react-icons/fa6";
 import { IoCall } from "react-icons/io5";
 import { AiFillInstagram } from "react-icons/ai";
-import Logo from "../../assets/img/logo1.png";
+import Logo from "../../assets/images/logo1.png";
 
 const FooterMain = () => {
   return (
