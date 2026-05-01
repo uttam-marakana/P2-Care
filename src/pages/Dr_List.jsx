@@ -7,10 +7,10 @@ import DoctorList from "../features/doctor/DoctorList";
 import SpecialistList from "../features/doctor/SpecialistList";
 import FeedBack from "./FeedBack";
 
-import Psychiatry from "../assets/img/psychiatry.png";
-import General from "../assets/img/general.png";
-import Dentist from "../assets/img/dentist.png";
-import Baby from "../assets/img/baby.png";
+import Psychiatry from "../assets/images/psychiatry.png";
+import General from "../assets/images/general.png";
+import Dentist from "../assets/images/dentist.png";
+import Baby from "../assets/images/baby.png";
 
 import { doctors } from "../features/doctor/data/doctors";
 

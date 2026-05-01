@@ -1,5 +1,5 @@
 import React from "react";
-import Articl from "../components/Articl";
+import Articl from "../../../components/Articl";
 
 const articles = [
   {

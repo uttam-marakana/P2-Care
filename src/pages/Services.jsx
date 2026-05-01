@@ -2,10 +2,10 @@ import React from "react";
 import ServiceHero from "../features/service/ServiceHero";
 import ServiceList from "../features/service/ServiceList";
 
-import General from "../assets/img/general.png";
-import Psychiatry from "../assets/img/psychiatry.png";
-import Dentist from "../assets/img/dentist.png";
-import Baby from "../assets/img/baby.png";
+import General from "../assets/images/general.png";
+import Psychiatry from "../assets/images/psychiatry.png";
+import Dentist from "../assets/images/dentist.png";
+import Baby from "../assets/images/baby.png";
 
 const servicesData = [
   {

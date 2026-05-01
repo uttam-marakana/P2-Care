@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../components/navbar/Navbar";
+import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { Outlet } from "react-router-dom";
 
 const FullLayout = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Header />
       <main className="flex-1">
         <Outlet />
       </main>
