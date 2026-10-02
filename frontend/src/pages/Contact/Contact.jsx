@@ -1,0 +1,28 @@
+import { useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Formik, Form, Field as FormikField, ErrorMessage } from 'formik';
+import * as Accordion from '@radix-ui/react-accordion';
+import * as Yup from 'yup';
+import { motion } from 'framer-motion';
+import { FaArrowRight, FaBaby, FaBell, FaBone, FaBrain, FaCalendarDays, FaCheck, FaChevronDown, FaClock, FaArrowUpRightFromSquare, FaFacebookF, FaFileLines, FaSpa, FaHeartPulse, FaInstagram, FaEnvelope, FaLocationDot, FaBars, FaMessage, FaPhone, FaMagnifyingGlass, FaShieldHalved, FaWandMagicSparkles, FaStar, FaStethoscope, FaSyringe, FaUsers, FaXmark, FaYoutube } from "react-icons/fa6";
+import { useCmsData } from '@/context/CmsContext';
+import { submitContactInquiry } from '@/services/cms';
+import { ButtonLink, PageHero, SectionIntro, Field, InfoTile, imagePath, iconFor, ImageWithFallback } from "@/components/common";
+import { Shell } from "@/components/layout";
+import { DoctorCard } from "@/components/doctors";
+import { openWhatsApp, generalWhatsAppMessage } from '@/lib/whatsapp';
+
+const contactSchema = Yup.object({
+  name: Yup.string().trim().required('Please enter your name.'),
+  reply: Yup.string().trim().required('Please provide an email or phone number.'),
+  message: Yup.string().trim().min(10, 'Please share a little more detail.').required('Please enter your message.'),
+});
+
+function Contact() {
+  const { doctors, specialties, articles, faqs } = useCmsData();
+  const [sent, setSent] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  return <Shell><main><PageHero eyebrow="We're here to help" title={<>A real person is only <em className="text-[hsl(var(--primary))]">a message</em> away.</>} body="Questions about an appointment, a report or finding your way around? Tell us what’s on your mind." /><section className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-10 px-5 py-14 lg:grid-cols-[.8fr_1.2fr] lg:px-8 lg:py-20"><div><div className="rounded-[28px] bg-[hsl(var(--primary))] p-7 text-[hsl(var(--primary-foreground))]"><FaPhone size={21} className="text-[hsl(var(--secondary))]" /><h2 className="mt-12 font-display text-4xl">Patient helpline</h2><a href="tel:+9118001234567" data-testid="link-contact-helpline" className="mt-4 block font-mono text-lg text-[hsl(var(--secondary))]">+91 1800 123 4567</a><p className="mt-3 text-sm text-[hsl(var(--primary-foreground)/.68)]">Available 24 hours, every day.</p><button type="button" data-testid="button-contact-whatsapp" onClick={() => openWhatsApp(generalWhatsAppMessage())} className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white hover:-translate-y-0.5"><FaMessage size={16} /> Chat on WhatsApp</button></div><div className="mt-4 rounded-[28px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7"><FaLocationDot size={21} className="text-[hsl(var(--primary))]" /><h2 className="mt-8 text-lg font-bold">Visit us</h2><p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Silver Oaks Hospital<br />Phase-IFaXmark, Sector-63<br />SAS Nagar, Mohali, Punjab 160062, India</p><a href="https://maps.google.com/?q=Silver+Oaks+Hospital+Mohali" target="_blank" rel="noreferrer" data-testid="link-open-maps" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]">Open in maps <FaArrowUpRightFromSquare size={15} /></a></div></div><div className="rounded-[30px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6 sm:p-9">{sent ? <div data-testid="status-contact-success" className="flex min-h-[380px] flex-col justify-center"><span className="grid h-14 w-14 place-items-center rounded-full bg-[hsl(var(--secondary))]"><FaCheck size={25} /></span><h2 className="mt-7 font-display text-5xl">Message received.</h2><p className="mt-4 max-w-sm text-sm leading-6 text-[hsl(var(--muted-foreground))]">Thank you for reaching out. A member of our team will be in touch soon.</p></div> : <Formik initialValues={{ name: '', reply: '', message: '' }} validationSchema={contactSchema} onSubmit={async (values, { setSubmitting }) => { setSubmitError(''); try { await submitContactInquiry(values); setSent(true); } catch (error) { setSubmitError(error.message || 'Unable to send your message.'); } finally { setSubmitting(false); } }}><Form data-testid="form-contact"><h2 className="text-xl font-bold">Send us a note</h2><p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">We’ll route it to the right person.</p><div className="mt-8 grid gap-5 sm:grid-cols-2"><Field label="Your name" id="contact-name"><FormikField name="name" id="contact-name" data-testid="input-contact-name" placeholder="Your name" /></Field><Field label="Email or phone" id="contact-reply"><FormikField name="reply" id="contact-reply" data-testid="input-contact-reply" placeholder="How should we reply?" /></Field></div><Field label="What can we help with?" id="contact-message"><FormikField as="textarea" name="message" id="contact-message" rows={6} data-testid="textarea-contact-message" placeholder="Write your message…" /></Field><div className="mb-3 space-y-1 text-xs text-[hsl(var(--accent))]"><ErrorMessage name="name" /><ErrorMessage name="reply" /><ErrorMessage name="message" /></div><ErrorMessage name="message" />{submitError && <p className="mt-2 text-xs text-red-600">{submitError}</p>}<button type="submit" data-testid="button-submit-contact" className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[hsl(var(--primary))] px-5 py-3.5 text-sm font-bold text-[hsl(var(--primary-foreground))]">Send message <FaArrowRight size={16} /></button></Form></Formik>}</div></section></main></Shell>;
+}
+
+export default Contact;

@@ -1,0 +1,21 @@
+{
+  "name": "p2care-hospital-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "firebase:seed": "node scripts/seed-firestore.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "resend": "^6.2.0",
+    "zod": "^4.1.11",
+    "firebase-admin": "^13.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "indexes": [
+    { "collectionGroup": "doctors", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "created_at", "order": "DESCENDING" }] },
+    { "collectionGroup": "services", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "created_at", "order": "DESCENDING" }] },
+    { "collectionGroup": "articles", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "created_at", "order": "DESCENDING" }] },
+    { "collectionGroup": "faqs", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "created_at", "order": "DESCENDING" }] }
+  ],
+  "fieldOverrides": []
+}
