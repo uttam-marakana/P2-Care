@@ -1,21 +1,160 @@
-import { subscribeNewsletter } from '@/services/cms';
+import { subscribeNewsletter } from "@/services/cms";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaCheck, FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa6";
+import {
+  FaArrowRight,
+  FaCheck,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa6";
 
 function Footer() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const [newsletterError, setNewsletterError] = useState('');
-  return <footer className="bg-[hsl(202_42%_15%)] text-[hsl(190_35%_91%)]">
-    <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-16 lg:grid-cols-[1.2fr_.75fr_.75fr_1.15fr] lg:px-8">
-      <div><div className="mb-5 flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))]"><span className="h-4 w-[2px] bg-current" /></span><strong className="text-lg">P2Care</strong></div><p className="max-w-xs text-sm leading-6 text-[hsl(193_20%_70%)]">A trusted care companion for patients and families in Mohali.</p><div className="mt-6 flex gap-2"><a href="#" aria-label="Facebook" data-testid="link-social-facebook" className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"><FaFacebookF size={15} /></a><a href="#" aria-label="Instagram" data-testid="link-social-instagram" className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"><FaInstagram size={15} /></a><a href="#" aria-label="Youtube" data-testid="link-social-youtube" className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"><FaYoutube size={15} /></a></div></div>
-      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">Find care</h3><div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]"><Link to="/services" data-testid="link-footer-services">Our services</Link><Link to="/doctors" data-testid="link-footer-doctors">Find a doctor</Link><Link to="/appointment" data-testid="link-footer-appointment">Book an appointment</Link><Link to="/emergency" data-testid="link-footer-emergency">Emergency care</Link></div></div>
-      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">P2Care</h3><div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]"><Link to="/hospital" data-testid="link-footer-hospital">About the hospital</Link><Link to="/articles" data-testid="link-footer-articles">Health stories</Link><Link to="/contact" data-testid="link-footer-contact">Contact & directions</Link><Link to="/faq" data-testid="link-footer-faq">Patient FAQs</Link></div></div>
-      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">A little care, delivered</h3><p className="mb-4 text-sm leading-6 text-[hsl(193_20%_75%)]">Monthly notes on staying well, written by our care team.</p>{sent ? <div data-testid="status-newsletter-success" className="rounded-2xl bg-[hsl(190_25%_23%)] p-4 text-sm text-[hsl(var(--secondary))]"><FaCheck size={16} className="mb-2" />You’re on the list. See you soon.</div> : <form className="flex rounded-full border border-[hsl(190_25%_30%)] p-1" onSubmit={async (e) => { e.preventDefault(); if (!email) return; setNewsletterError(''); try { await subscribeNewsletter(email); setSent(true); } catch (error) { setNewsletterError(error.message || 'Unable to subscribe right now.'); } }}><input aria-label="Email for newsletter" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="input-newsletter-email" type="email" required placeholder="Your email" className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-[hsl(193_20%_56%)]" /><button data-testid="button-newsletter-submit" type="submit" className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))]"><FaArrowRight size={16} /></button></form>}{newsletterError && <p className="mt-2 px-3 text-xs text-red-200">{newsletterError}</p>}</div>
-    </div>
-    <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-5 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between lg:px-8"><span>© 2024 P2Care Hospital · In partnership with Shalby Hospital Mohali</span><span>Privacy · Accessibility · Patient-first, always.</span></div>
-  </footer>;
+  const [newsletterError, setNewsletterError] = useState("");
+  return (
+    <footer className="bg-[hsl(202_42%_15%)] text-[hsl(190_35%_91%)]">
+      <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-16 lg:grid-cols-[1.2fr_.75fr_.75fr_1.15fr] lg:px-8">
+        <div>
+          <div className="mb-5 flex items-center gap-3">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))]">
+              <span className="h-4 w-[2px] bg-current" />
+            </span>
+            <strong className="text-lg">P2Care</strong>
+          </div>
+          <p className="max-w-xs text-sm leading-6 text-[hsl(193_20%_70%)]">
+            A trusted care companion for patients and families in Mohali.
+          </p>
+          <div className="mt-6 flex gap-2">
+            <a
+              href="#"
+              aria-label="Facebook"
+              data-testid="link-social-facebook"
+              className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"
+            >
+              <FaFacebookF size={15} />
+            </a>
+            <a
+              href="#"
+              aria-label="Instagram"
+              data-testid="link-social-instagram"
+              className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"
+            >
+              <FaInstagram size={15} />
+            </a>
+            <a
+              href="#"
+              aria-label="Youtube"
+              data-testid="link-social-youtube"
+              className="rounded-full border border-[hsl(190_25%_30%)] p-2.5 hover:bg-[hsl(190_25%_25%)]"
+            >
+              <FaYoutube size={15} />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
+            Find care
+          </h3>
+          <div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]">
+            <Link to="/services" data-testid="link-footer-services">
+              Our services
+            </Link>
+            <Link to="/doctors" data-testid="link-footer-doctors">
+              Find a doctor
+            </Link>
+            <Link to="/appointment" data-testid="link-footer-appointment">
+              Book an appointment
+            </Link>
+            <Link to="/emergency" data-testid="link-footer-emergency">
+              Emergency care
+            </Link>
+          </div>
+        </div>
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
+            P2Care
+          </h3>
+          <div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]">
+            <Link to="/hospital" data-testid="link-footer-hospital">
+              About the hospital
+            </Link>
+            <Link to="/articles" data-testid="link-footer-articles">
+              Health stories
+            </Link>
+            <Link to="/contact" data-testid="link-footer-contact">
+              Contact & directions
+            </Link>
+            <Link to="/faq" data-testid="link-footer-faq">
+              Patient FAQs
+            </Link>
+          </div>
+        </div>
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
+            A little care, delivered
+          </h3>
+          <p className="mb-4 text-sm leading-6 text-[hsl(193_20%_75%)]">
+            Monthly notes on staying well, written by our care team.
+          </p>
+          {sent ? (
+            <div
+              data-testid="status-newsletter-success"
+              className="rounded-2xl bg-[hsl(190_25%_23%)] p-4 text-sm text-[hsl(var(--secondary))]"
+            >
+              <FaCheck size={16} className="mb-2" />
+              You’re on the list. See you soon.
+            </div>
+          ) : (
+            <form
+              className="flex rounded-full border border-[hsl(190_25%_30%)] p-1"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!email) return;
+                setNewsletterError("");
+                try {
+                  await subscribeNewsletter(email);
+                  setSent(true);
+                } catch (error) {
+                  setNewsletterError(
+                    error.message || "Unable to subscribe right now.",
+                  );
+                }
+              }}
+            >
+              <input
+                aria-label="Email for newsletter"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                data-testid="input-newsletter-email"
+                type="email"
+                required
+                placeholder="Your email"
+                className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-[hsl(193_20%_56%)]"
+              />
+              <button
+                data-testid="button-newsletter-submit"
+                type="submit"
+                className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))]"
+              >
+                <FaArrowRight size={16} />
+              </button>
+            </form>
+          )}
+          {newsletterError && (
+            <p className="mt-2 px-3 text-xs text-red-200">{newsletterError}</p>
+          )}
+        </div>
+      </div>
+      <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-5 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between lg:px-8">
+        <span>
+          © 2024 P2Care Hospital · In partnership with Shalby Hospital Mohali
+        </span>
+        <span>Privacy · Accessibility · Patient-first, always.</span>
+      </div>
+    </footer>
+  );
 }
 
 export default Footer;
