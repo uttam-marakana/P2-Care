@@ -2,9 +2,10 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { config } from "../lib/config.js";
 import { fail } from "../lib/http.js";
+import { getFirebaseAuth, getFirebaseFirestore } from "../lib/firebase.js";
 
-const firebaseAuth = getAuth();
-const firestore = getFirestore();
+const firebaseAuth = getFirebaseAuth();
+const firestore = getFirebaseFirestore();
 
 /**
  * Development/mock administrator.
@@ -180,7 +181,8 @@ async function getUserProfile(uid) {
  * Verify Firebase ID token and construct the application user.
  */
 async function authenticateFirebaseUser(req) {
-  const authorization = req.headers.authorization;
+  const firebaseAuth = getFirebaseAuth();
+  const firestore = getFirebaseFirestore();
 
   if (!authorization) {
     return {
