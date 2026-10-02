@@ -1,5 +1,5 @@
-import { getApp, getApps, initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -9,11 +9,16 @@ const firebaseConfig = {
 };
 
 export const isFirebaseConfigured = Boolean(
-  firebaseConfig.apiKey && firebaseConfig.authDomain && firebaseConfig.projectId && firebaseConfig.appId,
+  firebaseConfig.apiKey &&
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId,
 );
 
 export const firebaseApp = isFirebaseConfigured
-  ? (getApps().length ? getApp() : initializeApp(firebaseConfig))
+  ? getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig)
   : null;
 
 export const firebaseAuth = firebaseApp ? getAuth(firebaseApp) : null;
