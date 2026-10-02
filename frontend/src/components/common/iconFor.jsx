@@ -1,4 +1,11 @@
-import { FaBaby, FaBone, FaBrain, FaSpa, FaHeartPulse, FaStethoscope } from "react-icons/fa6";
+import {
+  FaBaby,
+  FaBone,
+  FaBrain,
+  FaSpa,
+  FaHeartPulse,
+  FaStethoscope,
+} from "react-icons/fa6";
 
 function iconFor(icon) {
   const props = { size: 21, strokeWidth: 1.7 };
