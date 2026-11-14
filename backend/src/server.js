@@ -11,6 +11,9 @@ import mediaRouter from './routes/media.js';
 import notificationsRouter from './routes/notifications.js';
 import contactRouter from './routes/contact.js';
 import securityRouter from './routes/security.js';
+import patientRouter from './routes/patient.js';
+import patientsRouter from './routes/patients.js';
+import hospitalUpdatesRouter from './routes/hospitalUpdates.js';
 import { recordAudit } from './services/audit.js';
 import { apiRateLimit, corsOrigin, requestId } from './middleware/security.js';
 
@@ -38,6 +41,9 @@ app.use('/api', (req, res, next) => {
   next();
 });
 app.use('/api/appointments', appointmentsRouter);
+app.use('/api/patient', patientRouter);
+app.use('/api/patients', patientsRouter);
+app.use('/api/hospital-updates', hospitalUpdatesRouter);
 app.use('/api/content', contentRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/media', mediaRouter);

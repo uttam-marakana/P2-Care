@@ -1,6 +1,6 @@
 # P2Care — Firebase Setup & Final Verification
 
-P2Care now uses Firebase Authentication + Firestore through the Express backend. **Firebase Storage is intentionally not used.** Uploaded media remains on the backend filesystem under `backend/uploads/media/`.
+P2Care uses Firebase Authentication, Firestore, and private Firebase Storage through the Express backend. Public website media remains on the backend filesystem under `backend/uploads/media/`; patient reports are stored in a private Firebase Storage bucket.
 
 ## Architecture
 
@@ -15,7 +15,9 @@ Express API
     |
     +--> Firebase Admin SDK --> Firestore
     |
-    +--> Local filesystem --> backend/uploads/media
+    +--> Local filesystem --> backend/uploads/media (public site media)
+    |
+    +--> Firebase Storage --> private patient reports
     |
     +--> Resend --> email notifications
 ```
@@ -28,6 +30,7 @@ Create/configure a Firebase project and enable:
 
 - Authentication → Email/Password
 - Firestore Database
+- Firebase Storage bucket
 - A Firebase Web App
 
 Create a server service account and keep its private key server-side.
@@ -40,6 +43,7 @@ Copy:
 - `backend/.env.example` → `backend/.env`
 
 Set `VITE_USE_MOCK_DATA=false` and `USE_MOCK_DATA=false` when using Firebase.
+Set `FIREBASE_STORAGE_BUCKET` in `backend/.env` to the project's bucket name (for example, `your-project.firebasestorage.app`).
 
 Never put Firebase Admin credentials in the frontend.
 
@@ -64,6 +68,14 @@ firebase deploy --only firestore:rules,firestore:indexes
 ```
 
 The repository rules deny browser access. Application data access is performed by Firebase Admin SDK on the Express server.
+
+Deploy Storage rules as well:
+
+```bash
+firebase deploy --only storage
+```
+
+The rules deny direct browser access. Patient reports are downloaded through authenticated API endpoints that check patient ownership.
 
 ## 5. Local media
 
@@ -112,9 +124,12 @@ Then verify:
 5. Admin content create/update/delete works.
 6. Appointments create/update/delete works according to permissions.
 7. Media upload/list/delete works using the local filesystem.
-8. Audit logs are written to Firestore.
-9. Notification logging works; Resend is optional.
-10. Browser direct Firestore access is denied.
+8. Patient signup requires verified email, and appointment claims match only the verified account email.
+9. Admin uploads private PDF/JPG/PNG reports; only that patient and authorized admins can download them.
+10. Appointment status and hospital updates appear only in the intended patient notification inboxes.
+11. Hospital-update emails go only to opted-in patient accounts and newsletter subscribers. Configure Resend for delivery.
+12. Audit logs are written to Firestore.
+13. Browser direct Firestore and Storage access is denied.
 
 ## Data migration
 

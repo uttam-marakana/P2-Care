@@ -49,3 +49,19 @@ export async function apiRequest(
 export function getApiAccessToken() {
   return getAccessToken();
 }
+
+export async function fetchPrivateFile(path) {
+  const token = await getAccessToken();
+  if (!token) throw new Error("Please sign in again to access this file.");
+  const response = await fetch(`${apiBaseUrl}${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (response.status === 401) {
+    window.dispatchEvent(new CustomEvent("p2care-auth-expired"));
+  }
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload?.error?.message || `Unable to download file (${response.status}).`);
+  }
+  return response.blob();
+}

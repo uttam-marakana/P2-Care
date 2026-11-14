@@ -36,6 +36,9 @@ function initializeFirebase() {
       clientEmail,
       privateKey: normalizedPrivateKey,
     }),
+    ...(config.firebaseStorageBucket
+      ? { storageBucket: config.firebaseStorageBucket }
+      : {}),
   });
 
   return firebaseApp;

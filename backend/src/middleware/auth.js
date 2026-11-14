@@ -1,5 +1,3 @@
-import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
 import { config } from "../lib/config.js";
 import { fail } from "../lib/http.js";
 import { getFirebaseAuth, getFirebaseFirestore } from "../lib/firebase.js";
@@ -34,6 +32,9 @@ const MOCK_USER = {
     "notifications:read",
     "notifications:send",
 
+    "patients:read",
+    "reports:write",
+
     "audit:read",
 
     "security:read",
@@ -60,6 +61,9 @@ const ADMIN_PERMISSIONS = [
 
   "notifications:read",
   "notifications:send",
+
+  "patients:read",
+  "reports:write",
 
   "audit:read",
 
@@ -99,6 +103,10 @@ function normalizeRole(role) {
     return "admin";
   }
 
+  if (normalized === "patient") {
+    return "patient";
+  }
+
   return "staff";
 }
 
@@ -128,6 +136,10 @@ function permissionsForRole(role) {
     return [...ADMIN_PERMISSIONS];
   }
 
+  if (role === "patient") {
+    return [];
+  }
+
   return [...STAFF_PERMISSIONS];
 }
 
@@ -139,6 +151,7 @@ function permissionsForRole(role) {
  * administrator permission set.
  */
 function buildPermissions(role, explicitPermissions = []) {
+  if (role === "patient") return [];
   const rolePermissions = permissionsForRole(role);
   const normalizedExplicit = normalizePermissions(explicitPermissions);
 
@@ -183,6 +196,7 @@ async function getUserProfile(uid) {
 async function authenticateFirebaseUser(req) {
   const firebaseAuth = getFirebaseAuth();
   const firestore = getFirebaseFirestore();
+  const authorization = req.headers.authorization;
 
   if (!authorization) {
     return {
@@ -250,6 +264,7 @@ async function authenticateFirebaseUser(req) {
       },
       profile,
       permissions,
+      emailVerified: Boolean(decodedToken.email_verified),
     };
   } catch (error) {
     console.error("Firebase authentication failed:", error);
@@ -306,6 +321,7 @@ export async function requireAuth(req, res, next) {
     req.user = result.user;
     req.profile = result.profile;
     req.permissions = result.permissions;
+    req.emailVerified = result.emailVerified;
 
     return next();
   } catch (error) {
@@ -318,6 +334,66 @@ export async function requireAuth(req, res, next) {
       "Unable to authenticate the request.",
     );
   }
+}
+
+export async function requireIdentity(req, res, next) {
+  if (config.useMockData) {
+    await requireAuth(req, res, () => {});
+    if (!req.user) return;
+    req.decodedToken = {
+      uid: req.user.uid,
+      email: req.user.email,
+      email_verified: true,
+    };
+    return next();
+  }
+
+  try {
+    const authorization = req.headers.authorization;
+    if (!authorization?.startsWith("Bearer ")) {
+      return fail(res, 401, "AUTH_REQUIRED", "Authentication is required.");
+    }
+
+    const token = authorization.slice("Bearer ".length).trim();
+    if (!token) {
+      return fail(res, 401, "INVALID_AUTH_TOKEN", "Authentication token is missing.");
+    }
+
+    const decodedToken = await getFirebaseAuth().verifyIdToken(token);
+    req.decodedToken = decodedToken;
+    req.user = {
+      id: decodedToken.uid,
+      uid: decodedToken.uid,
+      email: decodedToken.email ?? null,
+      name: decodedToken.name ?? null,
+    };
+    return next();
+  } catch (error) {
+    console.error("Identity middleware error:", error);
+    return fail(res, 401, "INVALID_TOKEN", "Authentication token is invalid or expired.");
+  }
+}
+
+export async function requirePatient(req, res, next) {
+  await requireAuth(req, res, () => {});
+  if (!req.user) return;
+  if (req.profile?.role !== "patient") {
+    return fail(res, 403, "PATIENT_ACCOUNT_REQUIRED", "A patient account is required.");
+  }
+  if (!req.emailVerified) {
+    return fail(res, 403, "EMAIL_VERIFICATION_REQUIRED", "Verify your email address to access patient records.");
+  }
+  return next();
+}
+
+export async function optionalPatientAuth(req, res, next) {
+  if (!req.headers.authorization) return next();
+  await requireAuth(req, res, () => {});
+  if (!req.user) return;
+  if (req.profile?.role === "patient" && !req.emailVerified) {
+    return fail(res, 403, "EMAIL_VERIFICATION_REQUIRED", "Verify your email address before booking while signed in.");
+  }
+  return next();
 }
 
 /**
@@ -334,7 +410,8 @@ export function requirePermission(permission) {
        * Make sure authentication has happened first.
        */
       if (!req.user) {
-        return fail(res, 401, "AUTH_REQUIRED", "Authentication is required.");
+        await requireAuth(req, res, () => {});
+        if (!req.user) return;
       }
 
       const permissions = normalizePermissions(req.permissions);
@@ -371,7 +448,8 @@ export function requireAnyPermission(...requiredPermissions) {
   return async (req, res, next) => {
     try {
       if (!req.user) {
-        return fail(res, 401, "AUTH_REQUIRED", "Authentication is required.");
+        await requireAuth(req, res, () => {});
+        if (!req.user) return;
       }
 
       const permissions = normalizePermissions(req.permissions);
@@ -410,7 +488,8 @@ export function requireAllPermissions(...requiredPermissions) {
   return async (req, res, next) => {
     try {
       if (!req.user) {
-        return fail(res, 401, "AUTH_REQUIRED", "Authentication is required.");
+        await requireAuth(req, res, () => {});
+        if (!req.user) return;
       }
 
       const permissions = normalizePermissions(req.permissions);

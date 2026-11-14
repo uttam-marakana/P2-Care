@@ -24,6 +24,7 @@ export const config = {
   authRateLimit: Number(process.env.AUTH_RATE_LIMIT || 10),
   useMockData,
   firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+  firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY,
   resendApiKey: process.env.RESEND_API_KEY,

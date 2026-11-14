@@ -15,6 +15,7 @@ const seed = {
     { id: 'faq-2', q: 'Can I contact the hospital on WhatsApp?', a: 'Yes. Use the WhatsApp button to start a chat with the hospital team.', category: 'General', status: 'published', created_at: '2026-02-12T09:00:00.000Z' },
   ],
   notifications: [],
+  hospital_updates: [],
   contact_inquiries: [],
   newsletter_subscribers: [],
   audit_logs: [],
@@ -113,3 +114,22 @@ export function addMockAuditLog(entry) {
   return clone(data.audit_logs[0]);
 }
 export function listMockAuditLogs() { return clone(data.audit_logs || []); }
+
+export function listMockHospitalUpdates() {
+  return clone(data.hospital_updates || []);
+}
+
+export function createMockHospitalUpdate(values) {
+  return saveMockContent("hospital_updates", values);
+}
+
+export function updateMockHospitalUpdate(id, changes) {
+  const index = data.hospital_updates.findIndex((item) => item.id === id);
+  if (index === -1) return null;
+  data.hospital_updates[index] = {
+    ...data.hospital_updates[index],
+    ...changes,
+    updated_at: new Date().toISOString(),
+  };
+  return clone(data.hospital_updates[index]);
+}

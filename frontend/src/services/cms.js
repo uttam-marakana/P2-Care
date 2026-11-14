@@ -9,6 +9,7 @@ import {
   mockRemoveAppointment,
 } from "@/services/mockAdmin";
 import { apiRequest } from "@/services/api";
+import { firebaseAuth } from "@/lib/firebase";
 const tableMap = {
   doctors: "doctors",
   services: "services",
@@ -94,6 +95,7 @@ export async function createAppointment(values) {
         notes: values.notes || "",
         doctorId: values.doctorId || null,
       },
+      auth: Boolean(firebaseAuth?.currentUser),
     })
   ).appointment;
 }
@@ -105,6 +107,15 @@ export async function getProfile() {
   if (isMockMode) return mockProfile();
   const data = await apiRequest("/api/auth/me", { auth: true });
   return data.profile || null;
+}
+export async function savePatientProfile(values) {
+  return (
+    await apiRequest("/api/auth/patient-profile", {
+      method: "POST",
+      body: values,
+      auth: true,
+    })
+  ).profile;
 }
 export async function submitContactInquiry(values) {
   return (

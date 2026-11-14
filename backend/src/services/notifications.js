@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import { config } from '../lib/config.js';
 import { addMockNotification, listMockNotifications } from '../lib/mockStore.js';
 import { addDocument, collectionRef } from '../lib/firestore.js';
+import { getFirebaseFirestore } from '../lib/firebase.js';
 
 const resend = config.resendApiKey ? new Resend(config.resendApiKey) : null;
 function appointmentSummary(a) { return [`Patient: ${a.patient_name}`, `Phone: ${a.phone}`, `Email: ${a.email || 'Not provided'}`, `Department: ${a.department || 'General care'}`, `Date: ${a.appointment_date}`, `Time: ${a.appointment_time || 'Not specified'}`, `Patient note: ${a.notes || 'None'}`].join('\n'); }
@@ -28,8 +29,30 @@ export async function notifyNewAppointment(appointment) {
   return recordResults(results);
 }
 export async function notifyAppointmentStatus(appointment) {
-  if (!appointment.email) return recordResults([baseResult('appointment_status_patient', null, 'skipped', 'Patient has no email address.')]);
-  return recordResults([await sendEmail({ to: appointment.email, type: 'appointment_status_patient', appointmentId: appointment.id, subject: `P2Care appointment ${appointment.status}`, text: `Hello ${appointment.patient_name},\n\nYour P2Care appointment request is now ${appointment.status}.\n\nDate: ${appointment.appointment_date}\nTime: ${appointment.appointment_time || 'Please contact our care desk'}\nDepartment: ${appointment.department || 'General care'}\n\nIf you need help, call +91 1800 123 4567.` })]);
+  const results = [];
+  if (appointment.patient_uid && !config.useMockData) {
+    await addDocument('patient_notifications', {
+      patient_uid: appointment.patient_uid,
+      type: 'appointment_status',
+      title: 'Appointment status updated',
+      message: `Your appointment request is now ${appointment.status}.`,
+      appointment_id: appointment.id,
+      created_at: new Date().toISOString(),
+      read_at: null,
+    });
+  }
+  if (appointment.email) {
+    results.push(await sendEmail({
+      to: appointment.email,
+      type: 'appointment_status_patient',
+      appointmentId: appointment.id,
+      subject: `P2Care appointment ${appointment.status}`,
+      text: `Hello ${appointment.patient_name},\n\nYour P2Care appointment request is now ${appointment.status}.\n\nDate: ${appointment.appointment_date}\nTime: ${appointment.appointment_time || 'Please contact our care desk'}\nDepartment: ${appointment.department || 'General care'}\n\nIf you need help, call +91 1800 123 4567.`,
+    }));
+  } else {
+    results.push(baseResult('appointment_status_patient', null, 'skipped', 'Patient has no email address.'));
+  }
+  return recordResults(results);
 }
 export async function sendAppointmentStatusEmail(appointment) {
   if (!appointment) return { status: 'failed', message: 'Appointment not found.' };
@@ -41,4 +64,56 @@ export async function getNotificationLogs() {
   if (config.useMockData) return listMockNotifications();
   const snapshot = await collectionRef('notification_logs').orderBy('created_at', 'desc').limit(100).get();
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function publishHospitalUpdate(update) {
+  if (config.useMockData) {
+    return { inAppRecipients: 0, emailRecipients: 0, delivery: 'simulated' };
+  }
+
+  const [patientSnapshot, subscriberSnapshot] = await Promise.all([
+    collectionRef('profiles').where('role', '==', 'patient').where('newsletter_opt_in', '==', true).get(),
+    collectionRef('newsletter_subscribers').get(),
+  ]);
+  const patientProfiles = patientSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const emails = new Set([
+    ...patientProfiles.map((profile) => String(profile.email || '').trim().toLowerCase()),
+    ...subscriberSnapshot.docs.map((doc) => String(doc.data().email || '').trim().toLowerCase()),
+  ].filter(Boolean));
+  const now = new Date().toISOString();
+  for (let index = 0; index < patientProfiles.length; index += 400) {
+    const batch = getFirebaseFirestore().batch();
+    for (const profile of patientProfiles.slice(index, index + 400)) {
+      const ref = collectionRef('patient_notifications').doc();
+      batch.set(ref, {
+        id: ref.id,
+        patient_uid: profile.id,
+        type: 'hospital_update',
+        title: update.title,
+        message: update.body,
+        update_id: update.id,
+        created_at: now,
+        read_at: null,
+      });
+    }
+    await batch.commit();
+  }
+  const results = [];
+  const recipients = [...emails];
+  for (let index = 0; index < recipients.length; index += 10) {
+    results.push(...await Promise.all(recipients.slice(index, index + 10).map((to) =>
+      sendEmail({
+        to,
+        type: 'hospital_update',
+        subject: `P2Care Hospital update: ${update.title}`,
+        text: `${update.title}\n\n${update.body}\n\nYou are receiving this message because you subscribed to P2Care Hospital updates.`,
+      }),
+    )));
+  }
+  await recordResults(results);
+  return {
+    inAppRecipients: patientProfiles.length,
+    emailRecipients: recipients.length,
+    delivery: results.some((result) => result.status === 'failed') ? 'partial' : 'complete',
+  };
 }

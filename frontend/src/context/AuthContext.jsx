@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getProfile } from "@/services/cms";
 import { firebaseAuth, isFirebaseConfigured } from "@/lib/firebase";
@@ -9,6 +9,22 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const refreshProfile = useCallback(async () => {
+    if (isMockMode) {
+      const { session: mockSession } = mockGetSession();
+      setSession(mockSession);
+      setProfile(mockSession ? mockProfile() : null);
+      return mockSession ? mockProfile() : null;
+    }
+    const user = firebaseAuth?.currentUser;
+    if (!user) {
+      setProfile(null);
+      return null;
+    }
+    const nextProfile = await getProfile(user.uid);
+    setProfile(nextProfile);
+    return nextProfile;
+  }, []);
   useEffect(() => {
     const handleAuthExpired = () => {
       setSession(null);
@@ -63,6 +79,7 @@ export function AuthProvider({ children }) {
         session,
         profile,
         loading,
+        refreshProfile,
         configured: isMockMode || isFirebaseConfigured,
         mockMode: isMockMode,
       }}
