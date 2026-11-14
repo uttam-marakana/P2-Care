@@ -216,11 +216,13 @@ const translations = {
     "Request a visit": "મુલાકાત માટે વિનંતી",
     "Usually takes less than 2 minutes.": "સામાન્ય રીતે 2 મિનિટથી ઓછો સમય લાગે છે.",
     "Mobile number": "મોબાઇલ નંબર",
+    "+91 mobile number": "+91 મોબાઇલ નંબર",
     "Country calling code": "દેશનો કૉલિંગ કોડ",
     "Enter up to {digits} digits for the selected country.":
       "પસંદ કરેલા દેશ માટે વધુમાં વધુ {digits} અંક દાખલ કરો.",
     "Email (optional)": "ઇમેઇલ (વૈકલ્પિક)",
     "Choose a specialty": "વિશેષતા પસંદ કરો",
+    "Choose a specialty.": "વિશેષતા પસંદ કરો.",
     "Preferred date": "પસંદગીની તારીખ",
     "Choose a day that works for you.": "તમને અનુકૂળ દિવસ પસંદ કરો.",
     "Preferred time": "પસંદગીનો સમય",
@@ -260,8 +262,6 @@ const translations = {
     "That page doesn’t exist, but the next right step is close.":
       "આ પૃષ્ઠ ઉપલબ્ધ નથી, પરંતુ આગળનો યોગ્ય માર્ગ અહીં જ છે.",
     "Back to P2Care": "P2Care પર પાછા જાઓ",
-    Doctors: "ડૉક્ટરો",
-    Stories: "લેખો",
     "Select language": "ભાષા પસંદ કરો",
     Available: "ઉપલબ્ધ",
     experience: "અનુભવ",
@@ -376,8 +376,6 @@ const translations = {
     "All doctors": "બધા ડૉક્ટરો",
     "Main navigation": "મુખ્ય નેવિગેશન",
     "Mobile navigation": "મોબાઇલ નેવિગેશન",
-    "Available": "ઉપલબ્ધ",
-    "experience": "અનુભવ",
     "{name} care": "{name}ની સંભાળ",
     "Enter a valid mobile number.": "માન્ય મોબાઇલ નંબર દાખલ કરો.",
     "Hospital services and specialties": "હૉસ્પિટલની સેવાઓ અને વિશેષતાઓ",
@@ -405,6 +403,9 @@ const translations = {
     "Patient-first hospital care": "દર્દીને પ્રાથમિકતા આપતી હૉસ્પિટલ સંભાળ",
     "Patient-first hospital care, specialist services, appointment booking and support from the P2Care Hospital care team.":
       "દર્દીને પ્રાથમિકતા આપતી હૉસ્પિટલ સંભાળ, નિષ્ણાત સેવાઓ, મુલાકાત બુકિંગ અને P2Care Hospitalની ટીમની સહાય.",
+    English: "અંગ્રેજી",
+    Hindi: "હિન્દી",
+    Punjabi: "પંજાબી",
   },
   hi: {
     "24/7 patient helpline": "24/7 मरीज सहायता हेल्पलाइन",
@@ -617,11 +618,13 @@ const translations = {
     "Request a visit": "मुलाक़ात का अनुरोध करें",
     "Usually takes less than 2 minutes.": "आमतौर पर 2 मिनट से कम लगते हैं।",
     "Mobile number": "मोबाइल नंबर",
+    "+91 mobile number": "+91 मोबाइल नंबर",
     "Country calling code": "देश का कॉलिंग कोड",
     "Enter up to {digits} digits for the selected country.":
       "चुने हुए देश के लिए अधिकतम {digits} अंक दर्ज करें।",
     "Email (optional)": "ईमेल (वैकल्पिक)",
     "Choose a specialty": "विशेषज्ञता चुनें",
+    "Choose a specialty.": "विशेषज्ञता चुनें।",
     "Preferred date": "पसंदीदा तारीख",
     "Choose a day that works for you.": "आपके लिए सुविधाजनक दिन चुनें।",
     "Preferred time": "पसंदीदा समय",
@@ -661,8 +664,6 @@ const translations = {
     "That page doesn’t exist, but the next right step is close.":
       "यह पेज मौजूद नहीं है, लेकिन सही अगला कदम यहीं है।",
     "Back to P2Care": "P2Care पर वापस जाएँ",
-    Doctors: "डॉक्टर",
-    Stories: "लेख",
     "Select language": "भाषा चुनें",
     Available: "उपलब्ध",
     experience: "का अनुभव",
@@ -803,6 +804,9 @@ const translations = {
     "Patient-first hospital care": "मरीज को प्राथमिकता देने वाली अस्पताल देखभाल",
     "Patient-first hospital care, specialist services, appointment booking and support from the P2Care Hospital care team.":
       "मरीज-केंद्रित अस्पताल देखभाल, विशेषज्ञ सेवाएँ, अपॉइंटमेंट बुकिंग और P2Care Hospital की टीम की सहायता।",
+    English: "अंग्रेज़ी",
+    Hindi: "हिंदी",
+    Punjabi: "पंजाबी",
   },
 };
 

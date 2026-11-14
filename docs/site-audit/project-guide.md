@@ -44,6 +44,10 @@ admin@p2care.local
 P2Care@123
 ```
 
+## Public-site languages
+
+The public site offers Gujarati, Hindi, and English selectors in the header and footer. The choice is saved in browser local storage and updates the document language. Public interface copy and the bundled sample doctor, service, article, and FAQ text have local translations; additional CMS-authored text needs corresponding localized entries to display in Gujarati or Hindi.
+
 ## Useful commands
 
 ```bash

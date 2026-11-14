@@ -55,7 +55,9 @@ function FAQ() {
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [query, setQuery] = useState("");
   const filtered = faqs.filter((f) =>
-    `${f.q} ${f.a}`.toLowerCase().includes(query.toLowerCase()),
+    `${f.q} ${f.a} ${t(f.q)} ${t(f.a)}`
+      .toLowerCase()
+      .includes(query.toLowerCase()),
   );
 
   return (

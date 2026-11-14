@@ -51,12 +51,24 @@ import { DoctorCard } from "@/components/doctors";
 import { resolveMediaUrl } from "@/services/media";
 import { useLanguage } from "@/context/LanguageContext";
 
+function formatArticleDate(date, language) {
+  const parsedDate = new Date(date);
+  if (Number.isNaN(parsedDate.getTime())) return date;
+  return new Intl.DateTimeFormat(`${language}-IN`, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(parsedDate);
+}
+
 function Articles() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [query, setQuery] = useState("");
   const filtered = articles.filter((a) =>
-    `${a.title} ${a.category}`.toLowerCase().includes(query.toLowerCase()),
+    `${a.title} ${a.category} ${t(a.title)} ${t(a.category)} ${t(a.excerpt)}`
+      .toLowerCase()
+      .includes(query.toLowerCase()),
   );
   return (
     <Shell>
@@ -114,7 +126,8 @@ function Articles() {
                 </div>
                 <div className="p-6 sm:p-8">
                   <p className="text-xs text-[hsl(var(--muted-foreground))]">
-                    {article.date} · {article.read}
+                    {formatArticleDate(article.date, language)}{" "}
+                    · {t(article.read)}
                   </p>
                   <h2 className="mt-3 max-w-lg font-display text-3xl leading-none group-hover:text-[hsl(var(--primary))]">
                     {t(article.title)}

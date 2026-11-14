@@ -28,6 +28,7 @@ The site has a clear public route structure, route-level metadata, a protected a
 - `npm run build` in `frontend/` passed. Vite emitted a non-blocking warning that the main JavaScript chunk exceeds 500 kB minified.
 - Browser spot checks confirmed the service illustrations, doctor fallback portraits, footer menu behavior, appointment field rendering, and responsive page width on tested screens.
 - Country-aware phone input uses libphonenumber metadata; sample mobile numbers for India, the United States, the United Kingdom, and Germany were validated and normalized to international format.
+- Public pages include Gujarati, Hindi, and English language selection; the selected language persists in browser storage. Bundled sample CMS content has translations, while new CMS-authored copy needs localized entries.
 - `git diff --check` passed during the audit.
 - `robots.txt` excludes `/admin`; authorization still depends on application/API access controls.
 - `.env` and the local Firebase service-account JSON are ignored by Git and are not tracked in the inspected index. Keep them out of source bundles and backups intended for public download; rotate credentials if they were ever exposed or committed elsewhere.

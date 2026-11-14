@@ -60,11 +60,11 @@ function DoctorsPage() {
       doctors.filter(
         (d) =>
           (specialty === "All specialties" || d.specialty === specialty) &&
-          `${d.name} ${d.specialty}`
+          `${d.name} ${d.specialty} ${t(d.specialty)}`
             .toLowerCase()
             .includes(query.toLowerCase()),
       ),
-    [query, specialty],
+    [query, specialty, t],
   );
   return (
     <Shell>

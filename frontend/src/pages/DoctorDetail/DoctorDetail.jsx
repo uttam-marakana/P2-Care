@@ -111,7 +111,7 @@ function DoctorDetail() {
                     key={lang}
                     className="rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card)/.55)] px-3 py-1.5 text-xs"
                   >
-                    {lang}
+                    {t(lang)}
                   </span>
                 ))}
               </div>
