@@ -11,6 +11,8 @@ import AdminFAQs from "@/pages/Admin/FAQs/FAQs";
 import AdminMedia from "@/pages/Admin/Media/Media";
 import AdminCommunications from "@/pages/Admin/Communications/Communications";
 import AdminSecurity from "@/pages/Admin/Security/Security";
+import AdminPatients from "@/pages/Admin/Patients/Patients";
+import AdminUpdates from "@/pages/Admin/Updates/Updates";
 import { SEO } from "@/components/seo";
 
 export default function AdminRoutes() {
@@ -23,6 +25,8 @@ export default function AdminRoutes() {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/appointments" element={<AdminAppointments />} />
+            <Route path="/admin/patients" element={<AdminPatients />} />
+            <Route path="/admin/updates" element={<AdminUpdates />} />
             <Route path="/admin/doctors" element={<AdminDoctors />} />
             <Route path="/admin/services" element={<AdminServices />} />
             <Route path="/admin/articles" element={<AdminArticles />} />

@@ -4,11 +4,13 @@ import { config } from "../lib/config.js";
 import { collectionRef, getDocument } from "../lib/firestore.js";
 import { asyncHandler, created, fail, ok } from "../lib/http.js";
 import { requirePermission } from "../middleware/auth.js";
+import { getFirebaseFirestore } from "../lib/firebase.js";
 import {
   downloadPatientReport,
   getPatientReport,
   listPatientReports,
   MAX_REPORT_BYTES,
+  validatePatientReport,
   uploadPatientReport,
 } from "../services/patientRecords.js";
 
@@ -31,7 +33,16 @@ router.get("/", requirePermission("patients:read"), asyncHandler(async (_req, re
   if (config.useMockData) return ok(res, { patients: [] });
   const snapshot = await collectionRef("profiles").where("role", "==", "patient").get();
   const patients = snapshot.docs
-    .map((doc) => ({ id: doc.id, ...doc.data() }))
+    .map((doc) => {
+      const profile = doc.data();
+      return {
+        id: doc.id,
+        full_name: profile.full_name || profile.name || "",
+        email: profile.email || "",
+        created_at: profile.created_at || null,
+        newsletter_opt_in: Boolean(profile.newsletter_opt_in),
+      };
+    })
     .sort((a, b) => String(a.full_name || a.name || "").localeCompare(String(b.full_name || b.name || "")));
   return ok(res, { patients });
 }));
@@ -40,7 +51,13 @@ router.get("/:uid", requirePermission("patients:read"), asyncHandler(async (req,
   if (config.useMockData) return fail(res, 404, "PATIENT_NOT_FOUND", "Patient not found.");
   const profile = await getDocument("profiles", req.params.uid);
   if (!profile || profile.role !== "patient") return fail(res, 404, "PATIENT_NOT_FOUND", "Patient not found.");
-  return ok(res, { patient: profile });
+  return ok(res, { patient: {
+    id: profile.id,
+    full_name: profile.full_name || profile.name || "",
+    email: profile.email || "",
+    created_at: profile.created_at || null,
+    newsletter_opt_in: Boolean(profile.newsletter_opt_in),
+  } });
 }));
 
 router.get("/:uid/reports", requirePermission("patients:read"), asyncHandler(async (req, res) => {
@@ -57,9 +74,15 @@ router.post("/:uid/reports", requirePermission("reports:write"), asyncHandler(as
   if (!parsed.success) return fail(res, 400, "VALIDATION_ERROR", "Invalid patient report.", parsed.error.flatten());
   const profile = await getDocument("profiles", req.params.uid);
   if (!profile || profile.role !== "patient") return fail(res, 404, "PATIENT_NOT_FOUND", "Patient not found.");
+  let file;
   try {
-    const file = decodeFile(parsed.data.data);
+    file = decodeFile(parsed.data.data);
     if (file.mimeType !== parsed.data.mimeType) return fail(res, 400, "REPORT_TYPE_MISMATCH", "The uploaded file type does not match its declared type.");
+    validatePatientReport(file);
+  } catch (error) {
+    return fail(res, 400, "REPORT_VALIDATION_FAILED", error.message);
+  }
+  try {
     const report = await uploadPatientReport({
       patientUid: req.params.uid,
       uploadedBy: req.user.uid,
@@ -69,8 +92,8 @@ router.post("/:uid/reports", requirePermission("reports:write"), asyncHandler(as
     const { storage_path, ...safeReport } = report;
     return created(res, { report: safeReport });
   } catch (error) {
-    const status = error.message.includes("FIREBASE_STORAGE_BUCKET") ? 503 : 400;
-    return fail(res, status, "REPORT_UPLOAD_FAILED", error.message);
+    console.error("Private patient report upload failed:", error);
+    return fail(res, 503, "REPORT_UPLOAD_FAILED", "Unable to securely store the report. Check Firebase Storage configuration and try again.");
   }
 }));
 

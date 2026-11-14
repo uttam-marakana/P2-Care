@@ -105,8 +105,17 @@ export function addMockContactInquiry(inquiry) {
 
 export function addMockNewsletterSubscriber(email) {
   const exists = (data.newsletter_subscribers || []).some((item) => item.email.toLowerCase() === email.toLowerCase());
-  if (!exists) data.newsletter_subscribers = [{ id: `subscriber-${Date.now()}`, email, created_at: new Date().toISOString() }, ...(data.newsletter_subscribers || [])].slice(0, 500);
+  if (!exists) data.newsletter_subscribers = [{ id: `subscriber-${Date.now()}`, email, unsubscribe_token: crypto.randomUUID(), created_at: new Date().toISOString() }, ...(data.newsletter_subscribers || [])].slice(0, 500);
   return exists ? null : clone(data.newsletter_subscribers[0]);
+}
+export function listMockNewsletterSubscribers() {
+  return clone(data.newsletter_subscribers || []);
+}
+export function unsubscribeMockNewsletter(token) {
+  const index = (data.newsletter_subscribers || []).findIndex((item) => item.unsubscribe_token === token);
+  if (index === -1) return false;
+  data.newsletter_subscribers.splice(index, 1);
+  return true;
 }
 
 export function addMockAuditLog(entry) {

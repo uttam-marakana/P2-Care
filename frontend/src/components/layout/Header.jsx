@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaArrowRight, FaBars, FaMessage, FaXmark } from "react-icons/fa6";
+import { FaArrowRight, FaBars, FaMessage, FaUser, FaXmark } from "react-icons/fa6";
 import ButtonLink from "../common/ButtonLink";
 import LanguageSelect from "./LanguageSelect";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import logo from "../../../public/logo.png";
 
 function Header() {
   const { t } = useLanguage();
+  const { profile } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation().pathname;
+  const accountPath = profile?.role === "patient" ? "/account" : "/account/login";
   const links = [
     ["Services", "/services"],
     ["Doctors", "/doctors"],
@@ -65,6 +68,15 @@ function Header() {
               className="text-[hsl(var(--foreground))]"
               testId="select-language-header"
             />
+            <Link
+              to={accountPath}
+              aria-label={profile?.role === "patient" ? t("My account") : t("Patient sign in")}
+              title={profile?.role === "patient" ? t("My account") : t("Patient sign in")}
+              data-testid="link-account-header"
+              className="grid h-10 w-10 place-items-center rounded-full border border-[hsl(var(--border))] text-[hsl(var(--primary))] hover:bg-[hsl(var(--muted))]"
+            >
+              <FaUser aria-hidden="true" />
+            </Link>
             <ButtonLink href="/contact" testId="link-contact-header">
               {t("Talk to us")} <FaMessage size={16} />
             </ButtonLink>
@@ -117,6 +129,9 @@ function Header() {
                   {t("Book visit")}
                 </ButtonLink>
               </div>
+              <ButtonLink href={accountPath} testId="link-mobile-account" inverse>
+                {profile?.role === "patient" ? t("My account") : t("Patient sign in")}
+              </ButtonLink>
             </nav>
           </div>
         )}

@@ -9,6 +9,9 @@ import {
 } from "../lib/mockStore.js";
 import { Resend } from "resend";
 import { addDocument } from "../lib/firestore.js";
+import { collectionRef, deleteDocument } from "../lib/firestore.js";
+import { randomUUID } from "node:crypto";
+import { unsubscribeMockNewsletter } from "../lib/mockStore.js";
 
 const router = Router();
 const resend = config.resendApiKey ? new Resend(config.resendApiKey) : null;
@@ -83,9 +86,44 @@ router.post(
         parsed.error.flatten(),
       );
     if (config.useMockData) addMockNewsletterSubscriber(parsed.data.email);
-    else
-      await addDocument("newsletter_subscribers", { email: parsed.data.email });
+    else {
+      const email = parsed.data.email.toLowerCase();
+      const existing = await collectionRef("newsletter_subscribers").where("email", "==", email).limit(1).get();
+      if (existing.empty) {
+        await addDocument("newsletter_subscribers", {
+          email,
+          unsubscribe_token: randomUUID(),
+          created_at: new Date().toISOString(),
+        });
+      }
+    }
     return created(res, { subscription: { received: true } });
+  }),
+);
+
+router.post(
+  "/newsletter/unsubscribe",
+  publicWriteRateLimit,
+  asyncHandler(async (req, res) => {
+    const parsed = z.object({ token: z.string().uuid() }).safeParse(req.body);
+    if (!parsed.success) return fail(res, 400, "INVALID_UNSUBSCRIBE_TOKEN", "A valid unsubscribe link is required.");
+    if (config.useMockData) {
+      if (!unsubscribeMockNewsletter(parsed.data.token)) return fail(res, 404, "SUBSCRIPTION_NOT_FOUND", "This subscription was not found or was already removed.");
+      return created(res, { unsubscribed: true });
+    }
+    const snapshot = await collectionRef("newsletter_subscribers")
+      .where("unsubscribe_token", "==", parsed.data.token)
+      .limit(1)
+      .get();
+    if (snapshot.empty) return fail(res, 404, "SUBSCRIPTION_NOT_FOUND", "This subscription was not found or was already removed.");
+    const subscriber = snapshot.docs[0];
+    const email = String(subscriber.data().email || "").trim().toLowerCase();
+    await deleteDocument("newsletter_subscribers", subscriber.id);
+    const profiles = await collectionRef("profiles").where("email", "==", email).get();
+    await Promise.all(profiles.docs
+      .filter((doc) => doc.data().role === "patient" && doc.data().newsletter_opt_in)
+      .map((doc) => doc.ref.update({ newsletter_opt_in: false, updated_at: new Date().toISOString() })));
+    return created(res, { unsubscribed: true });
   }),
 );
 

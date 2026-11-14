@@ -10,6 +10,14 @@ import Articles from "@/pages/Articles/Articles";
 import Contact from "@/pages/Contact/Contact";
 import FAQ from "@/pages/FAQ/FAQ";
 import NotFound from "@/pages/NotFound/NotFound";
+import PatientLogin from "@/pages/Patient/Login";
+import PatientSignup from "@/pages/Patient/Signup";
+import PatientDashboard from "@/pages/Patient/Dashboard";
+import PatientNotifications from "@/pages/Patient/Notifications";
+import PatientReports from "@/pages/Patient/Reports";
+import NewsletterUnsubscribe from "@/pages/Patient/NewsletterUnsubscribe";
+import PatientLayout from "@/components/patient/PatientLayout";
+import RequirePatient from "@/components/patient/RequirePatient";
 import { HospitalSchema, SEO } from "@/components/seo";
 
 const page = (Component, title, description) => (
@@ -110,6 +118,16 @@ export function PublicRoutes() {
           "Get answers about appointments, preparing for a hospital visit, patient support and emergency care.",
         )}
       />
+      <Route path="/account/login" element={<PatientLogin />} />
+      <Route path="/account/signup" element={<PatientSignup />} />
+      <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribe />} />
+      <Route element={<RequirePatient />}>
+        <Route element={<PatientLayout />}>
+          <Route path="/account" element={<PatientDashboard />} />
+          <Route path="/account/notifications" element={<PatientNotifications />} />
+          <Route path="/account/reports" element={<PatientReports />} />
+        </Route>
+      </Route>
       <Route
         path="*"
         element={

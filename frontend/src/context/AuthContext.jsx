@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getProfile } from "@/services/cms";
 import { firebaseAuth, isFirebaseConfigured } from "@/lib/firebase";
@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const profileRequest = useRef(0);
   const refreshProfile = useCallback(async () => {
     if (isMockMode) {
       const { session: mockSession } = mockGetSession();
@@ -21,8 +22,9 @@ export function AuthProvider({ children }) {
       setProfile(null);
       return null;
     }
+    const requestId = ++profileRequest.current;
     const nextProfile = await getProfile(user.uid);
-    setProfile(nextProfile);
+    if (requestId === profileRequest.current) setProfile(nextProfile);
     return nextProfile;
   }, []);
   useEffect(() => {
@@ -54,18 +56,21 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
       if (!active) return;
       if (!user) {
+        profileRequest.current += 1;
         setSession(null);
         setProfile(null);
         setLoading(false);
         return;
       }
       setSession({ user, access_token: await user.getIdToken() });
+      const requestId = ++profileRequest.current;
       try {
-        setProfile(await getProfile(user.uid));
+        const nextProfile = await getProfile(user.uid);
+        if (active && requestId === profileRequest.current) setProfile(nextProfile);
       } catch (_) {
-        setProfile(null);
+        if (active && requestId === profileRequest.current) setProfile(null);
       }
-      setLoading(false);
+      if (active) setLoading(false);
     });
     return () => {
       active = false;

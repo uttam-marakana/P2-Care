@@ -12,28 +12,37 @@ import {
   FaRightFromBracket,
   FaBars,
   FaXmark,
+  FaUsers,
+  FaBullhorn,
 } from "react-icons/fa6";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase";
 import { isMockMode } from "@/lib/adminMode";
 import { mockSignOut } from "@/services/mockAdmin";
+import { useAuth } from "@/context/AuthContext";
 
 const links = [
   ["/admin", "Dashboard", FaGaugeHigh],
   ["/admin/appointments", "Appointments", FaCalendarDays],
+  ["/admin/patients", "Patients", FaUsers],
   ["/admin/doctors", "Doctors", FaStethoscope],
   ["/admin/services", "Services", FaHeartPulse],
   ["/admin/articles", "Articles", FaFileLines],
   ["/admin/faqs", "FAQs", FaCircleQuestion],
   ["/admin/media", "Media", FaImages],
   ["/admin/communications", "Communications", FaBell],
+  ["/admin/updates", "Hospital updates", FaBullhorn],
   ["/admin/security", "Security", FaShieldHalved],
 ];
 
 export default function AdminLayout() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { profile } = useAuth();
+  const visibleLinks = links.filter(
+    ([, label]) => !["Patients", "Hospital updates"].includes(label) || profile?.role === "admin",
+  );
   const logout = async () => {
     if (isMockMode) mockSignOut();
     else if (firebaseAuth) await signOut(firebaseAuth);
@@ -54,7 +63,7 @@ export default function AdminLayout() {
           </button>
         </div>
         <nav className="grid gap-1">
-          {links.map(([to, label, Icon]) => (
+          {visibleLinks.map(([to, label, Icon]) => (
             <NavLink
               end={to === "/admin"}
               key={to}

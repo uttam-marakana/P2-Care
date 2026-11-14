@@ -1,6 +1,7 @@
+import { randomUUID } from 'node:crypto';
 import { Resend } from 'resend';
 import { config } from '../lib/config.js';
-import { addMockNotification, listMockNotifications } from '../lib/mockStore.js';
+import { addMockNotification, listMockNotifications, listMockNewsletterSubscribers } from '../lib/mockStore.js';
 import { addDocument, collectionRef } from '../lib/firestore.js';
 import { getFirebaseFirestore } from '../lib/firebase.js';
 
@@ -35,7 +36,8 @@ export async function notifyAppointmentStatus(appointment) {
       patient_uid: appointment.patient_uid,
       type: 'appointment_status',
       title: 'Appointment status updated',
-      message: `Your appointment request is now ${appointment.status}.`,
+      message: '',
+      status: appointment.status,
       appointment_id: appointment.id,
       created_at: new Date().toISOString(),
       read_at: null,
@@ -68,7 +70,12 @@ export async function getNotificationLogs() {
 
 export async function publishHospitalUpdate(update) {
   if (config.useMockData) {
-    return { inAppRecipients: 0, emailRecipients: 0, delivery: 'simulated' };
+    return {
+      inAppRecipients: 0,
+      emailRecipients: listMockNewsletterSubscribers().length,
+      emailsSent: 0,
+      delivery: 'simulated',
+    };
   }
 
   const [patientSnapshot, subscriberSnapshot] = await Promise.all([
@@ -76,10 +83,19 @@ export async function publishHospitalUpdate(update) {
     collectionRef('newsletter_subscribers').get(),
   ]);
   const patientProfiles = patientSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  const emails = new Set([
-    ...patientProfiles.map((profile) => String(profile.email || '').trim().toLowerCase()),
-    ...subscriberSnapshot.docs.map((doc) => String(doc.data().email || '').trim().toLowerCase()),
-  ].filter(Boolean));
+  const emails = new Map();
+  for (const profile of patientProfiles) {
+    const email = String(profile.email || '').trim().toLowerCase();
+    if (email) emails.set(email, { to: email, unsubscribeToken: null });
+  }
+  for (const doc of subscriberSnapshot.docs) {
+    const email = String(doc.data().email || '').trim().toLowerCase();
+    if (email) {
+      const unsubscribeToken = doc.data().unsubscribe_token || randomUUID();
+      if (!doc.data().unsubscribe_token) await doc.ref.update({ unsubscribe_token: unsubscribeToken });
+      emails.set(email, { to: email, unsubscribeToken });
+    }
+  }
   const now = new Date().toISOString();
   for (let index = 0; index < patientProfiles.length; index += 400) {
     const batch = getFirebaseFirestore().batch();
@@ -99,14 +115,14 @@ export async function publishHospitalUpdate(update) {
     await batch.commit();
   }
   const results = [];
-  const recipients = [...emails];
+  const recipients = [...emails.values()];
   for (let index = 0; index < recipients.length; index += 10) {
-    results.push(...await Promise.all(recipients.slice(index, index + 10).map((to) =>
+    results.push(...await Promise.all(recipients.slice(index, index + 10).map(({ to, unsubscribeToken }) =>
       sendEmail({
         to,
         type: 'hospital_update',
         subject: `P2Care Hospital update: ${update.title}`,
-        text: `${update.title}\n\n${update.body}\n\nYou are receiving this message because you subscribed to P2Care Hospital updates.`,
+        text: `${update.title}\n\n${update.body}\n\nYou are receiving this message because you opted in to P2Care Hospital updates.${unsubscribeToken ? `\n\nUnsubscribe: ${config.frontendUrl}/newsletter/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}` : `\n\nManage your email preferences: ${config.frontendUrl}/account`}`,
       }),
     )));
   }
@@ -114,6 +130,15 @@ export async function publishHospitalUpdate(update) {
   return {
     inAppRecipients: patientProfiles.length,
     emailRecipients: recipients.length,
-    delivery: results.some((result) => result.status === 'failed') ? 'partial' : 'complete',
+    emailsSent: results.filter((result) => result.status === 'sent').length,
+    delivery: !recipients.length
+      ? 'no_recipients'
+      : results.every((result) => result.status === 'sent')
+        ? 'sent'
+        : results.some((result) => result.status === 'sent')
+          ? 'partial'
+          : results.some((result) => result.status === 'failed')
+            ? 'failed'
+            : 'skipped',
   };
 }

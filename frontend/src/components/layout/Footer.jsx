@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../../public/logo.png";
 import LanguageSelect from "./LanguageSelect";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import {
   FaArrowRight,
   FaCheck,
@@ -15,6 +16,7 @@ import {
 
 function Footer() {
   const { t } = useLanguage();
+  const { profile } = useAuth();
   const [openMenus, setOpenMenus] = useState({
     care: false,
     p2care: false,
@@ -141,6 +143,12 @@ function Footer() {
             </Link>
             <Link to="/faq" data-testid="link-footer-faq">
               {t("Patient FAQs")}
+            </Link>
+            <Link
+              to={profile?.role === "patient" ? "/account" : "/account/login"}
+              data-testid="link-footer-patient-account"
+            >
+              {profile?.role === "patient" ? t("My account") : t("Patient sign in")}
             </Link>
           </div>
         </div>

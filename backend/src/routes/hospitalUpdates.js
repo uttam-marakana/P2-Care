@@ -4,6 +4,7 @@ import { config } from "../lib/config.js";
 import { collectionRef, createDocument, getDocument, updateDocument } from "../lib/firestore.js";
 import { asyncHandler, created, fail, ok } from "../lib/http.js";
 import { requirePermission } from "../middleware/auth.js";
+import { getFirebaseFirestore } from "../lib/firebase.js";
 import {
   createMockHospitalUpdate,
   listMockHospitalUpdates,
@@ -39,31 +40,43 @@ router.post("/", requirePermission("notifications:send"), asyncHandler(async (re
 }));
 
 router.post("/:id/publish", requirePermission("notifications:send"), asyncHandler(async (req, res) => {
-  const update = config.useMockData
-    ? listMockHospitalUpdates().find((item) => item.id === req.params.id)
-    : await getDocument("hospital_updates", req.params.id);
-  if (!update) return fail(res, 404, "UPDATE_NOT_FOUND", "Hospital update not found.");
-  if (update.status !== "draft") return fail(res, 409, "UPDATE_ALREADY_PUBLISHED", "This hospital update has already been published.");
-
   const publishedAt = new Date().toISOString();
   const publishing = {
-    status: "published",
+    status: "publishing",
     published_at: publishedAt,
     published_by: req.user.uid,
   };
-  const saved = config.useMockData
-    ? updateMockHospitalUpdate(update.id, publishing)
-    : await updateDocument("hospital_updates", update.id, publishing);
+  let update;
   if (config.useMockData) {
-    return ok(res, { update: saved, delivery: { inAppRecipients: 0, emailRecipients: 0, delivery: "simulated" } });
+    update = listMockHospitalUpdates().find((item) => item.id === req.params.id);
+    if (!update) return fail(res, 404, "UPDATE_NOT_FOUND", "Hospital update not found.");
+    if (update.status !== "draft") return fail(res, 409, "UPDATE_ALREADY_PUBLISHED", "This hospital update has already been published.");
+    update = updateMockHospitalUpdate(update.id, publishing);
+  } else {
+    const ref = collectionRef("hospital_updates").doc(req.params.id);
+    update = await getFirebaseFirestore().runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(ref);
+      if (!snapshot.exists) return null;
+      const current = { id: snapshot.id, ...snapshot.data() };
+      if (current.status !== "draft") return false;
+      transaction.update(ref, publishing);
+      return { ...current, ...publishing };
+    });
+    if (update === null) return fail(res, 404, "UPDATE_NOT_FOUND", "Hospital update not found.");
+    if (update === false) return fail(res, 409, "UPDATE_ALREADY_PUBLISHED", "This hospital update has already been published.");
+  }
+  if (config.useMockData) {
+    const delivery = await publishHospitalUpdate(update);
+    const saved = updateMockHospitalUpdate(update.id, { status: "published", delivery });
+    return ok(res, { update: saved, delivery });
   }
 
   try {
-    const delivery = await publishHospitalUpdate({ ...update, ...saved });
-    const finalUpdate = await updateDocument("hospital_updates", update.id, { delivery });
+    const delivery = await publishHospitalUpdate(update);
+    const finalUpdate = await updateDocument("hospital_updates", update.id, { status: "published", delivery });
     return ok(res, { update: finalUpdate, delivery });
   } catch (error) {
-    await updateDocument("hospital_updates", update.id, { delivery: { delivery: "failed" } });
+    await updateDocument("hospital_updates", update.id, { status: "delivery_failed", delivery: { delivery: "failed" } });
     console.error("Hospital update publishing failed:", error);
     return fail(res, 502, "UPDATE_DELIVERY_FAILED", "The update was published, but delivery could not be completed.");
   }

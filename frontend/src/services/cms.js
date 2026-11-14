@@ -130,6 +130,12 @@ export async function subscribeNewsletter(email) {
     })
   ).subscription;
 }
+export async function unsubscribeNewsletter(token) {
+  return apiRequest("/api/contact/newsletter/unsubscribe", {
+    method: "POST",
+    body: { token },
+  });
+}
 export async function getNotificationStatus() {
   return (await apiRequest("/api/notifications/status", { auth: true })).status;
 }
