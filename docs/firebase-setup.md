@@ -48,8 +48,9 @@ Never put Firebase Admin credentials in the frontend.
 Set `FIREBASE_ADMIN_EMAIL`, `FIREBASE_ADMIN_PASSWORD`, and optionally `FIREBASE_ADMIN_NAME` in `backend/.env`, then run:
 
 ```bash
+cd backend
 npm install
-npm --workspace backend run firebase:seed
+npm run firebase:seed
 ```
 
 The seed command creates initial content if it does not already exist and creates/updates the admin Firebase Auth user plus its `profiles/{uid}` document.
@@ -96,8 +97,10 @@ Password: P2Care@123
 Run the following after Firebase credentials are configured:
 
 ```bash
-npm --workspace frontend run build
-node --check backend/src/server.js
+cd frontend
+npm run build
+cd ../backend
+node --check src/server.js
 ```
 
 Then verify:

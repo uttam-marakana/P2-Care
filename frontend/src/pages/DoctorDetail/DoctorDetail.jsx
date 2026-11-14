@@ -49,14 +49,34 @@ import {
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
 import DoctorPortrait from "@/components/doctors/DoctorPortrait";
+import { SEO } from "@/components/seo";
+import NotFound from "@/pages/NotFound/NotFound";
 
 function DoctorDetail() {
   const { doctors, specialties, articles, faqs } = useCmsData();
   const params = useParams();
-  const doctor = doctors.find((d) => d.id === params.id) ?? doctors[0];
+  const doctor = doctors.find((d) => d.id === params.id);
+
+  if (!doctor)
+    return (
+      <>
+        <SEO title="Page not found" noindex />
+        <NotFound />
+      </>
+    );
+
+  const description =
+    `${doctor.name}, ${doctor.specialty.toLowerCase()} specialist with ${doctor.experience} experience. ${doctor.bio}`
+      .replace(/\s+/g, " ")
+      .slice(0, 160);
   return (
-    <Shell>
-      <main>
+    <>
+      <SEO
+        title={`${doctor.name} - ${doctor.specialty}`}
+        description={description}
+      />
+      <Shell>
+        <main>
         <section className="bg-[hsl(var(--muted)/.5)]">
           <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-10 px-5 py-12 lg:grid-cols-[.72fr_1.28fr] lg:items-center lg:px-8 lg:py-20">
             <div className="relative h-80 overflow-hidden rounded-[34px] lg:h-[430px]">
@@ -136,12 +156,13 @@ function DoctorDetail() {
             <FaLocationDot size={22} className="text-[hsl(var(--primary))]" />
             <h2 className="mt-12 text-xl font-bold">Where to find them</h2>
             <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-              Silver Oaks Hospital, Phase-IFaXmark, Sector-63.
+              Silver Oaks Hospital, Phase-IX, Sector-63.
             </p>
           </div>
         </section>
-      </main>
-    </Shell>
+        </main>
+      </Shell>
+    </>
   );
 }
 

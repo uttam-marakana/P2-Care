@@ -80,7 +80,7 @@ function Articles() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               data-testid="input-article-search"
-              placeholder="FaMagnifyingGlass stories"
+              placeholder="Search health stories"
               className="w-full bg-transparent py-3 text-sm outline-none"
             />
           </div>

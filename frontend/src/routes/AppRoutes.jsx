@@ -27,8 +27,8 @@ export function PublicRoutes() {
         element={
           <>
             <HospitalSchema
-              title="Hospital care"
-              description="Patient-first hospital care, specialists, appointments and emergency services for every patient."
+              title="Patient-first hospital care"
+              description="Patient-first hospital care, specialist services, appointment booking and support from the P2Care Hospital care team."
             />
             <Home />
           </>
@@ -38,32 +38,28 @@ export function PublicRoutes() {
         path="/services"
         element={page(
           Services,
-          "Hospital services",
-          "Explore specialist hospital services and care teams at P2Care Hospital.",
+          "Hospital services and specialties",
+          "Explore cardiology, orthopedics, neurology, pediatrics, women's health and general medicine services.",
         )}
       />
       <Route
         path="/doctors"
         element={page(
           Doctors,
-          "Doctors and specialists",
-          "Meet P2Care Hospital doctors and specialists and find the right care team.",
+          "Find a doctor",
+          "Meet P2Care Hospital doctors, review their specialties and experience, and find a care professional for your needs.",
         )}
       />
       <Route
         path="/doctors/:id"
-        element={page(
-          DoctorDetail,
-          "Doctor profile",
-          "View specialist credentials, availability and appointment information at P2Care Hospital.",
-        )}
+        element={<DoctorDetail />}
       />
       <Route
         path="/appointment"
         element={page(
           Appointment,
-          "Book a hospital appointment",
-          "Request an appointment with P2Care Hospital and our care team will confirm your visit.",
+          "Book an appointment",
+          "Request a hospital appointment online. A P2Care care coordinator will contact you to confirm your visit.",
         )}
       />
       <Route
@@ -71,8 +67,8 @@ export function PublicRoutes() {
         element={
           <>
             <HospitalSchema
-              title="About P2Care Hospital"
-              description="Plan your visit to P2Care Hospital at Silver Oaks Hospital."
+              title="Plan your hospital visit"
+              description="Plan your visit to P2Care Hospital, including location, patient support, accessibility and what to bring."
             />
             <Hospital />
           </>
@@ -82,16 +78,16 @@ export function PublicRoutes() {
         path="/emergency"
         element={page(
           Emergency,
-          "Emergency care",
-          "24/7 emergency care information and patient guidance for P2Care Hospital.",
+          "Emergency care and patient guidance",
+          "Find P2Care Hospital emergency care information and 24/7 patient guidance. For life-threatening emergencies, contact local emergency services.",
         )}
       />
       <Route
         path="/articles"
         element={page(
           Articles,
-          "Health stories and guidance",
-          "Practical health guidance and stories from the P2Care Hospital care team.",
+          "Health articles and patient guidance",
+          "Read practical health articles, patient guidance and stories from the P2Care Hospital care team.",
         )}
       />
       <Route
@@ -100,7 +96,7 @@ export function PublicRoutes() {
           <>
             <HospitalSchema
               title="Contact P2Care Hospital"
-              description="Find P2Care Hospital, contact the patient helpline and send a message to the care team."
+              description="Find hospital directions, call the patient helpline or send a message to the P2Care Hospital care team."
             />
             <Contact />
           </>
@@ -110,8 +106,8 @@ export function PublicRoutes() {
         path="/faq"
         element={page(
           FAQ,
-          "P2Care Hospital patient FAQs",
-          "Answers to common questions about appointments, hospital visits and emergency care.",
+          "Hospital patient FAQs",
+          "Get answers about appointments, preparing for a hospital visit, patient support and emergency care.",
         )}
       />
       <Route

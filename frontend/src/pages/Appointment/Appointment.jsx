@@ -1,6 +1,12 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Formik, Form, Field as FormikField, ErrorMessage } from "formik";
+import {
+  Formik,
+  Form,
+  Field as FormikField,
+  ErrorMessage,
+  useFormikContext,
+} from "formik";
 import * as Accordion from "@radix-ui/react-accordion";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
@@ -50,19 +56,99 @@ import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
 import { createAppointment } from "@/services/cms";
 import { openWhatsApp, appointmentWhatsAppMessage } from "@/lib/whatsapp";
+import {
+  getInternationalPhoneNumber,
+  getMaxNationalNumberLength,
+  getPhonePlaceholder,
+  phoneCountries,
+} from "@/lib/phone";
 
 const appointmentSchema = Yup.object({
   name: Yup.string().trim().required("Please enter your name."),
+  country: Yup.string().required("Choose a country calling code."),
   phone: Yup.string()
-    .trim()
-    .matches(/^[+0-9 ()-]{8,18}$/, "Enter a valid mobile number.")
-    .required("Mobile number is required."),
+    .required("Mobile number is required.")
+    .test(
+      "valid-country-phone",
+      "Enter a valid mobile number for the selected country.",
+      function (value) {
+        if (!value) return true;
+        return Boolean(getInternationalPhoneNumber(value, this.parent.country));
+      },
+    ),
   reason: Yup.string().required("Choose a specialty."),
   date: Yup.string().required("Choose a preferred date."),
   email: Yup.string().email("Enter a valid email address.").optional(),
   time: Yup.string().optional(),
   notes: Yup.string().max(500, "Keep your note under 500 characters."),
 });
+
+function CountryPhoneField() {
+  const { values, setFieldValue } = useFormikContext();
+  const maxDigits = getMaxNationalNumberLength(values.country);
+  const selectedCountry = phoneCountries.find(
+    ({ country }) => country === values.country,
+  );
+
+  return (
+    <Field label="Mobile number" id="appointment-phone">
+      <span className="mt-2 flex w-full overflow-hidden rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--background)/.76)] shadow-sm transition focus-within:border-[hsl(var(--primary))] focus-within:ring-4 focus-within:ring-[hsl(var(--primary)/.12)]">
+        <span className="relative w-20 min-w-20 shrink-0 border-r border-[hsl(var(--border))]">
+          <span className="sr-only">Country calling code</span>
+          <FormikField
+            as="select"
+            name="country"
+            aria-label="Country calling code"
+            data-testid="select-appointment-country"
+            onChange={(event) => {
+              setFieldValue("country", event.target.value);
+              setFieldValue("phone", "");
+            }}
+            className="h-full min-h-[3.25rem] w-full appearance-none bg-transparent py-3 pl-3 pr-9 text-sm font-semibold text-transparent outline-none [&>option]:text-[hsl(var(--foreground))]"
+          >
+            {phoneCountries.map(({ country, name, callingCode }) => (
+              <option key={country} value={country}>
+                {name} (+{callingCode})
+              </option>
+            ))}
+          </FormikField>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[hsl(var(--foreground))]"
+          >
+            +{selectedCountry?.callingCode}
+          </span>
+          <FaChevronDown
+            aria-hidden="true"
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[hsl(var(--muted-foreground))]"
+          />
+        </span>
+        <FormikField name="phone">
+          {({ field }) => (
+            <input
+              {...field}
+              id="appointment-phone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              maxLength={maxDigits}
+              data-testid="input-appointment-phone"
+              placeholder={getPhonePlaceholder(values.country)}
+              onChange={(event) => {
+                const digits = event.target.value.replace(/\D/g, "");
+                setFieldValue("phone", digits.slice(0, maxDigits));
+              }}
+              className="min-w-0 flex-1 border-0 bg-transparent px-3 py-3 text-sm text-[hsl(var(--foreground))] outline-none placeholder:text-[hsl(var(--muted-foreground))]"
+            />
+          )}
+        </FormikField>
+      </span>
+      <span className="mt-1.5 block text-[11px] font-normal text-[hsl(var(--muted-foreground))]">
+        Enter up to {maxDigits} digits for the selected country.
+      </span>
+    </Field>
+  );
+}
 
 function Appointment() {
   const { doctors, specialties, articles, faqs } = useCmsData();
@@ -141,6 +227,7 @@ function Appointment() {
           <Formik
             initialValues={{
               name: "",
+              country: "IN",
               phone: "",
               email: "",
               reason: "",
@@ -152,8 +239,18 @@ function Appointment() {
             onSubmit={async (values, { setSubmitting }) => {
               setSubmitError("");
               try {
-                await createAppointment(values);
-                setSubmittedValues(values);
+                const { country, ...appointmentValues } = values;
+                const phone = getInternationalPhoneNumber(
+                  values.phone,
+                  country,
+                );
+                if (!phone)
+                  throw new Error(
+                    "Enter a valid mobile number for the selected country.",
+                  );
+                const submission = { ...appointmentValues, phone };
+                await createAppointment(submission);
+                setSubmittedValues(submission);
                 setSubmitted(true);
               } catch (error) {
                 setSubmitError(
@@ -189,15 +286,7 @@ function Appointment() {
                     placeholder="e.g. Meera Sharma"
                   />
                 </Field>
-                <Field label="Mobile number" id="appointment-phone">
-                  <FormikField
-                    name="phone"
-                    id="appointment-phone"
-                    type="tel"
-                    data-testid="input-appointment-phone"
-                    placeholder="+91"
-                  />
-                </Field>
+                <CountryPhoneField />
                 <Field label="Email (optional)" id="appointment-email">
                   <FormikField
                     name="email"

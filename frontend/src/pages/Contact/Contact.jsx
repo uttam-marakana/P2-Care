@@ -109,7 +109,7 @@ function Contact() {
               <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
                 Silver Oaks Hospital
                 <br />
-                Phase-IFaXmark, Sector-63
+                Phase-IX, Sector-63
                 <br />
                 SAS Nagar, Punjab 160062, India
               </p>

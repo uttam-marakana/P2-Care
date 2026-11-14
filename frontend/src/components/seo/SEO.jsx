@@ -4,8 +4,9 @@ const SITE_NAME = "P2Care Hospital";
 const SITE_URL = (
   import.meta.env.VITE_SITE_URL || window.location.origin
 ).replace(/\/$/, "");
+const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/images/site-share-card.svg`;
 const DEFAULT_DESCRIPTION =
-  "Patient-first hospital care, specialists, appointments and emergency services for every patient.";
+  "Patient-first hospital care, specialist services, appointment booking and support from the P2Care Hospital care team.";
 
 function upsertMeta(name, content, attr = "name") {
   if (!content) return;
@@ -28,18 +29,21 @@ function SEO({
 }) {
   useEffect(() => {
     document.title = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+    const href = canonical || `${SITE_URL}${window.location.pathname}`;
     upsertMeta("description", description);
     upsertMeta("robots", noindex ? "noindex,nofollow" : "index,follow");
     upsertMeta("og:title", document.title, "property");
     upsertMeta("og:description", description, "property");
     upsertMeta("og:type", "website", "property");
     upsertMeta("og:site_name", SITE_NAME, "property");
-    if (image) upsertMeta("og:image", image, "property");
+    upsertMeta("og:url", href, "property");
+    upsertMeta("og:image", image || DEFAULT_SOCIAL_IMAGE, "property");
+    upsertMeta("og:image:alt", "P2Care Hospital", "property");
     upsertMeta("twitter:card", "summary_large_image");
     upsertMeta("twitter:title", document.title);
     upsertMeta("twitter:description", description);
+    upsertMeta("twitter:image", image || DEFAULT_SOCIAL_IMAGE);
 
-    const href = canonical || `${SITE_URL}${window.location.pathname}`;
     let link = document.head.querySelector('link[rel="canonical"]');
     if (!link) {
       link = document.createElement("link");

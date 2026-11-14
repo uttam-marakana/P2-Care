@@ -88,7 +88,7 @@ function DoctorsPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 data-testid="input-doctor-search"
-                placeholder="FaMagnifyingGlass a doctor or specialty"
+                placeholder="Search a doctor or specialty"
                 className="w-full bg-transparent py-3 text-sm outline-none placeholder:text-[hsl(var(--muted-foreground))]"
               />
             </label>

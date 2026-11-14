@@ -10,7 +10,6 @@ P2Care-Hospital/
 ├── backend/               # Express API for appointments and protected updates
 ├── firebase/               # Firestore rules and indexes
 ├── docs/                   # Architecture and deployment documentation
-├── package.json            # Workspace scripts
 └── .gitignore
 ```
 
@@ -73,24 +72,26 @@ The browser authenticates with Firebase Authentication. The Express backend veri
 
 ## Run locally
 
-From the project root:
+Install dependencies separately in each application directory:
 
 ```bash
-npm install
+cd backend && npm install
+cd ../frontend && npm install
 ```
 
 Create `frontend/.env` from `frontend/.env.example` and `backend/.env` from `backend/.env.example`.
+There is no root npm workspace manifest; run commands from the relevant application directory.
 
-Start the backend:
+Start the backend from `backend/`:
 
 ```bash
-npm run dev:backend
+npm run dev
 ```
 
-Start the frontend in another terminal:
+Start the frontend in another terminal from `frontend/`:
 
 ```bash
-npm run dev:frontend
+npm run dev -- --host 0.0.0.0
 ```
 
 Open:
@@ -121,7 +122,8 @@ The project uses browser click-to-chat only. There is no WhatsApp Cloud API inte
 - Frontend Firebase Web App configuration is client-side configuration; Admin credentials are server-only.
 - Replace all placeholder hospital contact values before production launch.
 - Deploy `firebase/firestore.rules` and `firebase/firestore.indexes.json`.
-- Run `npm --workspace backend run firebase:seed` after configuring Firebase.
+- Run `npm run firebase:seed` from `backend/` after configuring Firebase.
+- The site audit, SEO guidance, production readiness, and QA documents are collected in [docs/site-audit/](docs/site-audit/README.md).
 
 
 ### Icon library
@@ -182,4 +184,7 @@ Security environment variables include `NODE_ENV`, `ALLOWED_ORIGINS`, `API_RATE_
 
 P2Care uses Firebase Authentication + Firestore through the Express backend. Firebase Storage is intentionally not used; media is stored locally under `backend/uploads/media/`. Mock mode remains available for development.
 
-For Firebase setup, seeding, and final verification, follow `docs/firebase-setup.md`.
+For Firebase setup, seeding, and final verification, follow [docs/firebase-setup.md](./docs/firebase-setup.md).
+
+For the source-based website and SEO audit, production readiness gates, and
+current documentation index, see [docs/site-audit/](./docs/site-audit/).

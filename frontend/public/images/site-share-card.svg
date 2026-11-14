@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="background" x1="65" y1="45" x2="1125" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF5F1"/>
+      <stop offset="1" stop-color="#D4E9E5"/>
+    </linearGradient>
+    <linearGradient id="symbol" x1="875" y1="112" x2="1095" y2="465" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D7777"/>
+      <stop offset="1" stop-color="#245E63"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#background)" d="M0 0h1200v630H0z"/>
+  <circle cx="1040" cy="114" r="220" fill="#fff" fill-opacity=".42"/>
+  <circle cx="795" cy="625" r="235" fill="#E9B153" fill-opacity=".18"/>
+  <rect x="74" y="72" width="474" height="82" rx="20" fill="#fff" fill-opacity=".82"/>
+  <path d="M127 96c-21-26-57-17-62 11-4 22 17 42 39 61l34 29 34-29c23-19 43-39 39-61-5-28-41-37-62-11l-11 13-11-13Z" fill="url(#symbol)"/>
+  <text x="231" y="132" fill="#18384A" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700">P2Care Hospital</text>
+  <text x="78" y="300" fill="#18384A" font-family="Georgia, 'Times New Roman', serif" font-size="66" font-weight="700">Care that meets</text>
+  <text x="78" y="382" fill="#18384A" font-family="Georgia, 'Times New Roman', serif" font-size="66" font-weight="700">you where you are.</text>
+  <text x="82" y="447" fill="#397477" font-family="Arial, Helvetica, sans-serif" font-size="24">Hospital services · Doctors · Appointments · Patient support</text>
+  <path d="M945 245c-42-55-128-52-159 11-33 67 18 125 64 169l121 116 122-116c46-44 97-102 64-169-31-63-117-66-159-11l-27 36-26-36Z" fill="url(#symbol)"/>
+  <path d="M801 366h76l30-54 44 117 40-76 30 36h76" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

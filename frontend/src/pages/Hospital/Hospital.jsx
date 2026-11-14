@@ -82,7 +82,7 @@ function Hospital() {
               <InfoTile
                 icon={<FaLocationDot />}
                 title="Our address"
-                text="Silver Oaks Hospital, Phase-IFaXmark, Sector-63, SAS Nagar, Punjab 160062"
+                text="Silver Oaks Hospital, Phase-IX, Sector-63, SAS Nagar, Punjab 160062"
               />
               <InfoTile
                 icon={<FaPhone />}
@@ -128,7 +128,7 @@ function Hospital() {
                 </div>
               </div>
               <span className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--primary))]">
-                <FaLocationDot size={16} /> Phase-IFaXmark · Sector-63
+                <FaLocationDot size={16} /> Phase-IX · Sector-63
               </span>
             </div>
           </div>

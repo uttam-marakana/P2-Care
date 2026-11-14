@@ -79,7 +79,7 @@ function FAQ() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               data-testid="input-faq-search"
-              placeholder="FaMagnifyingGlass FAQs"
+              placeholder="Search FAQs"
               className="w-full bg-transparent py-3 text-sm outline-none"
             />
           </div>

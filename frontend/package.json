@@ -11,6 +11,8 @@
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
     "@tailwindcss/vite": "^4.3.3",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.1.0",
     "clsx": "^2.1.1",
     "firebase": "^12.0.0",
     "formik": "^2.4.6",

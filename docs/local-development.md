@@ -2,9 +2,18 @@
 
 ## Install
 
-From the repository root:
+Run the commands from their respective package directories; this repository
+does not define root npm workspace scripts.
 
 ```bash
+cd backend
+npm install
+```
+
+In a second terminal:
+
+```bash
+cd frontend
 npm install
 ```
 
@@ -13,13 +22,14 @@ npm install
 Backend:
 
 ```bash
-npm run dev:backend
+npm run dev
 ```
 
 Frontend, in another terminal:
 
 ```bash
-npm run dev:frontend
+cd frontend
+npm run dev -- --host 0.0.0.0
 ```
 
 Open `http://localhost:5173/admin/login`.
@@ -72,8 +82,10 @@ FRONTEND_URL=http://localhost:5173
 Seed initial Firebase content/admin:
 
 ```bash
-npm --workspace backend run firebase:seed
+npm run firebase:seed
 ```
+
+Run the seeding command from `backend/`.
 
 ## Security development settings
 
