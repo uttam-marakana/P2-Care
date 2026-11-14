@@ -2,6 +2,7 @@ import { BrowserRouter, useLocation } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import { CmsProvider } from "@/context/CmsContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { PublicRoutes } from "@/routes/AppRoutes";
 import AdminRoutes from "@/routes/AdminRoutes";
 
@@ -21,9 +22,11 @@ export default function App() {
       basename={import.meta.env.BASE_URL.replace(/\/$/, "") || undefined}
     >
       <AuthProvider>
-        <CmsProvider>
-          <AppContent />
-        </CmsProvider>
+        <LanguageProvider>
+          <CmsProvider>
+            <AppContent />
+          </CmsProvider>
+        </LanguageProvider>
       </AuthProvider>
     </BrowserRouter>
   );

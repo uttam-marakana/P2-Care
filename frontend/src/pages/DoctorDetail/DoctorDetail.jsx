@@ -51,8 +51,10 @@ import { DoctorCard } from "@/components/doctors";
 import DoctorPortrait from "@/components/doctors/DoctorPortrait";
 import { SEO } from "@/components/seo";
 import NotFound from "@/pages/NotFound/NotFound";
+import { useLanguage } from "@/context/LanguageContext";
 
 function DoctorDetail() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const params = useParams();
   const doctor = doctors.find((d) => d.id === params.id);
@@ -72,8 +74,8 @@ function DoctorDetail() {
   return (
     <>
       <SEO
-        title={`${doctor.name} - ${doctor.specialty}`}
-        description={description}
+        title={`${doctor.name} - ${t(doctor.specialty)}`}
+        description={t(description)}
       />
       <Shell>
         <main>
@@ -88,10 +90,10 @@ function DoctorDetail() {
                 data-testid="link-back-doctors"
                 className="mb-8 inline-flex items-center gap-2 text-xs font-bold text-[hsl(var(--primary))]"
               >
-                ← All doctors
+                ← {t("All doctors")}
               </Link>
               <p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--primary))]">
-                {doctor.specialty}
+                {t(doctor.specialty)}
               </p>
               <h1
                 data-testid={`text-doctor-name-${doctor.id}`}
@@ -101,7 +103,7 @@ function DoctorDetail() {
               </h1>
               <p className="mt-5 text-sm font-semibold">{doctor.credentials}</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[hsl(var(--muted-foreground))]">
-                {doctor.bio}
+                {t(doctor.bio)}
               </p>
               <div className="mt-7 flex flex-wrap gap-2">
                 {doctor.languages.map((lang) => (
@@ -115,11 +117,13 @@ function DoctorDetail() {
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink
-                  href="/appointment"
+                  href={`/appointment?doctor=${encodeURIComponent(doctor.id)}`}
                   inverse
                   testId={`link-book-doctor-${doctor.id}`}
                 >
-                  Book with {doctor.name.split(" ")[1]}{" "}
+                  {t("Book with {name}", {
+                    name: doctor.name.split(" ")[1],
+                  })}{" "}
                   <FaCalendarDays size={16} />
                 </ButtonLink>
                 <a
@@ -136,27 +140,26 @@ function DoctorDetail() {
         <section className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-5 px-5 py-16 lg:grid-cols-3 lg:px-8">
           <div className="rounded-3xl bg-[hsl(var(--primary))] p-7 text-[hsl(var(--primary-foreground))]">
             <FaClock size={22} className="text-[hsl(var(--secondary))]" />
-            <h2 className="mt-12 text-xl font-bold">Next available</h2>
+            <h2 className="mt-12 text-xl font-bold">{t("Next available")}</h2>
             <p className="mt-2 text-2xl font-display text-[hsl(var(--secondary))]">
-              {doctor.availability}
+              {t(doctor.availability)}
             </p>
             <p className="mt-2 text-sm text-[hsl(var(--primary-foreground)/.7)]">
-              Outpatient consultations at Shalby Hospital.
+              {t("Outpatient consultations at Shalby Hospital.")}
             </p>
           </div>
           <div className="rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7">
             <FaShieldHalved size={22} className="text-[hsl(var(--primary))]" />
-            <h2 className="mt-12 text-xl font-bold">Care philosophy</h2>
+            <h2 className="mt-12 text-xl font-bold">{t("Care philosophy")}</h2>
             <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-              Clear explanations, shared decisions, and a care plan that fits
-              real life.
+              {t("Clear explanations, shared decisions, and a care plan that fits real life.")}
             </p>
           </div>
           <div className="rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7">
             <FaLocationDot size={22} className="text-[hsl(var(--primary))]" />
-            <h2 className="mt-12 text-xl font-bold">Where to find them</h2>
+            <h2 className="mt-12 text-xl font-bold">{t("Where to find them")}</h2>
             <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-              Silver Oaks Hospital, Phase-IX, Sector-63.
+              {t("Silver Oaks Hospital, Phase-IX, Sector-63.")}
             </p>
           </div>
         </section>

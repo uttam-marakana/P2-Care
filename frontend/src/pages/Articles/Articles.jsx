@@ -49,8 +49,10 @@ import {
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
 import { resolveMediaUrl } from "@/services/media";
+import { useLanguage } from "@/context/LanguageContext";
 
 function Articles() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [query, setQuery] = useState("");
   const filtered = articles.filter((a) =>
@@ -63,8 +65,7 @@ function Articles() {
           eyebrow="The P2Care journal"
           title={
             <>
-              A clearer way to think about{" "}
-              <em className="text-[hsl(var(--primary))]">health.</em>
+              {t("A clearer way to think about health.")}
             </>
           }
           body="Practical context, compassionate guidance and stories from the people behind your care."
@@ -80,7 +81,7 @@ function Articles() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               data-testid="input-article-search"
-              placeholder="Search health stories"
+              placeholder={t("Search health stories")}
               className="w-full bg-transparent py-3 text-sm outline-none"
             />
           </div>
@@ -104,7 +105,7 @@ function Articles() {
                   )}
                   <div className="relative">
                     <span className="rounded-full bg-[hsl(var(--card)/.65)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-[hsl(var(--primary))]">
-                      {article.category}
+                      {t(article.category)}
                     </span>
                   </div>
                   <span className="float-right font-mono text-xs text-[hsl(var(--primary)/.65)]">
@@ -116,13 +117,13 @@ function Articles() {
                     {article.date} · {article.read}
                   </p>
                   <h2 className="mt-3 max-w-lg font-display text-3xl leading-none group-hover:text-[hsl(var(--primary))]">
-                    {article.title}
+                    {t(article.title)}
                   </h2>
                   <p className="mt-4 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                    {article.excerpt}
+                    {t(article.excerpt)}
                   </p>
                   <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]">
-                    Read story{" "}
+                    {t("Read story")}{" "}
                     <FaArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-1"
@@ -135,9 +136,9 @@ function Articles() {
           {!filtered.length && (
             <div data-testid="empty-articles" className="py-20 text-center">
               <FaFileLines className="mx-auto text-[hsl(var(--primary))]" />
-              <h2 className="mt-4 font-display text-3xl">No stories found.</h2>
+              <h2 className="mt-4 font-display text-3xl">{t("No stories found.")}</h2>
               <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">
-                Try a different word.
+                {t("Try a different word.")}
               </p>
             </div>
           )}

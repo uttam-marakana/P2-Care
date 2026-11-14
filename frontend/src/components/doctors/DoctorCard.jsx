@@ -1,8 +1,10 @@
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import DoctorPortrait from "./DoctorPortrait";
+import { useLanguage } from "@/context/LanguageContext";
 
 function DoctorCard({ doctor }) {
+  const { t } = useLanguage();
   return (
     <Link
       to={`/doctors/${doctor.id}`}
@@ -12,7 +14,7 @@ function DoctorCard({ doctor }) {
       <div className="relative h-52">
         <DoctorPortrait doctor={doctor} />
         <span className="absolute right-4 top-4 rounded-full bg-[hsl(var(--card)/.72)] px-2.5 py-1 text-[10px] font-semibold text-[hsl(var(--primary))]">
-          Available
+          {t("Available")}
         </span>
       </div>
       <div className="p-5">
@@ -20,14 +22,14 @@ function DoctorCard({ doctor }) {
           {doctor.name}
         </h3>
         <p className="mt-1 text-sm text-[hsl(var(--primary))]">
-          {doctor.specialty}
+          {t(doctor.specialty)}
         </p>
         <p className="mt-3 text-xs leading-5 text-[hsl(var(--muted-foreground))]">
           {doctor.credentials}
         </p>
         <div className="mt-5 flex items-center justify-between border-t border-[hsl(var(--border))] pt-4 text-xs">
           <span className="text-[hsl(var(--muted-foreground))]">
-            {doctor.experience} experience
+            {t(doctor.experience)} {t("experience")}
           </span>
           <FaArrowRight
             size={16}

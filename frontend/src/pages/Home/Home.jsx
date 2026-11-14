@@ -48,8 +48,10 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
+import { useLanguage } from "@/context/LanguageContext";
 
 function Home() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   return (
     <Shell>
@@ -61,17 +63,13 @@ function Home() {
             <div className="animate-rise">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card)/.7)] px-3 py-2 text-[11px] font-semibold text-[hsl(var(--primary))]">
                 <span className="relative h-2 w-2 rounded-full bg-[hsl(var(--accent))] pulse-ring" />
-                Care that meets you where you are
+                {t("Care that meets you where you are")}
               </div>
               <h1 className="max-w-2xl font-display text-6xl leading-[.9] tracking-[-.04em] text-[hsl(var(--foreground))] sm:text-7xl lg:text-[92px]">
-                The next right{" "}
-                <em className="text-[hsl(var(--primary))]">step</em> in your
-                care.
+                {t("The next right step in your care.")}
               </h1>
               <p className="mt-7 max-w-lg text-base leading-7 text-[hsl(var(--muted-foreground))]">
-                From a question that woke you up to a recovery plan that brings
-                you back to yourself — P2Care helps you move forward with
-                clarity.
+                {t("From a question that woke you up to a recovery plan that brings you back to yourself — P2Care helps you move forward with clarity.")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink
@@ -79,10 +77,10 @@ function Home() {
                   inverse
                   testId="link-hero-appointment"
                 >
-                  Find your care <FaArrowRight size={17} />
+                  {t("Find your care")} <FaArrowRight size={17} />
                 </ButtonLink>
                 <ButtonLink href="/emergency" testId="link-hero-emergency">
-                  Emergency help <FaPhone size={16} />
+                  {t("Emergency help")} <FaPhone size={16} />
                 </ButtonLink>
               </div>
               <div className="mt-8 flex items-center gap-3 text-xs text-[hsl(var(--muted-foreground))]">
@@ -101,7 +99,7 @@ function Home() {
                   <strong className="text-[hsl(var(--foreground))]">
                     4.9/5
                   </strong>{" "}
-                  from 2,400+ patient voices
+                  {t("from 2,400+ patient voices")}
                 </span>
               </div>
             </div>
@@ -110,7 +108,7 @@ function Home() {
               <div className="animate-drift absolute right-0 top-9 h-[390px] w-[82%] overflow-hidden rounded-[48%_52%_45%_55%/48%_43%_57%_52%] bg-gradient-to-br from-[#d1ece5] via-[#a6ccca] to-[#6d989d] shadow-[0_30px_70px_rgba(28,82,88,.24)] lg:h-[475px]">
                 <ImageWithFallback
                   src={imagePath("hero-care.jpg")}
-                  alt="P2Care clinician speaking with a patient"
+                  alt={t("P2Care clinician speaking with a patient")}
                   className="absolute inset-0 h-full w-full object-cover opacity-75 mix-blend-multiply"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--primary)/.5)] via-transparent to-white/10" />
@@ -127,7 +125,7 @@ function Home() {
                 <div className="absolute bottom-[250px] left-[38%] h-8 w-24 rounded-full bg-[#2e5157] lg:bottom-[315px] lg:h-10 lg:w-32" />
                 <div className="absolute bottom-[120px] left-[38%] h-36 w-10 rounded-full bg-[#f3d6bf] shadow-[90px_-20px_0_#f3d6bf] lg:bottom-[150px] lg:h-48 lg:w-12 lg:shadow-[115px_-25px_0_#f3d6bf]" />
                 <div className="absolute right-[10%] top-[17%] rounded-full bg-[hsl(var(--card)/.84)] px-4 py-3 text-xs font-semibold text-[hsl(var(--primary))] shadow-lg">
-                  Here when you need us{" "}
+                  {t("Here when you need us")}{" "}
                   <FaHeartPulse size={15} className="ml-1 inline" />
                 </div>
               </div>
@@ -137,9 +135,9 @@ function Home() {
                     <FaShieldHalved size={20} />
                   </span>
                   <div>
-                    <p className="text-sm font-bold">Clinically credible</p>
+                    <p className="text-sm font-bold">{t("Clinically credible")}</p>
                     <p className="text-xs text-[hsl(var(--muted-foreground))]">
-                      Human at every touchpoint
+                      {t("Human at every touchpoint")}
                     </p>
                   </div>
                 </div>
@@ -164,7 +162,7 @@ function Home() {
                   {value}
                 </strong>
                 <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[.13em] text-[hsl(var(--muted-foreground))]">
-                  {label}
+                  {t(label)}
                 </span>
               </div>
             ))}
@@ -180,7 +178,7 @@ function Home() {
                 data-testid="link-view-all-services"
                 className="group inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"
               >
-                View all services{" "}
+                {t("View all services")}{" "}
                 <FaArrowRight
                   size={17}
                   className="transition-transform group-hover:translate-x-1"
@@ -189,8 +187,7 @@ function Home() {
             }
           >
             <span>
-              One good next step can change the whole day. Explore the ways our
-              teams can help, from first questions to specialist care.
+              {t("One good next step can change the whole day. Explore the ways our teams can help, from first questions to specialist care.")}
             </span>
           </SectionIntro>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -212,11 +209,11 @@ function Home() {
                     className="opacity-50 transition-transform group-hover:translate-x-1"
                   />
                 </div>
-                <h3 className="text-xl font-bold">{service.name}</h3>
+                <h3 className="text-xl font-bold">{t(service.name)}</h3>
                 <p
                   className={`mt-2 text-sm ${i === 0 ? "text-[hsl(var(--primary-foreground)/.72)]" : "text-[hsl(var(--muted-foreground))]"}`}
                 >
-                  {service.detail}
+                  {t(service.detail)}
                 </p>
                 {i === 0 && (
                   <span className="absolute -bottom-8 -right-3 text-[100px] font-display leading-none text-[hsl(var(--secondary)/.22)]">
@@ -233,13 +230,12 @@ function Home() {
             title="Meet the team behind the calm."
             action={
               <ButtonLink href="/doctors" testId="link-meet-doctors">
-                Meet all doctors <FaArrowRight size={16} />
+                {t("Meet all doctors")} <FaArrowRight size={16} />
               </ButtonLink>
             }
           >
             <span>
-              More than credentials. Find a clinician whose approach feels right
-              for you and your family.
+              {t("More than credentials. Find a clinician whose approach feels right for you and your family.")}
             </span>
           </SectionIntro>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -252,56 +248,53 @@ function Home() {
           <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-20 lg:grid-cols-[.82fr_1.18fr] lg:items-center lg:px-8 lg:py-28">
             <div>
               <p className="mb-4 font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--primary))]">
-                The P2Care promise
+                {t("The P2Care promise")}
               </p>
               <h2 className="font-display text-5xl leading-[.96] tracking-[-.03em]">
-                Good care is also good{" "}
-                <em className="text-[hsl(var(--accent))]">company.</em>
+                {t("Good care is also good company.")}
               </h2>
               <p className="mt-5 max-w-md text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
-                We partner with Shalby Hospital to make the spaces
-                between appointments feel less uncertain — with clear
-                information, thoughtful people and a plan you can trust.
+                {t("We partner with Shalby Hospital to make the spaces between appointments feel less uncertain — with clear information, thoughtful people and a plan you can trust.")}
               </p>
               <ButtonLink
                 href="/hospital"
                 testId="link-promise-hospital"
                 inverse
               >
-                Meet your hospital <FaArrowRight size={16} />
+                {t("Meet your hospital")} <FaArrowRight size={16} />
               </ButtonLink>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-[26px] bg-[hsl(var(--card))] p-6 sm:translate-y-8">
                 <span className="font-mono text-xs text-[hsl(var(--accent))]">
-                  01 / LISTEN FIRST
+                  {t("01 / LISTEN FIRST")}
                 </span>
                 <h3 className="mt-12 text-lg font-bold">
-                  No rushing the first question.
+                  {t("No rushing the first question.")}
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                  Our teams make room for the context behind the symptom.
+                  {t("Our teams make room for the context behind the symptom.")}
                 </p>
               </div>
               <div className="rounded-[26px] bg-[hsl(var(--primary))] p-6 text-[hsl(var(--primary-foreground))]">
                 <span className="font-mono text-xs text-[hsl(var(--secondary))]">
-                  02 / JOIN THE DOTS
+                  {t("02 / JOIN THE DOTS")}
                 </span>
                 <h3 className="mt-12 text-lg font-bold">
-                  One connected care journey.
+                  {t("One connected care journey.")}
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-[hsl(var(--primary-foreground)/.72)]">
-                  Your notes, people and next steps stay connected.
+                  {t("Your notes, people and next steps stay connected.")}
                 </p>
               </div>
               <div className="rounded-[26px] bg-[hsl(var(--secondary))] p-6 text-[hsl(var(--foreground))] sm:col-span-2">
-                <span className="font-mono text-xs">03 / STAY CLOSE</span>
+                <span className="font-mono text-xs">{t("03 / STAY CLOSE")}</span>
                 <div className="mt-7 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                   <h3 className="max-w-md text-2xl font-bold leading-tight">
-                    Care doesn’t end when you leave the hospital.
+                    {t("Care doesn’t end when you leave the hospital.")}
                   </h3>
                   <p className="max-w-xs text-sm leading-6 opacity-70">
-                    Follow-up support that meets you at home, too.
+                    {t("Follow-up support that meets you at home, too.")}
                   </p>
                 </div>
               </div>
@@ -312,21 +305,20 @@ function Home() {
           <div className="grid-paper overflow-hidden rounded-[34px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7 sm:p-10 lg:grid-cols-[1fr_.8fr] lg:p-14">
             <div>
               <span className="inline-flex rounded-full bg-[hsl(var(--secondary)/.7)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest">
-                P2Care journal
+                {t("P2Care journal")}
               </span>
               <h2 className="mt-6 max-w-xl font-display text-5xl leading-[.95] tracking-[-.03em]">
-                A little more context can change everything.
+                {t("A little more context can change everything.")}
               </h2>
               <p className="mt-4 max-w-md text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                Clear, practical health stories from the people who care for
-                our community.
+                {t("Clear, practical health stories from the people who care for our community.")}
               </p>
               <Link
                 to="/articles"
                 data-testid="link-home-articles"
                 className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"
               >
-                Read the journal <FaArrowRight size={17} />
+                {t("Read the journal")} <FaArrowRight size={17} />
               </Link>
             </div>
             <div className="mt-10 grid gap-3 lg:mt-0">
@@ -346,13 +338,13 @@ function Home() {
                   </div>
                   <div className="py-1">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[hsl(var(--accent))]">
-                      {article.category}
+                      {t(article.category)}
                     </span>
                     <h3 className="mt-1 font-semibold leading-5 group-hover:text-[hsl(var(--primary))]">
-                      {article.title}
+                      {t(article.title)}
                     </h3>
                     <span className="mt-2 block text-xs text-[hsl(var(--muted-foreground))]">
-                      {article.read}
+                      {t(article.read)}
                     </span>
                   </div>
                 </Link>
@@ -364,14 +356,14 @@ function Home() {
           <div className="flex w-full max-w-none flex-col gap-8 px-5 py-14 md:flex-row md:items-center md:justify-between lg:px-8 2xl:px-12">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[.2em] opacity-65">
-                Not sure where to begin?
+                {t("Not sure where to begin?")}
               </p>
               <h2 className="mt-2 font-display text-4xl leading-none">
-                Let’s find the right door.
+                {t("Let’s find the right door.")}
               </h2>
             </div>
             <ButtonLink href="/contact" testId="link-home-contact">
-              Talk to a care coordinator <FaArrowRight size={16} />
+              {t("Talk to a care coordinator")} <FaArrowRight size={16} />
             </ButtonLink>
           </div>
         </section>

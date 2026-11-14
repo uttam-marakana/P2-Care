@@ -48,8 +48,10 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
+import { useLanguage } from "@/context/LanguageContext";
 
 function Hospital() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   return (
     <Shell>
@@ -58,8 +60,7 @@ function Hospital() {
           eyebrow="Your visit"
           title={
             <>
-              A hospital designed around{" "}
-              <em className="text-[hsl(var(--primary))]">people.</em>
+              {t("A hospital designed around people.")}
             </>
           }
           body="P2Care partners with Shalby Hospital at Silver Oaks Hospital — bringing specialist expertise and a softer way through it all."
@@ -68,36 +69,34 @@ function Hospital() {
         <section className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-16 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8 lg:py-24">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--primary))]">
-              Find your bearings
+              {t("Find your bearings")}
             </p>
             <h2 className="mt-4 font-display text-5xl leading-none">
-              Everything you need, without the maze.
+              {t("Everything you need, without the maze.")}
             </h2>
             <p className="mt-5 text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
-              From the front door to follow-up, our teams are connected around
-              your care. We’ll help you know where to go, what to bring and what
-              happens next.
+              {t("From the front door to follow-up, our teams are connected around your care. We’ll help you know where to go, what to bring and what happens next.")}
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               <InfoTile
                 icon={<FaLocationDot />}
                 title="Our address"
-                text="Silver Oaks Hospital, Phase-IX, Sector-63, SAS Nagar, Punjab 160062"
+                text={t("Silver Oaks Hospital, Phase-IX, Sector-63, SAS Nagar, Punjab 160062")}
               />
               <InfoTile
                 icon={<FaPhone />}
                 title="Patient helpline"
-                text="+91 1800 123 4567, available 24/7"
+                text={t("+91 1800 123 4567, available 24/7")}
               />
               <InfoTile
                 icon={<FaShieldHalved />}
                 title="For every patient"
-                text="Accessible entrances, interpreters and family-friendly support."
+                text={t("Accessible entrances, interpreters and family-friendly support.")}
               />
               <InfoTile
                 icon={<FaCalendarDays />}
                 title="Before you arrive"
-                text="Bring your ID, reports, prescriptions and insurance details."
+                text={t("Bring your ID, reports, prescriptions and insurance details.")}
               />
             </div>
           </div>
@@ -112,10 +111,10 @@ function Hospital() {
                 <div className="mx-auto max-w-sm rounded-[28px] border-2 border-[hsl(var(--primary)/.45)] bg-[hsl(var(--card)/.55)] p-5 shadow-[var(--shadow-soft)]">
                   <div className="mb-4 flex items-center justify-between">
                     <span className="text-sm font-bold">
-                      Silver Oaks Hospital
+                      {t("Silver Oaks Hospital")}
                     </span>
                     <span className="rounded-full bg-[hsl(var(--secondary))] px-2 py-1 font-mono text-[9px]">
-                      SAS NAGAR
+                      {t("SAS NAGAR")}
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
@@ -128,7 +127,7 @@ function Hospital() {
                 </div>
               </div>
               <span className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--primary))]">
-                <FaLocationDot size={16} /> Phase-IX · Sector-63
+                <FaLocationDot size={16} /> {t("Phase-IX · Sector-63")}
               </span>
             </div>
           </div>
@@ -161,7 +160,7 @@ function Hospital() {
                   "Leave clear",
                   "You go home with a plan, not a list of loose ends.",
                 ],
-              ].map(([n, t, d]) => (
+              ].map(([n, label, description]) => (
                 <div
                   key={n}
                   className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-5"
@@ -169,9 +168,9 @@ function Hospital() {
                   <span className="font-mono text-xs text-[hsl(var(--accent))]">
                     {n}
                   </span>
-                  <h3 className="mt-10 font-bold">{t}</h3>
+                  <h3 className="mt-10 font-bold">{t(label)}</h3>
                   <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                    {d}
+                    {t(description)}
                   </p>
                 </div>
               ))}

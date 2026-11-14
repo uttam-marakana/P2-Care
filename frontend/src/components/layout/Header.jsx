@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaArrowRight, FaBars, FaMessage, FaXmark } from "react-icons/fa6";
 import ButtonLink from "../common/ButtonLink";
+import LanguageSelect from "./LanguageSelect";
+import { useLanguage } from "@/context/LanguageContext";
 import logo from "../../../public/logo.png";
 
 function Header() {
+  const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation().pathname;
   const links = [
@@ -17,7 +20,7 @@ function Header() {
   return (
     <>
       <div className="bg-[hsl(var(--primary))] px-5 py-2 text-center text-xs font-medium tracking-wide text-[hsl(var(--primary-foreground))]">
-        <span className="hidden sm:inline">24/7 patient helpline</span>{" "}
+        <span className="hidden sm:inline">{t("24/7 patient helpline")}</span>{" "}
         <a
           href="tel:+9118001234567"
           data-testid="link-helpline-top"
@@ -26,7 +29,7 @@ function Header() {
           +91 1800 123 4567
         </a>
         <span className="mx-2 opacity-40">·</span>{" "}
-        <span>Emergency care always open</span>
+        <span>{t("Emergency care always open")}</span>
       </div>
       <header className="relative z-40 border-b border-[hsl(var(--border)/.72)] bg-[hsl(var(--background)/.86)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] items-center justify-between px-5 py-4 lg:px-8">
@@ -44,7 +47,7 @@ function Header() {
 
           <nav
             className="hidden items-center gap-7 lg:flex"
-            aria-label="Main navigation"
+            aria-label={t("Main navigation")}
           >
             {links.map(([label, href]) => (
               <Link
@@ -53,25 +56,29 @@ function Header() {
                 data-testid={`link-nav-${label.toLowerCase().replace(" ", "-")}`}
                 className={`text-sm ${location === href || (href === "/doctors" && location.startsWith("/doctors/")) ? "font-semibold text-[hsl(var(--primary))]" : "text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"}`}
               >
-                {label}
+                {t(label)}
               </Link>
             ))}
           </nav>
           <div className="hidden items-center gap-3 lg:flex">
+            <LanguageSelect
+              className="text-[hsl(var(--foreground))]"
+              testId="select-language-header"
+            />
             <ButtonLink href="/contact" testId="link-contact-header">
-              Talk to us <FaMessage size={16} />
+              {t("Talk to us")} <FaMessage size={16} />
             </ButtonLink>
             <ButtonLink
               href="/appointment"
               inverse
               testId="link-appointment-header"
             >
-              Book appointment <FaArrowRight size={16} />
+              {t("Book appointment")} <FaArrowRight size={16} />
             </ButtonLink>
           </div>
           <button
             type="button"
-            aria-label="Toggle menu"
+            aria-label={t("Toggle menu")}
             aria-expanded={mobileOpen}
             data-testid="button-mobile-menu"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -82,7 +89,7 @@ function Header() {
         </div>
         {mobileOpen && (
           <div className="border-t border-[hsl(var(--border)/.75)] bg-[hsl(var(--card))] px-5 pb-5 pt-3 lg:hidden">
-            <nav className="grid gap-1" aria-label="Mobile navigation">
+            <nav className="grid gap-1" aria-label={t("Mobile navigation")}>
               {links.map(([label, href]) => (
                 <Link
                   key={href}
@@ -91,19 +98,23 @@ function Header() {
                   data-testid={`link-mobile-${label.toLowerCase().replace(" ", "-")}`}
                   className="rounded-xl px-3 py-3 text-sm font-medium hover:bg-[hsl(var(--muted))]"
                 >
-                  {label}
+                  {t(label)}
                 </Link>
               ))}
+              <LanguageSelect
+                className="mt-2 text-[hsl(var(--foreground))]"
+                testId="select-language-header-mobile"
+              />
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <ButtonLink href="/contact" testId="link-mobile-contact">
-                  Talk to us
+                  {t("Talk to us")}
                 </ButtonLink>
                 <ButtonLink
                   href="/appointment"
                   inverse
                   testId="link-mobile-appointment"
                 >
-                  Book visit
+                  {t("Book visit")}
                 </ButtonLink>
               </div>
             </nav>

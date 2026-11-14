@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SITE_NAME = "P2Care Hospital";
 const SITE_URL = (
@@ -27,13 +28,18 @@ function SEO({
   noindex = false,
   schema,
 }) {
+  const { t, language } = useLanguage();
   useEffect(() => {
-    document.title = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+    const localizedTitle = t(title);
+    const localizedDescription = t(description);
+    document.title = localizedTitle
+      ? `${localizedTitle} | ${SITE_NAME}`
+      : SITE_NAME;
     const href = canonical || `${SITE_URL}${window.location.pathname}`;
-    upsertMeta("description", description);
+    upsertMeta("description", localizedDescription);
     upsertMeta("robots", noindex ? "noindex,nofollow" : "index,follow");
     upsertMeta("og:title", document.title, "property");
-    upsertMeta("og:description", description, "property");
+    upsertMeta("og:description", localizedDescription, "property");
     upsertMeta("og:type", "website", "property");
     upsertMeta("og:site_name", SITE_NAME, "property");
     upsertMeta("og:url", href, "property");
@@ -41,7 +47,7 @@ function SEO({
     upsertMeta("og:image:alt", "P2Care Hospital", "property");
     upsertMeta("twitter:card", "summary_large_image");
     upsertMeta("twitter:title", document.title);
-    upsertMeta("twitter:description", description);
+    upsertMeta("twitter:description", localizedDescription);
     upsertMeta("twitter:image", image || DEFAULT_SOCIAL_IMAGE);
 
     let link = document.head.querySelector('link[rel="canonical"]');
@@ -65,7 +71,7 @@ function SEO({
       const current = document.head.querySelector("script[data-p2care-schema]");
       if (current) current.remove();
     };
-  }, [title, description, canonical, image, noindex, schema]);
+  }, [title, description, canonical, image, noindex, schema, t, language]);
   return null;
 }
 

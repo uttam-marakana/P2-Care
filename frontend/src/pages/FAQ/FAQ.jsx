@@ -48,8 +48,10 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
+import { useLanguage } from "@/context/LanguageContext";
 
 function FAQ() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [query, setQuery] = useState("");
   const filtered = faqs.filter((f) =>
@@ -79,7 +81,7 @@ function FAQ() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               data-testid="input-faq-search"
-              placeholder="Search FAQs"
+              placeholder={t("Search FAQs")}
               className="w-full bg-transparent py-3 text-sm outline-none"
             />
           </div>
@@ -100,7 +102,7 @@ function FAQ() {
                     data-testid={`button-faq-${i}`}
                     className="group flex w-full items-center justify-between gap-6 py-6 text-left text-base font-bold"
                   >
-                    <span>{faq.q}</span>
+                    <span>{t(faq.q)}</span>
                     <FaChevronDown
                       size={18}
                       className="shrink-0 text-[hsl(var(--primary))] transition-transform group-data-[state=open]:rotate-180"
@@ -111,7 +113,7 @@ function FAQ() {
                   data-testid={`text-faq-answer-${i}`}
                   className="max-w-2xl overflow-hidden pb-6 text-sm leading-7 text-[hsl(var(--muted-foreground))] data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
                 >
-                  {faq.a}
+                  {t(faq.a)}
                 </Accordion.Content>
               </Accordion.Item>
             ))}
@@ -121,25 +123,25 @@ function FAQ() {
               data-testid="empty-faq"
               className="py-16 text-center text-sm text-[hsl(var(--muted-foreground))]"
             >
-              No answer found.{" "}
+              {t("No answer found.")}{" "}
               <Link
                 to="/contact"
                 data-testid="link-faq-contact"
                 className="font-bold text-[hsl(var(--primary))]"
               >
-                Ask our care team.
+                {t("Ask our care team.")}
               </Link>
             </div>
           )}
           <div className="mt-8 flex flex-col gap-5 rounded-[28px] bg-[hsl(var(--secondary))] p-7 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-display text-3xl">Still wondering?</h2>
+              <h2 className="font-display text-3xl">{t("Still wondering?")}</h2>
               <p className="mt-1 text-sm opacity-70">
-                We’re happy to talk it through.
+                {t("We’re happy to talk it through.")}
               </p>
             </div>
             <ButtonLink href="/contact" testId="link-faq-talk">
-              Talk to us <FaMessage size={16} />
+              {t("Talk to us")} <FaMessage size={16} />
             </ButtonLink>
           </div>
         </section>

@@ -48,23 +48,25 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
+import { useLanguage } from "@/context/LanguageContext";
 
 function NotFoundPage() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   return (
     <Shell>
       <main className="mx-auto flex min-h-[600px] max-w-[800px] flex-col items-center justify-center px-5 text-center">
         <p className="font-mono text-xs uppercase tracking-widest text-[hsl(var(--accent))]">
-          404 / wrong turn
+          {t("404 / wrong turn")}
         </p>
         <h1 className="mt-4 font-display text-7xl">
-          Let’s get you back to care.
+          {t("Let’s get you back to care.")}
         </h1>
         <p className="mt-4 text-[hsl(var(--muted-foreground))]">
-          That page doesn’t exist, but the next right step is close.
+          {t("That page doesn’t exist, but the next right step is close.")}
         </p>
         <ButtonLink href="/" testId="link-not-found-home">
-          Back to P2Care <FaArrowRight size={16} />
+          {t("Back to P2Care")} <FaArrowRight size={16} />
         </ButtonLink>
       </main>
     </Shell>

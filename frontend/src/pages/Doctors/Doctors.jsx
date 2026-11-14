@@ -48,8 +48,10 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
+import { useLanguage } from "@/context/LanguageContext";
 
 function DoctorsPage() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [query, setQuery] = useState("");
   const [specialty, setSpecialty] = useState("All specialties");
@@ -71,8 +73,7 @@ function DoctorsPage() {
           eyebrow="Your care team"
           title={
             <>
-              The right expertise,{" "}
-              <em className="text-[hsl(var(--primary))]">closer</em> to home.
+              {t("The right expertise, closer to home.")}
             </>
           }
           body="Meet the doctors who make complex care feel understandable. Browse by specialty, approach and availability."
@@ -88,7 +89,7 @@ function DoctorsPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 data-testid="input-doctor-search"
-                placeholder="Search a doctor or specialty"
+                placeholder={t("Search a doctor or specialty")}
                 className="w-full bg-transparent py-3 text-sm outline-none placeholder:text-[hsl(var(--muted-foreground))]"
               />
             </label>
@@ -99,9 +100,9 @@ function DoctorsPage() {
                 data-testid="select-doctor-specialty"
                 className="w-full appearance-none bg-transparent py-3 pr-7 text-sm font-medium outline-none"
               >
-                <option>All specialties</option>
+                <option value="All specialties">{t("All specialties")}</option>
                 {specialties.map((s) => (
-                  <option key={s.id}>{s.name}</option>
+                  <option key={s.id} value={s.name}>{t(s.name)}</option>
                 ))}
               </select>
               <FaChevronDown
@@ -115,11 +116,11 @@ function DoctorsPage() {
               data-testid="text-doctor-result-count"
               className="text-sm text-[hsl(var(--muted-foreground))]"
             >
-              {filtered.length} care professionals
+              {filtered.length} {t("care professionals")}
             </p>
             <span className="hidden items-center gap-2 text-xs text-[hsl(var(--muted-foreground))] sm:flex">
               <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
-              Showing sample profiles
+              {t("Showing sample profiles")}
             </span>
           </div>
           {filtered.length ? (
@@ -138,13 +139,13 @@ function DoctorsPage() {
                 className="mb-4 text-[hsl(var(--primary))]"
               />
               <h2 className="font-display text-3xl">
-                No one by that name, yet.
+                {t("No one by that name, yet.")}
               </h2>
               <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">
-                Try another specialty or talk to our care desk.
+                {t("Try another specialty or talk to our care desk.")}
               </p>
               <ButtonLink href="/contact" testId="link-empty-doctors-contact">
-                Talk to care desk
+                {t("Talk to care desk")}
               </ButtonLink>
             </div>
           )}

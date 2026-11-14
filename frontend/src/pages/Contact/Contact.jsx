@@ -37,6 +37,7 @@ import {
 } from "react-icons/fa6";
 import { useCmsData } from "@/context/CmsContext";
 import { submitContactInquiry } from "@/services/cms";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   ButtonLink,
   PageHero,
@@ -51,18 +52,20 @@ import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
 import { openWhatsApp, generalWhatsAppMessage } from "@/lib/whatsapp";
 
-const contactSchema = Yup.object({
-  name: Yup.string().trim().required("Please enter your name."),
-  reply: Yup.string()
-    .trim()
-    .required("Please provide an email or phone number."),
-  message: Yup.string()
-    .trim()
-    .min(10, "Please share a little more detail.")
-    .required("Please enter your message."),
-});
+const contactSchema = (t) =>
+  Yup.object({
+    name: Yup.string().trim().required(t("Please enter your name.")),
+    reply: Yup.string()
+      .trim()
+      .required(t("Please provide an email or phone number.")),
+    message: Yup.string()
+      .trim()
+      .min(10, t("Please share a little more detail."))
+      .required(t("Please enter your message.")),
+  });
 
 function Contact() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [sent, setSent] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -73,8 +76,7 @@ function Contact() {
           eyebrow="We're here to help"
           title={
             <>
-              A real person is only{" "}
-              <em className="text-[hsl(var(--primary))]">a message</em> away.
+              {t("A real person is only a message away.")}
             </>
           }
           body="Questions about an appointment, a report or finding your way around? Tell us what’s on your mind."
@@ -83,7 +85,7 @@ function Contact() {
           <div>
             <div className="rounded-[28px] bg-[hsl(var(--primary))] p-7 text-[hsl(var(--primary-foreground))]">
               <FaPhone size={21} className="text-[hsl(var(--secondary))]" />
-              <h2 className="mt-12 font-display text-4xl">Patient helpline</h2>
+              <h2 className="mt-12 font-display text-4xl">{t("Patient helpline")}</h2>
               <a
                 href="tel:+9118001234567"
                 data-testid="link-contact-helpline"
@@ -92,7 +94,7 @@ function Contact() {
                 +91 1800 123 4567
               </a>
               <p className="mt-3 text-sm text-[hsl(var(--primary-foreground)/.68)]">
-                Available 24 hours, every day.
+                {t("Available 24 hours, every day.")}
               </p>
               <button
                 type="button"
@@ -100,18 +102,18 @@ function Contact() {
                 onClick={() => openWhatsApp(generalWhatsAppMessage())}
                 className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white hover:-translate-y-0.5"
               >
-                <FaMessage size={16} /> Chat on WhatsApp
+                <FaMessage size={16} /> {t("Chat on WhatsApp")}
               </button>
             </div>
             <div className="mt-4 rounded-[28px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7">
               <FaLocationDot size={21} className="text-[hsl(var(--primary))]" />
-              <h2 className="mt-8 text-lg font-bold">Visit us</h2>
+              <h2 className="mt-8 text-lg font-bold">{t("Visit us")}</h2>
               <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                Silver Oaks Hospital
+                {t("Silver Oaks Hospital")}
                 <br />
-                Phase-IX, Sector-63
+                {t("Phase-IX, Sector-63")}
                 <br />
-                SAS Nagar, Punjab 160062, India
+                {t("SAS Nagar, Punjab 160062, India")}
               </p>
               <a
                 href="https://maps.google.com/?q=Silver+Oaks+Hospital+SAS+Nagar"
@@ -120,7 +122,7 @@ function Contact() {
                 data-testid="link-open-maps"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"
               >
-                Open in maps <FaArrowUpRightFromSquare size={15} />
+                {t("Open in maps")} <FaArrowUpRightFromSquare size={15} />
               </a>
             </div>
           </div>
@@ -134,17 +136,16 @@ function Contact() {
                   <FaCheck size={25} />
                 </span>
                 <h2 className="mt-7 font-display text-5xl">
-                  Message received.
+                  {t("Message received.")}
                 </h2>
                 <p className="mt-4 max-w-sm text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                  Thank you for reaching out. A member of our team will be in
-                  touch soon.
+                  {t("Thank you for reaching out. A member of our team will be in touch soon.")}
                 </p>
               </div>
             ) : (
               <Formik
                 initialValues={{ name: "", reply: "", message: "" }}
-                validationSchema={contactSchema}
+                validationSchema={contactSchema(t)}
                 onSubmit={async (values, { setSubmitting }) => {
                   setSubmitError("");
                   try {
@@ -152,7 +153,7 @@ function Contact() {
                     setSent(true);
                   } catch (error) {
                     setSubmitError(
-                      error.message || "Unable to send your message.",
+                      t(error.message) || t("Unable to send your message."),
                     );
                   } finally {
                     setSubmitting(false);
@@ -160,9 +161,9 @@ function Contact() {
                 }}
               >
                 <Form data-testid="form-contact">
-                  <h2 className="text-xl font-bold">Send us a note</h2>
+                  <h2 className="text-xl font-bold">{t("Send us a note")}</h2>
                   <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
-                    We’ll route it to the right person.
+                    {t("We’ll route it to the right person.")}
                   </p>
                   <div className="mt-8 grid gap-5 sm:grid-cols-2">
                     <Field label="Your name" id="contact-name">
@@ -170,7 +171,7 @@ function Contact() {
                         name="name"
                         id="contact-name"
                         data-testid="input-contact-name"
-                        placeholder="Your name"
+                        placeholder={t("Your name")}
                       />
                     </Field>
                     <Field label="Email or phone" id="contact-reply">
@@ -178,7 +179,7 @@ function Contact() {
                         name="reply"
                         id="contact-reply"
                         data-testid="input-contact-reply"
-                        placeholder="How should we reply?"
+                        placeholder={t("How should we reply?")}
                       />
                     </Field>
                   </div>
@@ -189,7 +190,7 @@ function Contact() {
                       id="contact-message"
                       rows={6}
                       data-testid="textarea-contact-message"
-                      placeholder="Write your message…"
+                      placeholder={t("Write your message…")}
                     />
                   </Field>
                   <div className="mb-3 space-y-1 text-xs text-[hsl(var(--accent))]">
@@ -206,7 +207,7 @@ function Contact() {
                     data-testid="button-submit-contact"
                     className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[hsl(var(--primary))] px-5 py-3.5 text-sm font-bold text-[hsl(var(--primary-foreground))]"
                   >
-                    Send message <FaArrowRight size={16} />
+                    {t("Send message")} <FaArrowRight size={16} />
                   </button>
                 </Form>
               </Formik>

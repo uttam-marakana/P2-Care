@@ -1,4 +1,8 @@
+import { useLanguage } from "@/context/LanguageContext";
+
 function PageHero({ eyebrow, title, body, accent = false }) {
+  const { t } = useLanguage();
+
   return (
     <section
       className={`relative overflow-hidden ${accent ? "bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]" : "bg-[hsl(var(--muted)/.48)]"}`}
@@ -8,7 +12,7 @@ function PageHero({ eyebrow, title, body, accent = false }) {
         <p
           className={`mb-4 font-mono text-[10px] uppercase tracking-[.2em] ${accent ? "text-[hsl(var(--secondary))]" : "text-[hsl(var(--primary))]"}`}
         >
-          {eyebrow}
+          {t(eyebrow)}
         </p>
         <h1 className="max-w-3xl font-display text-6xl leading-[.9] tracking-[-.04em] sm:text-7xl">
           {title}
@@ -16,7 +20,7 @@ function PageHero({ eyebrow, title, body, accent = false }) {
         <p
           className={`mt-6 max-w-xl text-base leading-7 ${accent ? "text-[hsl(var(--primary-foreground)/.72)]" : "text-[hsl(var(--muted-foreground))]"}`}
         >
-          {body}
+          {t(body)}
         </p>
       </div>
     </section>

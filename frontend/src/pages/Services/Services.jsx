@@ -49,8 +49,10 @@ import {
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
 import { resolveMediaUrl } from "@/services/media";
+import { useLanguage } from "@/context/LanguageContext";
 
 function Services() {
+  const { t } = useLanguage();
   const { doctors, specialties, articles, faqs } = useCmsData();
   const [active, setActive] = useState("All");
   const filtered =
@@ -80,7 +82,7 @@ function Services() {
                 onClick={() => setActive(filter)}
                 className={`rounded-full border px-4 py-2 text-xs font-semibold ${active === filter ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]" : "border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--muted-foreground))] hover:border-[hsl(var(--primary))]"}`}
               >
-                {filter}
+                {t(filter)}
               </button>
             ))}
           </div>
@@ -97,7 +99,7 @@ function Services() {
                       ? resolveMediaUrl(service.image_url)
                       : imagePath(`services/${service.id}.svg`)
                   }
-                  alt={`${service.name} care`}
+                  alt={t("{name} care", { name: service.name })}
                   className="h-40 w-full object-cover"
                 />
                 <div className="p-7">
@@ -109,17 +111,16 @@ function Services() {
                       0{i + 1}
                     </span>
                   </div>
-                  <h2 className="mt-14 text-2xl font-bold">{service.name}</h2>
+                  <h2 className="mt-14 text-2xl font-bold">{t(service.name)}</h2>
                   <p className="mt-3 leading-6 text-[hsl(var(--muted-foreground))]">
-                    {service.detail}. Our multidisciplinary team brings clinical
-                    expertise and a human pace to every visit.
+                    {t(service.detail)}. {t("Our multidisciplinary team brings clinical expertise and a human pace to every visit.")}
                   </p>
                   <Link
                     to="/appointment"
                     data-testid={`link-book-service-${service.id}`}
                     className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--primary))]"
                   >
-                    Book this care <FaArrowRight size={16} />
+                    {t("Book this care")} <FaArrowRight size={16} />
                   </Link>
                 </div>
               </div>
@@ -130,21 +131,20 @@ function Services() {
               data-testid="empty-services"
               className="rounded-3xl border border-dashed border-[hsl(var(--border))] p-16 text-center"
             >
-              No services match that search.
+              {t("No services match that search.")}
             </div>
           )}
         </section>
         <section className="bg-[hsl(var(--secondary)/.7)]">
           <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-6 px-5 py-14 lg:flex-row lg:items-center lg:justify-between lg:px-8">
             <div>
-              <h2 className="font-display text-4xl">Need help choosing?</h2>
+              <h2 className="font-display text-4xl">{t("Need help choosing?")}</h2>
               <p className="mt-2 text-sm opacity-70">
-                Our care coordinators listen first, then point you in the right
-                direction.
+                {t("Our care coordinators listen first, then point you in the right direction.")}
               </p>
             </div>
             <ButtonLink href="/contact" testId="link-services-coordinator">
-              Speak with a coordinator <FaMessage size={17} />
+              {t("Speak with a coordinator")} <FaMessage size={17} />
             </ButtonLink>
           </div>
         </section>

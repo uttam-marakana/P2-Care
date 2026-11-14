@@ -2,6 +2,8 @@ import { subscribeNewsletter } from "@/services/cms";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../public/logo.png";
+import LanguageSelect from "./LanguageSelect";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   FaArrowRight,
   FaCheck,
@@ -12,6 +14,7 @@ import {
 } from "react-icons/fa6";
 
 function Footer() {
+  const { t } = useLanguage();
   const [openMenus, setOpenMenus] = useState({
     care: false,
     p2care: false,
@@ -40,7 +43,7 @@ function Footer() {
             />
           </Link>
           <p className="max-w-xs text-sm leading-6 text-[hsl(193_20%_70%)]">
-            A trusted care companion for patients and families.
+            {t("A trusted care companion for patients and families.")}
           </p>
           <div className="mt-6 flex gap-2">
             <a
@@ -71,7 +74,7 @@ function Footer() {
         </div>
         <div className="border-b border-[hsl(190_25%_27%)] pb-4 sm:border-0 sm:pb-0">
           <h3 className="mb-4 hidden text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:block">
-            Find care
+            {t("Find care")}
           </h3>
           <button
             type="button"
@@ -81,7 +84,7 @@ function Footer() {
             onClick={() => toggleMenu("care")}
             className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:hidden"
           >
-            Find care
+            {t("Find care")}
             <FaChevronDown
               aria-hidden="true"
               className={`transition-transform ${openMenus.care ? "rotate-180" : ""}`}
@@ -92,22 +95,22 @@ function Footer() {
             className={`${openMenus.care ? "grid" : "hidden"} gap-3 pt-2 text-sm text-[hsl(193_20%_75%)] sm:grid sm:pt-0`}
           >
             <Link to="/services" data-testid="link-footer-services">
-              Our services
+              {t("Our services")}
             </Link>
             <Link to="/doctors" data-testid="link-footer-doctors">
-              Find a doctor
+              {t("Find a doctor")}
             </Link>
             <Link to="/appointment" data-testid="link-footer-appointment">
-              Book an appointment
+              {t("Book an appointment")}
             </Link>
             <Link to="/emergency" data-testid="link-footer-emergency">
-              Emergency care
+              {t("Emergency care")}
             </Link>
           </div>
         </div>
         <div className="border-b border-[hsl(190_25%_27%)] pb-4 sm:border-0 sm:pb-0">
           <h3 className="mb-4 hidden text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:block">
-            P2Care
+            {t("P2Care")}
           </h3>
           <button
             type="button"
@@ -117,7 +120,7 @@ function Footer() {
             onClick={() => toggleMenu("p2care")}
             className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:hidden"
           >
-            P2Care
+            {t("P2Care")}
             <FaChevronDown
               aria-hidden="true"
               className={`transition-transform ${openMenus.p2care ? "rotate-180" : ""}`}
@@ -128,25 +131,25 @@ function Footer() {
             className={`${openMenus.p2care ? "grid" : "hidden"} gap-3 pt-2 text-sm text-[hsl(193_20%_75%)] sm:grid sm:pt-0`}
           >
             <Link to="/hospital" data-testid="link-footer-hospital">
-              About the hospital
+              {t("About the hospital")}
             </Link>
             <Link to="/articles" data-testid="link-footer-articles">
-              Health stories
+              {t("Health stories")}
             </Link>
             <Link to="/contact" data-testid="link-footer-contact">
-              Contact & directions
+              {t("Contact & directions")}
             </Link>
             <Link to="/faq" data-testid="link-footer-faq">
-              Patient FAQs
+              {t("Patient FAQs")}
             </Link>
           </div>
         </div>
         <div>
           <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
-            A little care, delivered
+            {t("A little care, delivered")}
           </h3>
           <p className="mb-4 text-sm leading-6 text-[hsl(193_20%_75%)]">
-            Monthly notes on staying well, written by our care team.
+            {t("Monthly notes on staying well, written by our care team.")}
           </p>
           {sent ? (
             <div
@@ -154,7 +157,7 @@ function Footer() {
               className="rounded-2xl bg-[hsl(190_25%_23%)] p-4 text-sm text-[hsl(var(--secondary))]"
             >
               <FaCheck size={16} className="mb-2" />
-              You’re on the list. See you soon.
+              {t("You’re on the list. See you soon.")}
             </div>
           ) : (
             <form
@@ -168,19 +171,19 @@ function Footer() {
                   setSent(true);
                 } catch (error) {
                   setNewsletterError(
-                    error.message || "Unable to subscribe right now.",
+                    error.message || t("Unable to subscribe right now."),
                   );
                 }
               }}
             >
               <input
-                aria-label="Email for newsletter"
+                aria-label={t("Email for newsletter")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 data-testid="input-newsletter-email"
                 type="email"
                 required
-                placeholder="Your email"
+                placeholder={t("Your email")}
                 className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-[hsl(193_20%_56%)]"
               />
               <button
@@ -198,10 +201,12 @@ function Footer() {
         </div>
       </div>
       <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-4 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between sm:px-6 sm:py-4 lg:px-8 lg:py-5">
-        <span>
-          © 2024 P2Care Hospital · In partnership with Shalby Hospital
-        </span>
-        <span>Privacy · Accessibility · Patient-first, always.</span>
+        <span>{t("© 2024 P2Care Hospital · In partnership with Shalby Hospital")}</span>
+        <span>{t("Privacy · Accessibility · Patient-first, always.")}</span>
+        <LanguageSelect
+          className="text-[hsl(193_20%_75%)]"
+          testId="select-language-footer"
+        />
       </div>
     </footer>
   );
