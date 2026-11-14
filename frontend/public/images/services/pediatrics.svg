@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#E8F0E7"/><stop offset="1" stop-color="#B9D9CF"/></linearGradient>
+    <linearGradient id="balloon" x1="845" y1="54" x2="1064" y2="273" gradientUnits="userSpaceOnUse"><stop stop-color="#F6D17B"/><stop offset="1" stop-color="#E99A7F"/></linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1200v480H0z"/>
+  <circle cx="1020" cy="103" r="176" fill="#fff" fill-opacity=".27"/>
+  <circle cx="758" cy="418" r="166" fill="#fff" fill-opacity=".22"/>
+  <path d="M953 231c-76-62-122-112-101-158 18-40 73-36 104 5 29-41 86-45 103-5 21 46-25 96-106 158Z" fill="url(#balloon)"/>
+  <path d="M953 231c-4 69-2 119 27 166" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="966" cy="178" r="9" fill="#fff" fill-opacity=".8"/><circle cx="1002" cy="151" r="6" fill="#fff" fill-opacity=".68"/>
+  <path d="M191 337c0-51 41-92 92-92 27 0 51 12 68 31 16-19 40-31 67-31 51 0 92 41 92 92v13H191v-13Z" fill="#fff" fill-opacity=".66"/>
+  <circle cx="350" cy="192" r="37" fill="#E9B899"/><path d="M302 226c12-24 70-24 96 0" stroke="#A26B60" stroke-width="10" stroke-linecap="round"/>
+  <path d="M0 420c140-40 272-36 396 12 99 38 197 38 295 0 91-35 178-37 261-5v53H0v-60Z" fill="#fff" fill-opacity=".34"/>
+</svg>

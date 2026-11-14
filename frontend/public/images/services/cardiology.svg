@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#DDF1EC"/><stop offset="1" stop-color="#A7D5CE"/></linearGradient>
+    <linearGradient id="heart" x1="736" y1="84" x2="1010" y2="376" gradientUnits="userSpaceOnUse"><stop stop-color="#F1B17E"/><stop offset="1" stop-color="#D47765"/></linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1200v480H0z"/>
+  <circle cx="1000" cy="93" r="180" fill="#fff" fill-opacity=".26"/>
+  <circle cx="736" cy="412" r="170" fill="#fff" fill-opacity=".2"/>
+  <path d="M882 164c-35-47-107-44-133 9-27 56 15 105 53 142l100 96 101-96c39-37 80-86 53-142-26-53-98-56-133-9l-21 29-20-29Z" fill="url(#heart)"/>
+  <path d="M758 266h78l29-48 38 103 34-65 25 31h74" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="177" cy="99" r="7" fill="#398889" fill-opacity=".5"/><circle cx="219" cy="99" r="7" fill="#398889" fill-opacity=".5"/><circle cx="261" cy="99" r="7" fill="#398889" fill-opacity=".5"/>
+  <path d="M0 410c124-52 245-60 364-24s224 35 314-2v96H0v-70Z" fill="#fff" fill-opacity=".3"/>
+</svg>
