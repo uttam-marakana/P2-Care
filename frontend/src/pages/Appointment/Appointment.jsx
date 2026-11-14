@@ -205,7 +205,9 @@ function Appointment() {
                     type="button"
                     data-testid="button-appointment-whatsapp"
                     onClick={() =>
-                      openWhatsApp(appointmentWhatsAppMessage(submittedValues))
+                      openWhatsApp(
+                        appointmentWhatsAppMessage(submittedValues, t),
+                      )
                     }
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:-translate-y-0.5"
                   >

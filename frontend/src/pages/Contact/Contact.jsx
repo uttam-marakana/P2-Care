@@ -99,7 +99,7 @@ function Contact() {
               <button
                 type="button"
                 data-testid="button-contact-whatsapp"
-                onClick={() => openWhatsApp(generalWhatsAppMessage())}
+                onClick={() => openWhatsApp(generalWhatsAppMessage(t))}
                 className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white hover:-translate-y-0.5"
               >
                 <FaMessage size={16} /> {t("Chat on WhatsApp")}

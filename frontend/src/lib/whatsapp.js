@@ -10,29 +10,29 @@ export function openWhatsApp(message, number = DEFAULT_NUMBER) {
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
-export function appointmentWhatsAppMessage(values) {
+export function appointmentWhatsAppMessage(values, t = (text) => text) {
   return [
-    "Hello P2Care Hospital,",
+    t("Hello P2Care Hospital,"),
     "",
-    "I would like to follow up about my appointment request.",
+    t("I would like to follow up about my appointment request."),
     "",
-    `Name: ${values.name || "Not provided"}`,
-    `Phone: ${values.phone || "Not provided"}`,
-    `Email: ${values.email || "Not provided"}`,
-    `Department: ${values.reason || "General care"}`,
-    `Preferred date: ${values.date || "Not specified"}`,
-    `Preferred time: ${values.time || "Not specified"}`,
-    `Notes: ${values.notes || "None"}`,
+    `${t("Name")}: ${values.name || t("Not provided")}`,
+    `${t("Phone")}: ${values.phone || t("Not provided")}`,
+    `${t("Email")}: ${values.email || t("Not provided")}`,
+    `${t("Department")}: ${t(values.reason || "General care")}`,
+    `${t("Preferred date")}: ${values.date || t("Not specified")}`,
+    `${t("Preferred time")}: ${values.time || t("Not specified")}`,
+    `${t("Notes")}: ${values.notes || t("None")}`,
     "",
-    "Please help me confirm the appointment details.",
+    t("Please help me confirm the appointment details."),
   ].join("\n");
 }
 
-export function generalWhatsAppMessage() {
+export function generalWhatsAppMessage(t = (text) => text) {
   return [
-    "Hello P2Care Hospital,",
+    t("Hello P2Care Hospital,"),
     "",
-    "I would like to speak with a care coordinator.",
-    "Please help me with my enquiry.",
+    t("I would like to speak with a care coordinator."),
+    t("Please help me with my enquiry."),
   ].join("\n");
 }

@@ -20,7 +20,7 @@ function Shell({ children }) {
       <Footer />
       <div className="fixed bottom-5 right-5 z-30">
         <a
-          href={buildWhatsAppUrl(generalWhatsAppMessage())}
+          href={buildWhatsAppUrl(generalWhatsAppMessage(t))}
           target="_blank"
           rel="noreferrer"
           aria-label={t("Chat with P2Care on WhatsApp")}
