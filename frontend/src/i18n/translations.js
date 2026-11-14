@@ -154,7 +154,6 @@ const translations = {
     "Write your message…": "તમારો સંદેશ લખો…",
     "Send message": "સંદેશ મોકલો",
     "Unable to send your message.": "તમારો સંદેશ મોકલી શકાયો નથી.",
-    "Your visit": "તમારી મુલાકાત",
     "A hospital designed around people.": "લોકોને કેન્દ્રમાં રાખીને રચાયેલી હૉસ્પિટલ.",
     "P2Care partners with Shalby Hospital at Silver Oaks Hospital — bringing specialist expertise and a softer way through it all.":
       "P2Care, Silver Oaks Hospital ખાતે Shalby Hospital સાથે મળીને નિષ્ણાતી અને સંવેદનશીલ સંભાળ આપે છે.",
@@ -374,27 +373,17 @@ const translations = {
     "Silver Oaks Hospital, Phase-IX, Sector-63.":
       "Silver Oaks Hospital, Phase-IX, Sector-63.",
     "All doctors": "બધા ડૉક્ટરો",
-    "Select language": "ભાષા પસંદ કરો",
     "Main navigation": "મુખ્ય નેવિગેશન",
     "Mobile navigation": "મોબાઇલ નેવિગેશન",
-    "Toggle menu": "મેનૂ ખોલો અથવા બંધ કરો",
-    "A few details. Then we’ll take it from here.":
-      "થોડી વિગતો આપો. આગળની જવાબદારી અમારી.",
-    "Appointment with": "મુલાકાત",
     "Available": "ઉપલબ્ધ",
     "experience": "અનુભવ",
-    "Book with {name}": "{name} સાથે મુલાકાત બુક કરો",
     "{name} care": "{name}ની સંભાળ",
-    "Please provide an email or phone number.":
-      "કૃપા કરીને ઇમેઇલ અથવા ફોન નંબર આપો.",
     "Enter a valid mobile number.": "માન્ય મોબાઇલ નંબર દાખલ કરો.",
     "Hospital services and specialties": "હૉસ્પિટલની સેવાઓ અને વિશેષતાઓ",
     "Explore cardiology, orthopedics, neurology, pediatrics, women's health and general medicine services.":
       "હૃદયરોગ, અસ્થિચિકિત્સા, મજ્જાતંતુ વિજ્ઞાન, બાળરોગ, મહિલા આરોગ્ય અને સામાન્ય ચિકિત્સાની સેવાઓ જાણો.",
-    "Find a doctor": "ડૉક્ટર શોધો",
     "Meet P2Care Hospital doctors, review their specialties and experience, and find a care professional for your needs.":
       "P2Care Hospitalના ડૉક્ટરોને મળો, તેમની વિશેષતા અને અનુભવ જાણો અને તમારી જરૂરિયાત માટે યોગ્ય તબીબ શોધો.",
-    "Book an appointment": "મુલાકાત બુક કરો",
     "Request a hospital appointment online. A P2Care care coordinator will contact you to confirm your visit.":
       "હૉસ્પિટલની મુલાકાત માટે ઑનલાઇન વિનંતી કરો. મુલાકાતની પુષ્ટિ કરવા P2Care સંયોજક તમારો સંપર્ક કરશે.",
     "Plan your hospital visit": "હૉસ્પિટલની મુલાકાતનું આયોજન કરો",
@@ -565,7 +554,6 @@ const translations = {
     "Write your message…": "अपना संदेश लिखें…",
     "Send message": "संदेश भेजें",
     "Unable to send your message.": "आपका संदेश नहीं भेजा जा सका।",
-    "Your visit": "आपकी मुलाक़ात",
     "A hospital designed around people.": "लोगों को ध्यान में रखकर बना अस्पताल।",
     "P2Care partners with Shalby Hospital at Silver Oaks Hospital — bringing specialist expertise and a softer way through it all.":
       "P2Care, Silver Oaks Hospital में Shalby Hospital के साथ मिलकर विशेषज्ञता और संवेदनशील देखभाल प्रदान करता है।",
@@ -786,9 +774,6 @@ const translations = {
     "All doctors": "सभी डॉक्टर",
     "Main navigation": "मुख्य नेविगेशन",
     "Mobile navigation": "मोबाइल नेविगेशन",
-    "A few details. Then we’ll take it from here.":
-      "कुछ जानकारी दें। आगे हम संभाल लेंगे।",
-    "Appointment with": "डॉक्टर से अपॉइंटमेंट",
     "{name} care": "{name} की देखभाल",
     "Enter a valid mobile number.": "मान्य मोबाइल नंबर दर्ज करें।",
     "Hospital services and specialties": "अस्पताल की सेवाएँ और विशेषज्ञताएँ",
