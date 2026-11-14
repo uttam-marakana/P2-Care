@@ -20,6 +20,7 @@ export default function PatientSignup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [verificationPending, setVerificationPending] = useState(false);
+  const [verificationResent, setVerificationResent] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -57,6 +58,31 @@ export default function PatientSignup() {
       setError(submitError.message || t("Unable to finish account setup."));
     } finally {
       setBusy(false);
+    }
+  };
+
+  const resendVerification = async () => {
+    setError("");
+    setVerificationResent(false);
+    try {
+      if (!firebaseAuth?.currentUser) throw new Error(t("Sign in again after verifying your email."));
+      await sendEmailVerification(firebaseAuth.currentUser);
+      setVerificationResent(true);
+    } catch (requestError) {
+      setError(requestError.message || t("Unable to resend the verification email."));
+    }
+  };
+
+  const useDifferentAccount = async () => {
+    try {
+      await signOut(firebaseAuth);
+      setVerificationPending(false);
+      setVerificationResent(false);
+      setPassword("");
+      setConfirmPassword("");
+      setNewsletterOptIn(false);
+    } catch (requestError) {
+      setError(requestError.message || t("Unable to sign out."));
     }
   };
 
@@ -99,14 +125,15 @@ export default function PatientSignup() {
           ) : (
             <div className="mt-6 rounded-2xl border bg-[hsl(var(--muted)/.35)] p-5">
               <p role="status" className="text-sm leading-6">{t("We sent a verification link to {email}. Verify your email, then continue here.", { email })}</p>
+              {verificationResent && <p role="status" className="mt-3 text-sm text-emerald-700">{t("A new verification email has been sent.")}</p>}
               {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
               <button onClick={finishVerification} disabled={busy} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[hsl(var(--primary))] px-5 py-3 font-bold text-[hsl(var(--primary-foreground))] disabled:opacity-50">
                 {busy ? <FaSpinner className="animate-spin" /> : t("I verified my email")} <FaArrowRight />
               </button>
-              <button onClick={async () => { if (firebaseAuth?.currentUser) await sendEmailVerification(firebaseAuth.currentUser); }} className="mt-4 w-full text-sm font-semibold text-[hsl(var(--primary))]">
+              <button onClick={resendVerification} disabled={busy} className="mt-4 w-full text-sm font-semibold text-[hsl(var(--primary))] disabled:opacity-50">
                 {t("Resend verification email")}
               </button>
-              <button onClick={() => signOut(firebaseAuth)} className="mt-3 w-full text-sm text-[hsl(var(--muted-foreground))]">
+              <button onClick={useDifferentAccount} className="mt-3 w-full text-sm text-[hsl(var(--muted-foreground))]">
                 {t("Use a different account")}
               </button>
             </div>
