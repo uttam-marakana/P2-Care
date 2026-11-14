@@ -225,6 +225,22 @@ main label.mb-5 > textarea {
   resize: vertical;
 }
 
+.appointment-date-time {
+  min-height: 3.25rem;
+  color-scheme: light;
+  accent-color: hsl(var(--primary));
+}
+
+.appointment-specialty-select {
+  min-height: 3.25rem;
+  appearance: none;
+}
+
+.appointment-date-time::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 main label.mb-5 > input:focus,
 main label.mb-5 > select:focus,
 main label.mb-5 > textarea:focus {

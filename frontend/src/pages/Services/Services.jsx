@@ -91,13 +91,15 @@ function Services() {
                 data-testid={`card-service-page-${service.id}`}
                 className="group overflow-hidden rounded-[28px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
               >
-                {service.image_url && (
-                  <img
-                    src={resolveMediaUrl(service.image_url)}
-                    alt=""
-                    className="h-40 w-full object-cover"
-                  />
-                )}
+                <img
+                  src={
+                    service.image_url
+                      ? resolveMediaUrl(service.image_url)
+                      : imagePath(`services/${service.id}.svg`)
+                  }
+                  alt={`${service.name} care`}
+                  className="h-40 w-full object-cover"
+                />
                 <div className="p-7">
                   <div className="flex items-start justify-between">
                     <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--muted))] text-[hsl(var(--primary))]">

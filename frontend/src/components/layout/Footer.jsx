@@ -1,28 +1,44 @@
 import { subscribeNewsletter } from "@/services/cms";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../../public/logo.png";
 import {
   FaArrowRight,
   FaCheck,
+  FaChevronDown,
   FaFacebookF,
   FaInstagram,
   FaYoutube,
 } from "react-icons/fa6";
 
 function Footer() {
+  const [openMenus, setOpenMenus] = useState({
+    care: false,
+    p2care: false,
+  });
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [newsletterError, setNewsletterError] = useState("");
+
+  const toggleMenu = (menu) => {
+    setOpenMenus((current) => ({ ...current, [menu]: !current[menu] }));
+  };
+
   return (
     <footer className="bg-[hsl(202_42%_15%)] text-[hsl(190_35%_91%)]">
-      <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-16 lg:grid-cols-[1.2fr_.75fr_.75fr_1.15fr] lg:px-8">
+      <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-5 px-5 py-8 sm:grid-cols-2 sm:gap-7 sm:px-6 sm:py-10 lg:grid-cols-[1.2fr_.75fr_.75fr_1.15fr] lg:gap-12 lg:px-8 lg:py-16">
         <div>
-          <div className="mb-5 flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))]">
-              <span className="h-4 w-[2px] bg-current" />
-            </span>
-            <strong className="text-lg">P2Care</strong>
-          </div>
+          <Link
+            to="/"
+            data-testid="link-footer-logo"
+            className="mb-5 inline-flex rounded-xl bg-white px-3 py-2"
+          >
+            <img
+              src={logo}
+              alt="P2Care Hospital"
+              className="h-10 w-40 object-contain"
+            />
+          </Link>
           <p className="max-w-xs text-sm leading-6 text-[hsl(193_20%_70%)]">
             A trusted care companion for patients and families.
           </p>
@@ -53,11 +69,28 @@ function Footer() {
             </a>
           </div>
         </div>
-        <div>
-          <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
+        <div className="border-b border-[hsl(190_25%_27%)] pb-4 sm:border-0 sm:pb-0">
+          <h3 className="mb-4 hidden text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:block">
             Find care
           </h3>
-          <div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]">
+          <button
+            type="button"
+            aria-expanded={openMenus.care}
+            aria-controls="footer-find-care-links"
+            data-testid="button-footer-find-care"
+            onClick={() => toggleMenu("care")}
+            className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:hidden"
+          >
+            Find care
+            <FaChevronDown
+              aria-hidden="true"
+              className={`transition-transform ${openMenus.care ? "rotate-180" : ""}`}
+            />
+          </button>
+          <div
+            id="footer-find-care-links"
+            className={`${openMenus.care ? "grid" : "hidden"} gap-3 pt-2 text-sm text-[hsl(193_20%_75%)] sm:grid sm:pt-0`}
+          >
             <Link to="/services" data-testid="link-footer-services">
               Our services
             </Link>
@@ -72,11 +105,28 @@ function Footer() {
             </Link>
           </div>
         </div>
-        <div>
-          <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">
+        <div className="border-b border-[hsl(190_25%_27%)] pb-4 sm:border-0 sm:pb-0">
+          <h3 className="mb-4 hidden text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:block">
             P2Care
           </h3>
-          <div className="grid gap-3 text-sm text-[hsl(193_20%_75%)]">
+          <button
+            type="button"
+            aria-expanded={openMenus.p2care}
+            aria-controls="footer-p2care-links"
+            data-testid="button-footer-p2care"
+            onClick={() => toggleMenu("p2care")}
+            className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:hidden"
+          >
+            P2Care
+            <FaChevronDown
+              aria-hidden="true"
+              className={`transition-transform ${openMenus.p2care ? "rotate-180" : ""}`}
+            />
+          </button>
+          <div
+            id="footer-p2care-links"
+            className={`${openMenus.p2care ? "grid" : "hidden"} gap-3 pt-2 text-sm text-[hsl(193_20%_75%)] sm:grid sm:pt-0`}
+          >
             <Link to="/hospital" data-testid="link-footer-hospital">
               About the hospital
             </Link>
@@ -147,7 +197,7 @@ function Footer() {
           )}
         </div>
       </div>
-      <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-5 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between lg:px-8">
+      <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-4 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between sm:px-6 sm:py-4 lg:px-8 lg:py-5">
         <span>
           © 2024 P2Care Hospital · In partnership with Shalby Hospital
         </span>

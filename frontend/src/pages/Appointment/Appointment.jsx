@@ -208,35 +208,66 @@ function Appointment() {
                   />
                 </Field>
                 <Field label="What can we help with?" id="appointment-reason">
-                  <FormikField
-                    as="select"
-                    name="reason"
-                    id="appointment-reason"
-                    data-testid="select-appointment-reason"
-                  >
-                    <option value="">Choose a specialty</option>
-                    {specialties.map((s) => (
-                      <option key={s.id} value={s.name}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </FormikField>
+                  <span className="relative mt-2 block">
+                    <FaStethoscope
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[hsl(var(--primary))]"
+                    />
+                    <FormikField
+                      as="select"
+                      name="reason"
+                      id="appointment-reason"
+                      data-testid="select-appointment-reason"
+                      className="appointment-specialty-select w-full rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--background)/.76)] py-3 pl-11 pr-11 text-sm font-medium text-[hsl(var(--foreground))] shadow-sm outline-none transition focus:border-[hsl(var(--primary))] focus:ring-4 focus:ring-[hsl(var(--primary)/.12)]"
+                    >
+                      <option value="">Choose a specialty</option>
+                      {specialties.map((s) => (
+                        <option key={s.id} value={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </FormikField>
+                    <FaChevronDown
+                      aria-hidden="true"
+                      className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))]"
+                    />
+                  </span>
                 </Field>
                 <Field label="Preferred date" id="appointment-date">
-                  <FormikField
-                    name="date"
-                    id="appointment-date"
-                    type="date"
-                    data-testid="input-appointment-date"
-                  />
+                  <span className="relative mt-2 block">
+                    <FaCalendarDays
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[hsl(var(--primary))]"
+                    />
+                    <FormikField
+                      name="date"
+                      id="appointment-date"
+                      type="date"
+                      data-testid="input-appointment-date"
+                      className="appointment-date-time w-full rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--background)/.76)] py-3 pl-11 pr-4 text-sm font-medium text-[hsl(var(--foreground))] shadow-sm outline-none transition focus:border-[hsl(var(--primary))] focus:ring-4 focus:ring-[hsl(var(--primary)/.12)]"
+                    />
+                  </span>
+                  <span className="mt-1.5 block text-[11px] font-normal text-[hsl(var(--muted-foreground))]">
+                    Choose a day that works for you.
+                  </span>
                 </Field>
                 <Field label="Preferred time" id="appointment-time">
-                  <FormikField
-                    name="time"
-                    id="appointment-time"
-                    type="time"
-                    data-testid="input-appointment-time"
-                  />
+                  <span className="relative mt-2 block">
+                    <FaClock
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[hsl(var(--primary))]"
+                    />
+                    <FormikField
+                      name="time"
+                      id="appointment-time"
+                      type="time"
+                      data-testid="input-appointment-time"
+                      className="appointment-date-time w-full rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--background)/.76)] py-3 pl-11 pr-4 text-sm font-medium text-[hsl(var(--foreground))] shadow-sm outline-none transition focus:border-[hsl(var(--primary))] focus:ring-4 focus:ring-[hsl(var(--primary)/.12)]"
+                    />
+                  </span>
+                  <span className="mt-1.5 block text-[11px] font-normal text-[hsl(var(--muted-foreground))]">
+                    Our team will confirm the exact appointment time.
+                  </span>
                 </Field>
               </div>
               <Field

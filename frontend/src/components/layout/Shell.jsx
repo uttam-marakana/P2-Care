@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { FaPhone } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa6";
 import Header from "./Header";
 import Footer from "./Footer";
+import { buildWhatsAppUrl, generalWhatsAppMessage } from "@/lib/whatsapp";
 
 function Shell({ children }) {
   return (
@@ -15,14 +16,20 @@ function Shell({ children }) {
         {children}
       </motion.div>
       <Footer />
-      <a
-        href="tel:+9118001234567"
-        data-testid="link-floating-emergency"
-        className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-[hsl(var(--accent))] px-4 py-3 text-xs font-bold text-[hsl(var(--foreground))] shadow-[0_10px_30px_rgba(185,92,76,.25)] hover:-translate-y-1"
-      >
-        <FaPhone size={15} />{" "}
-        <span className="hidden sm:inline">Need help now?</span>
-      </a>
+      <div className="fixed bottom-5 right-5 z-30">
+        <a
+          href={buildWhatsAppUrl(generalWhatsAppMessage())}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Chat with P2Care on WhatsApp"
+          data-testid="link-floating-whatsapp"
+          className="group flex min-h-12 items-center gap-2.5 rounded-full border border-[#138b57] bg-[#168c5b] px-4 text-sm font-bold text-white shadow-[0_8px_24px_rgba(20,50,54,.22)] hover:-translate-y-0.5 hover:bg-[#11794e] focus-visible:outline-white"
+        >
+          <FaWhatsapp aria-hidden="true" size={23} />
+          <span className="hidden sm:inline">Chat with us</span>
+          <span className="hidden h-2 w-2 rounded-full bg-[#a8f0c8] sm:block" />
+        </a>
+      </div>
     </div>
   );
 }

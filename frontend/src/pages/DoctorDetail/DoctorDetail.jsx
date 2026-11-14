@@ -48,7 +48,7 @@ import {
 } from "@/components/common";
 import { Shell } from "@/components/layout";
 import { DoctorCard } from "@/components/doctors";
-import { resolveMediaUrl } from "@/services/media";
+import DoctorPortrait from "@/components/doctors/DoctorPortrait";
 
 function DoctorDetail() {
   const { doctors, specialties, articles, faqs } = useCmsData();
@@ -59,23 +59,8 @@ function DoctorDetail() {
       <main>
         <section className="bg-[hsl(var(--muted)/.5)]">
           <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-10 px-5 py-12 lg:grid-cols-[.72fr_1.28fr] lg:items-center lg:px-8 lg:py-20">
-            <div
-              className={`relative h-80 overflow-hidden rounded-[34px] bg-gradient-to-br ${doctor.tone} lg:h-[430px]`}
-            >
-              {doctor.image_url ? (
-                <img
-                  src={resolveMediaUrl(doctor.image_url)}
-                  alt={doctor.name}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              ) : (
-                <div className="absolute right-[-10px] top-[-50px] font-display text-[260px] leading-none text-white/25">
-                  {doctor.initials[0]}
-                </div>
-              )}
-              <span className="absolute bottom-7 left-7 grid h-24 w-24 place-items-center rounded-[28px] border border-white/50 bg-white/25 font-display text-4xl backdrop-blur-sm">
-                {doctor.initials}
-              </span>
+            <div className="relative h-80 overflow-hidden rounded-[34px] lg:h-[430px]">
+              <DoctorPortrait doctor={doctor} />
             </div>
             <div>
               <Link
