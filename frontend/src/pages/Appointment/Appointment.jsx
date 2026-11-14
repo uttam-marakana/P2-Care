@@ -394,7 +394,7 @@ function Appointment() {
                   id="appointment-notes"
                   rows={4}
                   data-testid="textarea-appointment-notes"
-                  placeholder="A short note helps us prepare…"
+                  placeholder={t("A short note helps us prepare…")}
                 />
               </Field>
               <button

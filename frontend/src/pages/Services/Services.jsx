@@ -66,8 +66,7 @@ function Services() {
           eyebrow="How we can help"
           title={
             <>
-              Care, in the shape{" "}
-              <em className="text-[hsl(var(--primary))]">you</em> need it.
+              {t("Care, in the shape you need it.")}
             </>
           }
           body="From a first conversation to specialist treatment, our teams are here to make your next step feel considered and clear."

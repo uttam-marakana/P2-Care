@@ -131,7 +131,7 @@ function DoctorDetail() {
                   data-testid={`link-call-doctor-${doctor.id}`}
                   className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--border))] px-5 py-3 text-sm font-semibold hover:bg-[hsl(var(--card))]"
                 >
-                  <FaPhone size={16} /> Ask a question
+                  <FaPhone size={16} /> {t("Ask a question")}
                 </a>
               </div>
             </div>

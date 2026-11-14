@@ -65,8 +65,7 @@ function FAQ() {
           eyebrow="Questions, answered"
           title={
             <>
-              Clarity is part of{" "}
-              <em className="text-[hsl(var(--primary))]">care.</em>
+              {t("Clarity is part of care.")}
             </>
           }
           body="Straight answers to the practical things patients and families ask us most."

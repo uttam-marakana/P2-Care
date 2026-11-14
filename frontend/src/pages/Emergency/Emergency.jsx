@@ -109,7 +109,7 @@ function Emergency() {
         <section className="mx-auto grid max-w-[1000px] gap-5 px-5 py-16 lg:grid-cols-2 lg:px-8 lg:py-20">
           <div className="rounded-[30px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7">
             <FaSyringe size={22} className="text-[hsl(var(--primary))]" />
-            <h2 className="mt-12 font-display text-4xl">When to call now</h2>
+            <h2 className="mt-12 font-display text-4xl">{t("When to call now")}</h2>
             <ul className="mt-5 grid gap-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
               <li className="flex gap-3">
                 <FaCheck
