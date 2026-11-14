@@ -406,6 +406,23 @@ const translations = {
     English: "અંગ્રેજી",
     Hindi: "હિન્દી",
     Punjabi: "પંજાબી",
+    "Hello P2Care Hospital,": "નમસ્તે P2Care Hospital,",
+    "I would like to follow up about my appointment request.":
+      "મારી મુલાકાતની વિનંતી અંગે આગળની માહિતી મેળવવી છે.",
+    Name: "નામ",
+    Phone: "ફોન",
+    Email: "ઇમેઇલ",
+    Department: "વિભાગ",
+    Notes: "નોંધ",
+    "Not provided": "આપવામાં આવ્યું નથી",
+    "General care": "સામાન્ય સંભાળ",
+    "Not specified": "ઉલ્લેખિત નથી",
+    None: "કંઈ નહીં",
+    "Please help me confirm the appointment details.":
+      "મુલાકાતની વિગતોની પુષ્ટિ કરવામાં કૃપા કરીને મદદ કરો.",
+    "I would like to speak with a care coordinator.":
+      "મારે સંભાળ સંયોજક સાથે વાત કરવી છે.",
+    "Please help me with my enquiry.": "મારી પૂછપરછમાં કૃપા કરીને મદદ કરો.",
   },
   hi: {
     "24/7 patient helpline": "24/7 मरीज सहायता हेल्पलाइन",
@@ -807,6 +824,23 @@ const translations = {
     English: "अंग्रेज़ी",
     Hindi: "हिंदी",
     Punjabi: "पंजाबी",
+    "Hello P2Care Hospital,": "नमस्ते P2Care Hospital,",
+    "I would like to follow up about my appointment request.":
+      "मैं अपने अपॉइंटमेंट अनुरोध के बारे में आगे जानकारी लेना चाहता/चाहती हूँ।",
+    Name: "नाम",
+    Phone: "फ़ोन",
+    Email: "ईमेल",
+    Department: "विभाग",
+    Notes: "नोट",
+    "Not provided": "नहीं दिया गया",
+    "General care": "सामान्य देखभाल",
+    "Not specified": "निर्दिष्ट नहीं",
+    None: "कुछ नहीं",
+    "Please help me confirm the appointment details.":
+      "कृपया अपॉइंटमेंट की जानकारी की पुष्टि करने में मदद करें।",
+    "I would like to speak with a care coordinator.":
+      "मैं देखभाल समन्वयक से बात करना चाहता/चाहती हूँ।",
+    "Please help me with my enquiry.": "कृपया मेरी पूछताछ में मदद करें।",
   },
 };
 

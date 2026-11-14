@@ -23,10 +23,13 @@ export function LanguageProvider({ children }) {
     () => ({
       language,
       setLanguage,
-      t: (text, values = {}) =>
-        translate(text, language).replace(/\{(\w+)\}/g, (_, key) =>
+      t: (text, values = {}) => {
+        const translatedText = translate(text, language);
+        if (typeof translatedText !== "string") return translatedText;
+        return translatedText.replace(/\{(\w+)\}/g, (_, key) =>
           String(values[key] ?? `{${key}}`),
-        ),
+        );
+      },
     }),
     [language],
   );
