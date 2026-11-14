@@ -76,7 +76,8 @@ router.get("/notifications", asyncHandler(async (req, res) => {
     .get();
   const notifications = snapshot.docs
     .map((doc) => ({ id: doc.id, ...doc.data() }))
-    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
+    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))
+    .slice(0, 100);
   return ok(res, { notifications });
 }));
 

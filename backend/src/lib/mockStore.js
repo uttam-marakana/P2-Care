@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 const seed = {
   doctors: [
     { id: 'doctor-1', name: 'Dr. Arjun Sharma', slug: 'dr-arjun-sharma', specialty: 'Cardiology', credentials: 'MBBS, MD', experience: '12 years', availability: 'Mon–Fri', languages: ['English', 'Hindi', 'Punjabi'], initials: 'AS', tone: 'from-[#d5e9e4] via-[#bddbd7] to-[#a4c3c9]', bio: 'Consultant cardiologist focused on preventive and clinical cardiac care.', status: 'published', created_at: '2026-01-10T09:00:00.000Z' },
@@ -105,7 +107,7 @@ export function addMockContactInquiry(inquiry) {
 
 export function addMockNewsletterSubscriber(email) {
   const exists = (data.newsletter_subscribers || []).some((item) => item.email.toLowerCase() === email.toLowerCase());
-  if (!exists) data.newsletter_subscribers = [{ id: `subscriber-${Date.now()}`, email, unsubscribe_token: crypto.randomUUID(), created_at: new Date().toISOString() }, ...(data.newsletter_subscribers || [])].slice(0, 500);
+  if (!exists) data.newsletter_subscribers = [{ id: `subscriber-${Date.now()}`, email, unsubscribe_token: randomUUID(), created_at: new Date().toISOString() }, ...(data.newsletter_subscribers || [])].slice(0, 500);
   return exists ? null : clone(data.newsletter_subscribers[0]);
 }
 export function listMockNewsletterSubscribers() {

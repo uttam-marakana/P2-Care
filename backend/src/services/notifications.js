@@ -79,12 +79,12 @@ export async function publishHospitalUpdate(update) {
   }
 
   const [patientSnapshot, subscriberSnapshot] = await Promise.all([
-    collectionRef('profiles').where('role', '==', 'patient').where('newsletter_opt_in', '==', true).get(),
+    collectionRef('profiles').where('role', '==', 'patient').get(),
     collectionRef('newsletter_subscribers').get(),
   ]);
   const patientProfiles = patientSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   const emails = new Map();
-  for (const profile of patientProfiles) {
+  for (const profile of patientProfiles.filter((item) => item.newsletter_opt_in)) {
     const email = String(profile.email || '').trim().toLowerCase();
     if (email) emails.set(email, { to: email, unsubscribeToken: null });
   }

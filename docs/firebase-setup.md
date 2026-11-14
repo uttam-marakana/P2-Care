@@ -126,8 +126,8 @@ Then verify:
 7. Media upload/list/delete works using the local filesystem.
 8. Patient signup requires verified email, and appointment claims match only the verified account email.
 9. Admin uploads private PDF/JPG/PNG reports; only that patient and authorized admins can download them.
-10. Appointment status and hospital updates appear only in the intended patient notification inboxes.
-11. Hospital-update emails go only to opted-in patient accounts and newsletter subscribers. Configure Resend for delivery.
+10. Appointment status updates appear in the associated patient's inbox; hospital updates appear in every patient inbox.
+11. Hospital-update emails go only to opted-in patient accounts and newsletter subscribers. Emails include an unsubscribe link, and account holders can also change the email preference in their profile. Configure Resend for delivery.
 12. Audit logs are written to Firestore.
 13. Browser direct Firestore and Storage access is denied.
 

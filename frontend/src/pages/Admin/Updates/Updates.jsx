@@ -54,7 +54,7 @@ export default function AdminUpdates() {
     try {
       const result = await publishHospitalUpdate(update.id);
       setUpdates((current) => current.map((item) => item.id === update.id ? result.update : item));
-      setNotice(`Published. In-app recipients: ${result.delivery?.inAppRecipients ?? 0}; email recipients: ${result.delivery?.emailRecipients ?? 0}.`);
+      setNotice(`Published. In-app recipients: ${result.delivery?.inAppRecipients ?? 0}; email recipients: ${result.delivery?.emailRecipients ?? 0}; emails sent: ${result.delivery?.emailsSent ?? 0}.`);
     } catch (publishError) {
       setError(publishError.message || "Unable to publish this update.");
       await refresh();
@@ -101,7 +101,7 @@ export default function AdminUpdates() {
                     </div>
                     <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">{update.body}</p>
                     <p className="mt-2 text-xs text-muted-foreground">{update.published_at ? `Published ${formatDate(update.published_at)}` : `Draft created ${formatDate(update.created_at)}`}</p>
-                    {update.delivery && <p className="mt-1 text-xs text-muted-foreground">Delivery: {update.delivery.delivery || "unknown"} · {update.delivery.inAppRecipients ?? 0} in-app · {update.delivery.emailRecipients ?? 0} email</p>}
+                    {update.delivery && <p className="mt-1 text-xs text-muted-foreground">Delivery: {update.delivery.delivery || "unknown"} · {update.delivery.inAppRecipients ?? 0} in-app · {update.delivery.emailsSent ?? 0}/{update.delivery.emailRecipients ?? 0} emails sent</p>}
                   </div>
                   {update.status === "draft" && <button onClick={() => publish(update)} disabled={busyId === update.id} className="inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold disabled:opacity-50"><FaPaperPlane /> {busyId === update.id ? "Publishing…" : "Publish & send"}</button>}
                 </div>
