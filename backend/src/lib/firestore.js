@@ -1,6 +1,7 @@
-import { firestore } from './firebase.js';
+import { getFirebaseFirestore } from './firebase.js';
 
 export function requireFirestore() {
+  const firestore = getFirebaseFirestore();
   if (!firestore) throw new Error('Firebase Firestore is not configured.');
   return firestore;
 }

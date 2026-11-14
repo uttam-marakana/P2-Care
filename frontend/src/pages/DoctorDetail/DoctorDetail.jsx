@@ -136,7 +136,7 @@ function DoctorDetail() {
               {doctor.availability}
             </p>
             <p className="mt-2 text-sm text-[hsl(var(--primary-foreground)/.7)]">
-              Outpatient consultations at Shalby Hospital Mohali.
+              Outpatient consultations at Shalby Hospital.
             </p>
           </div>
           <div className="rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7">
@@ -151,7 +151,7 @@ function DoctorDetail() {
             <FaLocationDot size={22} className="text-[hsl(var(--primary))]" />
             <h2 className="mt-12 text-xl font-bold">Where to find them</h2>
             <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-              Silver Oaks Hospital, Phase-IFaXmark, Sector-63, Mohali.
+              Silver Oaks Hospital, Phase-IFaXmark, Sector-63.
             </p>
           </div>
         </section>

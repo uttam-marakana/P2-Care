@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
-const SITE_NAME = "P2Care Hospital Mohali";
+const SITE_NAME = "P2Care Hospital";
 const SITE_URL = (
   import.meta.env.VITE_SITE_URL || window.location.origin
 ).replace(/\/$/, "");
 const DEFAULT_DESCRIPTION =
-  "Patient-first hospital care, specialists, appointments and emergency services in Mohali, Punjab.";
+  "Patient-first hospital care, specialists, appointments and emergency services for every patient.";
 
 function upsertMeta(name, content, attr = "name") {
   if (!content) return;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaArrowRight, FaBars, FaMessage, FaXmark } from "react-icons/fa6";
 import ButtonLink from "../common/ButtonLink";
+import logo from "../../../public/logo.png";
 
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -34,19 +35,13 @@ function Header() {
             data-testid="link-logo"
             className="group flex items-center gap-3"
           >
-            <span className="relative grid h-10 w-10 place-items-center rounded-[14px] bg-[hsl(var(--primary))] text-[hsl(var(--secondary))] shadow-[0_8px_20px_rgba(20,87,91,.18)]">
-              <span className="absolute h-4 w-[2px] rounded bg-current" />
-              <span className="absolute h-[2px] w-4 rounded bg-current" />
-            </span>
-            <span>
-              <strong className="block text-[17px] tracking-[-.03em]">
-                P2Care
-              </strong>
-              <small className="block text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">
-                Hospital Mohali
-              </small>
-            </span>
+            <img
+              src={ logo }
+              alt="P2Care Hospital"
+              className="h-18 w-40 object-contain"
+            />
           </Link>
+
           <nav
             className="hidden items-center gap-7 lg:flex"
             aria-label="Main navigation"

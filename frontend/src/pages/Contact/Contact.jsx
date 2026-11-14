@@ -111,10 +111,10 @@ function Contact() {
                 <br />
                 Phase-IFaXmark, Sector-63
                 <br />
-                SAS Nagar, Mohali, Punjab 160062, India
+                SAS Nagar, Punjab 160062, India
               </p>
               <a
-                href="https://maps.google.com/?q=Silver+Oaks+Hospital+Mohali"
+                href="https://maps.google.com/?q=Silver+Oaks+Hospital+SAS+Nagar"
                 target="_blank"
                 rel="noreferrer"
                 data-testid="link-open-maps"

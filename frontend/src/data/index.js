@@ -114,7 +114,7 @@ export const doctors = [
 
 export const articles = [
   {
-    id: "heart-health-mohali",
+    id: "heart-health",
     category: "Heart health",
     title: "The quiet signs your heart may be asking for attention",
     excerpt:
@@ -161,8 +161,8 @@ export const faqs = [
     a: "Choose “Book an appointment” from any page, select a specialty or doctor, and share a few details. Our care desk confirms your preferred time by phone or SMS.",
   },
   {
-    q: "Where is Shalby Hospital Mohali located?",
-    a: "You will find us at Silver Oaks Hospital, Phase-IX, Sector-63, SAS Nagar, Mohali, Punjab 160062, India. The campus has clear signage and accessible parking.",
+    q: "Where is Shalby Hospital located?",
+    a: "You will find us at Silver Oaks Hospital, Phase-IX, Sector-63, SAS Nagar, Punjab 160062, India. The campus has clear signage and accessible parking.",
   },
   {
     q: "Is emergency care available at all times?",

@@ -24,7 +24,7 @@ function Footer() {
             <strong className="text-lg">P2Care</strong>
           </div>
           <p className="max-w-xs text-sm leading-6 text-[hsl(193_20%_70%)]">
-            A trusted care companion for patients and families in Mohali.
+            A trusted care companion for patients and families.
           </p>
           <div className="mt-6 flex gap-2">
             <a
@@ -149,7 +149,7 @@ function Footer() {
       </div>
       <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1600px] flex-col gap-2 border-t border-[hsl(190_25%_27%)] px-5 py-5 text-xs text-[hsl(193_20%_58%)] sm:flex-row sm:justify-between lg:px-8">
         <span>
-          © 2024 P2Care Hospital · In partnership with Shalby Hospital Mohali
+          © 2024 P2Care Hospital · In partnership with Shalby Hospital
         </span>
         <span>Privacy · Accessibility · Patient-first, always.</span>
       </div>

@@ -101,7 +101,7 @@ function FAQ() {
                     className="group flex w-full items-center justify-between gap-6 py-6 text-left text-base font-bold"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown
+                    <FaChevronDown
                       size={18}
                       className="shrink-0 text-[hsl(var(--primary))] transition-transform group-data-[state=open]:rotate-180"
                     />

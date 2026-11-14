@@ -27,8 +27,8 @@ export function PublicRoutes() {
         element={
           <>
             <HospitalSchema
-              title="Hospital care in Mohali"
-              description="Patient-first hospital care, specialists, appointments and emergency services in Mohali, Punjab."
+              title="Hospital care"
+              description="Patient-first hospital care, specialists, appointments and emergency services for every patient."
             />
             <Home />
           </>
@@ -38,16 +38,16 @@ export function PublicRoutes() {
         path="/services"
         element={page(
           Services,
-          "Hospital services in Mohali",
-          "Explore specialist hospital services and care teams at P2Care Hospital Mohali.",
+          "Hospital services",
+          "Explore specialist hospital services and care teams at P2Care Hospital.",
         )}
       />
       <Route
         path="/doctors"
         element={page(
           Doctors,
-          "Doctors and specialists in Mohali",
-          "Meet P2Care Hospital doctors and specialists in Mohali and find the right care team.",
+          "Doctors and specialists",
+          "Meet P2Care Hospital doctors and specialists and find the right care team.",
         )}
       />
       <Route
@@ -55,7 +55,7 @@ export function PublicRoutes() {
         element={page(
           DoctorDetail,
           "Doctor profile",
-          "View specialist credentials, availability and appointment information at P2Care Hospital Mohali.",
+          "View specialist credentials, availability and appointment information at P2Care Hospital.",
         )}
       />
       <Route
@@ -63,7 +63,7 @@ export function PublicRoutes() {
         element={page(
           Appointment,
           "Book a hospital appointment",
-          "Request an appointment with P2Care Hospital Mohali and our care team will confirm your visit.",
+          "Request an appointment with P2Care Hospital and our care team will confirm your visit.",
         )}
       />
       <Route
@@ -71,8 +71,8 @@ export function PublicRoutes() {
         element={
           <>
             <HospitalSchema
-              title="About P2Care Hospital Mohali"
-              description="Plan your visit to P2Care Hospital at Silver Oaks Hospital in Mohali, Punjab."
+              title="About P2Care Hospital"
+              description="Plan your visit to P2Care Hospital at Silver Oaks Hospital."
             />
             <Hospital />
           </>
@@ -82,8 +82,8 @@ export function PublicRoutes() {
         path="/emergency"
         element={page(
           Emergency,
-          "Emergency care in Mohali",
-          "24/7 emergency care information and patient guidance for P2Care Hospital Mohali.",
+          "Emergency care",
+          "24/7 emergency care information and patient guidance for P2Care Hospital.",
         )}
       />
       <Route
@@ -99,8 +99,8 @@ export function PublicRoutes() {
         element={
           <>
             <HospitalSchema
-              title="Contact P2Care Hospital Mohali"
-              description="Find P2Care Hospital Mohali, contact the patient helpline and send a message to the care team."
+              title="Contact P2Care Hospital"
+              description="Find P2Care Hospital, contact the patient helpline and send a message to the care team."
             />
             <Contact />
           </>

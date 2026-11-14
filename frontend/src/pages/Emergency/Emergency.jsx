@@ -98,7 +98,7 @@ function Emergency() {
               </div>
               <div className="absolute bottom-2 right-4 rounded-2xl bg-[hsl(var(--secondary))] p-4 text-sm font-semibold shadow-lg">
                 <span className="block font-mono text-[10px] uppercase tracking-widest opacity-60">
-                  Mohali
+                  Hospital
                 </span>
                 <span className="mt-1 block">Shalby Hospital</span>
               </div>

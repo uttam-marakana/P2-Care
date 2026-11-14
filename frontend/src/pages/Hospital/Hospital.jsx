@@ -62,7 +62,7 @@ function Hospital() {
               <em className="text-[hsl(var(--primary))]">people.</em>
             </>
           }
-          body="P2Care partners with Shalby Hospital Mohali at Silver Oaks Hospital — bringing specialist expertise and a softer way through it all."
+          body="P2Care partners with Shalby Hospital at Silver Oaks Hospital — bringing specialist expertise and a softer way through it all."
           accent
         />
         <section className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-12 px-5 py-16 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8 lg:py-24">
@@ -82,7 +82,7 @@ function Hospital() {
               <InfoTile
                 icon={<FaLocationDot />}
                 title="Our address"
-                text="Silver Oaks Hospital, Phase-IFaXmark, Sector-63, SAS Nagar, Mohali, Punjab 160062"
+                text="Silver Oaks Hospital, Phase-IFaXmark, Sector-63, SAS Nagar, Punjab 160062"
               />
               <InfoTile
                 icon={<FaPhone />}
@@ -115,7 +115,7 @@ function Hospital() {
                       Silver Oaks Hospital
                     </span>
                     <span className="rounded-full bg-[hsl(var(--secondary))] px-2 py-1 font-mono text-[9px]">
-                      MOHALI
+                      SAS NAGAR
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">

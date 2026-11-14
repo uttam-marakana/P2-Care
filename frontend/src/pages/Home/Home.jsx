@@ -57,7 +57,7 @@ function Home() {
         <section className="relative overflow-hidden bg-[hsl(var(--background))]">
           <div className="absolute -right-32 top-6 h-[500px] w-[500px] rounded-full bg-[hsl(181_38%_87%/.6)] blur-3xl" />
           <div className="absolute bottom-0 left-1/3 h-36 w-36 rounded-full bg-[hsl(38_80%_67%/.22)] blur-2xl" />
-          <div className="relative grid w-full max-w-none gap-10 px-5 pb-16 pt-16 lg:grid-cols-[1fr_.92fr] lg:items-center lg:px-12 xl:px-16 lg:pb-24 lg:pt-24">
+          <div className="relative grid w-full max-w-none gap-8 px-5 pb-12 pt-12 lg:grid-cols-[1fr_.92fr] lg:items-center lg:px-12 xl:px-16 lg:pb-16 lg:pt-16">
             <div className="animate-rise">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card)/.7)] px-3 py-2 text-[11px] font-semibold text-[hsl(var(--primary))]">
                 <span className="relative h-2 w-2 rounded-full bg-[hsl(var(--accent))] pulse-ring" />
@@ -259,7 +259,7 @@ function Home() {
                 <em className="text-[hsl(var(--accent))]">company.</em>
               </h2>
               <p className="mt-5 max-w-md text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
-                We partner with Shalby Hospital Mohali to make the spaces
+                We partner with Shalby Hospital to make the spaces
                 between appointments feel less uncertain — with clear
                 information, thoughtful people and a plan you can trust.
               </p>
@@ -319,7 +319,7 @@ function Home() {
               </h2>
               <p className="mt-4 max-w-md text-sm leading-6 text-[hsl(var(--muted-foreground))]">
                 Clear, practical health stories from the people who care for
-                Mohali.
+                our community.
               </p>
               <Link
                 to="/articles"

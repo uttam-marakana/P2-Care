@@ -104,7 +104,7 @@ function DoctorsPage() {
                   <option key={s.id}>{s.name}</option>
                 ))}
               </select>
-              <ChevronDown
+              <FaChevronDown
                 size={16}
                 className="pointer-events-none absolute right-4 text-[hsl(var(--muted-foreground))]"
               />

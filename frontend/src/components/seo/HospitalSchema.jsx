@@ -6,18 +6,18 @@ export default function HospitalSchema({ title, description, canonical }) {
     () => ({
       "@context": "https://schema.org",
       "@type": ["Hospital", "LocalBusiness", "Organization"],
-      name: "P2Care Hospital Mohali",
+      name: "P2Care Hospital",
       url: canonical || `${window.location.origin}${window.location.pathname}`,
       telephone: "+91 1800 123 4567",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Phase-IX, Sector-63",
-        addressLocality: "SAS Nagar, Mohali",
+        addressLocality: "SAS Nagar",
         addressRegion: "Punjab",
         postalCode: "160062",
         addressCountry: "IN",
       },
-      areaServed: "Mohali, Punjab, India",
+      areaServed: "Punjab, India",
       medicalSpecialty: [
         "Cardiology",
         "Orthopedics",
