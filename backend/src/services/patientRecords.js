@@ -36,10 +36,9 @@ export function validatePatientReport({ mimeType, buffer }) {
 export async function listPatientReports(patientUid) {
   const snapshot = await collectionRef("patient_reports")
     .where("patient_uid", "==", patientUid)
+    .orderBy("created_at", "desc")
     .get();
-  return snapshot.docs
-    .map((doc) => ({ id: doc.id, ...doc.data() }))
-    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
 export async function getPatientReport(reportId) {

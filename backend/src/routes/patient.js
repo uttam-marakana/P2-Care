@@ -37,6 +37,7 @@ router.get("/appointments", asyncHandler(async (req, res) => {
   if (config.useMockData) return ok(res, { appointments: [] });
   const snapshot = await collectionRef("appointments")
     .where("patient_uid", "==", req.user.uid)
+    .orderBy("appointment_date", "desc")
     .get();
   const appointments = snapshot.docs
     .map((doc) => ({ id: doc.id, ...doc.data() }))
@@ -73,10 +74,10 @@ router.get("/notifications", asyncHandler(async (req, res) => {
   if (config.useMockData) return ok(res, { notifications: [] });
   const snapshot = await collectionRef("patient_notifications")
     .where("patient_uid", "==", req.user.uid)
+    .orderBy("created_at", "desc")
     .get();
   const notifications = snapshot.docs
     .map((doc) => ({ id: doc.id, ...doc.data() }))
-    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))
     .slice(0, 100);
   return ok(res, { notifications });
 }));
