@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Formik,
@@ -157,6 +157,16 @@ function CountryPhoneField() {
   );
 }
 
+function PreselectedDoctorReason({ specialty }) {
+  const { setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    setFieldValue("reason", specialty, false);
+  }, [setFieldValue, specialty]);
+
+  return null;
+}
+
 function Appointment() {
   const { doctors, specialties, articles, faqs } = useCmsData();
   const { t } = useLanguage();
@@ -311,6 +321,9 @@ function Appointment() {
                     data-testid="text-preselected-doctor"
                     className="flex flex-col justify-center rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--background)/.76)] px-4 py-3"
                   >
+                    <PreselectedDoctorReason
+                      specialty={preselectedDoctor.specialty}
+                    />
                     <span className="text-xs font-bold text-[hsl(var(--muted-foreground))]">
                       {t("Appointment with")}
                     </span>
