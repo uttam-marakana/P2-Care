@@ -1,190 +1,232 @@
-# P2Care Hospital — Complete Frontend + Backend
+# P2Care Hospital
 
-A full-stack P2Care Hospital website with a React/Vite frontend, Express backend, Firebase production integration, and a development mock-data mode that works before Firebase is configured.
+P2Care is a React/Vite hospital website with an Express API, a protected admin console, Firebase-backed production services, and a mock mode for local UI development.
 
-## Project structure
+## Project layout
 
 ```text
-P2Care-Hospital/
-├── frontend/              # React + Vite public website and admin panel
-├── backend/               # Express API for appointments and protected updates
-├── firebase/               # Firestore rules and indexes
-├── docs/                   # Architecture and deployment documentation
-└── .gitignore
+frontend/  React public website, patient portal, admin UI, and static SEO files
+backend/   Express API, Firebase Admin integration, local public-media storage
+firebase/  Firestore and Firebase Storage rules, Firestore indexes
+README.md  Project setup, operations, architecture, and release checklist
 ```
 
-## Two operating modes
+There is no root npm workspace. Run package commands from `frontend/` or `backend/`.
 
-### 1. Development / mock mode — no Firebase required
+## Features
 
-Frontend `.env`:
+- Public hospital pages, appointment requests, doctor profiles, articles, FAQs, and contact/newsletter forms.
+- Gujarati, Hindi, and English public UI language selection. Bundled sample content is translated; new CMS-authored copy needs matching translation entries.
+- Doctor-profile appointment requests preselect the doctor and specialty.
+- Patient account sign-up/sign-in uses Firebase Authentication and requires a verified email.
+- Patient accounts show linked appointments, private reports, appointment status updates, and hospital news.
+- Patients can claim earlier guest appointments only when their verified email matches the appointment email.
+- Admin routes include dashboard, appointments, CMS, media, communications, patient records, and hospital updates.
+- Admins can upload patient reports (PDF, JPG, or PNG, up to 5 MB). Files are stored in a private Firebase Storage bucket and served through authenticated API routes. Direct browser Storage and Firestore access is denied.
+- Published hospital updates appear in patient notification inboxes. Update emails are sent only to opted-in patient accounts and newsletter subscribers; newsletter messages include an unsubscribe link.
+- WhatsApp uses browser click-to-chat links. There is no WhatsApp Cloud API integration.
+- `@vercel/analytics` and `@vercel/speed-insights` are installed in the frontend.
+
+## Local development
+
+Use Node.js 22 or a version supported by the installed Vite toolchain. Install each app independently:
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+In another terminal:
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev -- --host 0.0.0.0
+```
+
+The public website is at `http://localhost:5173`, the admin login is at `http://localhost:5173/admin/login`, and backend health is at `http://localhost:4000/health`.
+
+Run the production frontend build from `frontend/`:
+
+```bash
+npm run build
+```
+
+Run the backend in production mode from `backend/`:
+
+```bash
+npm start
+```
+
+There are no dedicated frontend or backend `test` or `lint` scripts in the package manifests. The production build checks frontend compilation, not full functional, accessibility, or Firebase integration behavior.
+
+### Mock mode
+
+For local public-site and admin-panel development, configure:
 
 ```env
+# frontend/.env
 VITE_USE_MOCK_DATA=true
 VITE_API_BASE_URL=http://localhost:4000
-VITE_WHATSAPP_NUMBER=9118001234567
 ```
 
-Backend `.env`:
-
 ```env
+# backend/.env
 USE_MOCK_DATA=true
 PORT=4000
 FRONTEND_URL=http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5173
 ```
 
-The admin panel uses local mock data and browser `localStorage`. Public appointment submission also works locally. The backend can run in mock mode and exposes `/health` plus mock appointment API behavior.
-
-Demo admin credentials:
+The local demo admin credentials are:
 
 ```text
 Email:    admin@p2care.local
 Password: P2Care@123
 ```
 
-### 2. Production / Firebase mode
+Mock data is for development only. Patient account, real Firebase profile, and private report operations require Firebase mode. Do not configure production mock mode.
 
-Frontend:
+## Architecture and access control
+
+```text
+Browser
+  ├── React public site / patient portal / admin UI
+  └── Firebase Authentication ID token
+          |
+          v
+      Express API
+        ├── authentication, roles, permissions, and validation
+        ├── Firebase Admin SDK → Firestore and Firebase Authentication
+        ├── Firebase Admin SDK → private patient reports in Storage
+        ├── local durable filesystem → public CMS media
+        └── Resend → optional email notifications
+```
+
+- The browser does not perform direct Firestore or Storage reads/writes. Firestore and Storage rules deny direct client access.
+- The API verifies bearer tokens and enforces roles/permissions. Frontend route guards are for user experience and are not the security boundary.
+- Patient endpoints verify the patient role and verified-email status. Patient appointment and report queries are scoped to the authenticated user.
+- Admin report access is permission checked and report ownership is matched against the selected patient.
+- The backend uses standardized JSON responses:
+
+```json
+{ "ok": true, "data": {} }
+```
+
+Errors use `{ "ok": false, "error": { "code": "...", "message": "..." } }`.
+
+## Firebase setup
+
+Create/configure a Firebase project and enable:
+
+- Authentication with Email/Password
+- Firestore
+- Firebase Storage
+- A Firebase Web App
+
+Copy `frontend/.env.example` to `frontend/.env` and `backend/.env.example` to `backend/.env`. Configure these production settings:
 
 ```env
+# Frontend build-time configuration
 VITE_USE_MOCK_DATA=false
-VITE_FIREBASE_API_KEY=your-firebase-web-api-key
+VITE_SITE_URL=https://your-real-domain.com
+VITE_API_BASE_URL=https://your-api-domain.com
+VITE_FIREBASE_API_KEY=...
 VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your-project-id
-VITE_FIREBASE_APP_ID=your-firebase-web-app-id
-VITE_API_BASE_URL=https://your-api-domain.example.com
-VITE_WHATSAPP_NUMBER=9118001234567
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_APP_ID=...
+VITE_WHATSAPP_NUMBER=...
 ```
-
-Backend:
 
 ```env
+# Backend runtime configuration; keep all secrets server-side
 USE_MOCK_DATA=false
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project-id.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+NODE_ENV=production
 PORT=4000
-FRONTEND_URL=https://your-frontend-domain.example.com
-ALLOWED_ORIGINS=https://your-frontend-domain.example.com
+FRONTEND_URL=https://your-real-domain.com
+ALLOWED_ORIGINS=https://your-real-domain.com
+FIREBASE_PROJECT_ID=...
+FIREBASE_STORAGE_BUCKET=your-project.firebasestorage.app
+FIREBASE_CLIENT_EMAIL=...
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
 
-The browser authenticates with Firebase Authentication. The Express backend verifies the Firebase ID token and performs Firestore reads/writes through the Firebase Admin SDK. The browser does not access Firestore directly.
+Never put Firebase Admin credentials or Resend credentials in frontend variables or source control. The Firebase web-app values are client-side configuration, not Admin credentials.
 
-## Run locally
-
-Install dependencies separately in each application directory:
+Create or update an initial Firebase admin account by setting `FIREBASE_ADMIN_EMAIL`, `FIREBASE_ADMIN_PASSWORD`, and optionally `FIREBASE_ADMIN_NAME` in `backend/.env`, then run:
 
 ```bash
-cd backend && npm install
-cd ../frontend && npm install
+cd backend
+npm run firebase:seed
 ```
 
-Create `frontend/.env` from `frontend/.env.example` and `backend/.env` from `backend/.env.example`.
-There is no root npm workspace manifest; run commands from the relevant application directory.
-
-Start the backend from `backend/`:
+Deploy Firestore and Storage access rules (and Firestore indexes) using Firebase CLI:
 
 ```bash
-npm run dev
+firebase deploy --only firestore:rules,firestore:indexes,storage
 ```
 
-Start the frontend in another terminal from `frontend/`:
+The project files are `firebase/firestore.rules`, `firebase/firestore.indexes.json`, and `firebase/storage.rules`. Confirm the configured Storage bucket name in Firebase before setting `FIREBASE_STORAGE_BUCKET`.
 
-```bash
-npm run dev -- --host 0.0.0.0
-```
+### Media and report storage
 
-Open:
+- Public website media is stored at `backend/uploads/media/`, with metadata in `backend/uploads/media/media.json`. Production backend hosting must provide persistent storage and backups for this directory; ephemeral serverless filesystems are not sufficient.
+- Patient reports use a private Firebase Storage bucket and are downloaded through authenticated, ownership-checked API routes.
 
-```text
-http://localhost:5173
-```
+### Email and notifications
 
-Admin:
+Appointment and hospital-update emails use Resend when `RESEND_API_KEY` and a verified `NOTIFICATION_FROM_EMAIL` are configured. Set `HOSPITAL_NOTIFICATION_EMAIL` for hospital appointment alerts. Without a working provider, email delivery is skipped or recorded as unavailable; verify the Communications panel and delivery logs after deployment.
 
-```text
-http://localhost:5173/admin/login
-```
+## Deployment
 
-Backend health:
+The Vercel project serves the Vite frontend as a single-page application. The repository's `vercel.json` rewrite supports client-side routes; it does not deploy the Express backend.
 
-```text
-http://localhost:4000/health
-```
+1. Configure the Vercel project root/build settings for `frontend/` (install/build with npm and output `dist`).
+2. Set the frontend production variables above in Vercel and redeploy; `VITE_*` values are embedded at build time.
+3. Deploy the Express backend separately to a persistent Node.js hosting service. Configure the backend environment there and set `VITE_API_BASE_URL` to its public HTTPS URL in Vercel.
+4. Set exact `FRONTEND_URL` and `ALLOWED_ORIGINS` values to the real website origin(s); do not use a wildcard CORS origin.
+5. Set `BACKEND_PUBLIC_URL` to the backend's public HTTPS URL for generated public media URLs.
+6. Configure Firebase Authentication authorized domains and deploy Firebase rules/indexes.
+7. Configure Resend and verify its sender domain if email notifications are required.
+8. Test the public domain, backend `/health`, sign-in, appointment creation/status, patient report access, CORS, email delivery, and all required storage persistence.
 
-## WhatsApp
+Never use `localhost` as the deployed API base URL or backend CORS origin. Keep `ALLOW_MOCK_IN_PRODUCTION=false`; the backend blocks mock mode in production by default.
 
-The project uses browser click-to-chat only. There is no WhatsApp Cloud API integration. Appointment/contact actions open WhatsApp using the configured `VITE_WHATSAPP_NUMBER` and predefined messages.
+## SEO, content, and audit notes
 
-## Important production notes
+- Route metadata is defined in `frontend/src/routes/AppRoutes.jsx` and applied by `frontend/src/components/seo/SEO.jsx`. The SEO component updates metadata in the browser; validate rendered metadata with search crawlers and social preview tools after deployment.
+- The static files `frontend/public/robots.txt` and `frontend/public/sitemap.xml` must use the approved production domain. The sitemap is manually maintained and should be updated to include approved, published doctor profile routes. Keep admin, login, and private pages out of the sitemap; robots directives are not access control.
+- Hospital structured data contains organization-specific facts. Verify hospital name, address, phone, region, specialties, and map links with the organization before release; keep them consistent across site copy and metadata.
+- Replace placeholder social links and provide approved privacy/accessibility destinations. Publish reviewed privacy, terms, and accessibility information before production.
+- Have qualified clinicians approve medical articles, FAQs, emergency wording, doctor credentials, and service claims. Obtain image permissions.
+- After launch, submit the sitemap to Search Console and inspect canonical URLs, indexing, structured data, Core Web Vitals, and social previews.
 
-- Never expose Firebase Admin credentials to the frontend.
-- Frontend Firebase Web App configuration is client-side configuration; Admin credentials are server-only.
-- Replace all placeholder hospital contact values before production launch.
-- Deploy `firebase/firestore.rules` and `firebase/firestore.indexes.json`.
-- Run `npm run firebase:seed` from `backend/` after configuring Firebase.
-- The site audit, SEO guidance, production readiness, and QA documents are collected in [docs/site-audit/](docs/site-audit/README.md).
+## Release checklist
 
+Before a production release:
 
-### Icon library
-The frontend uses `react-icons` (Font Awesome 6 icons via `react-icons/fa6`) for all UI and brand icons.
+- [ ] Set the real canonical domain in Vercel `VITE_SITE_URL`, robots, sitemap, and all canonical/social URLs; remove example domains.
+- [ ] Set `VITE_API_BASE_URL` to the separate HTTPS backend and verify the backend is deployed and monitored.
+- [ ] Set frontend and backend mock mode to `false`; use `NODE_ENV=production` and keep `ALLOW_MOCK_IN_PRODUCTION=false`.
+- [ ] Configure production Firebase web-app and server-only Admin credentials, Storage bucket, and Firebase Authentication authorized domains.
+- [ ] Deploy Firestore/Storage rules and indexes. Confirm browser-direct access is denied.
+- [ ] Configure exact backend CORS origins, Resend sender/recipient details, and persistent backend media storage with backups.
+- [ ] Verify a real admin account, patient sign-up/email verification, appointment claiming, appointment status notifications, and patient data isolation.
+- [ ] Verify authorized admin report upload and patient-only report download using test files; ensure reports do not become public URLs.
+- [ ] Test each public route, appointment/contact/newsletter validation, language switching, and mobile/tablet/desktop layouts.
+- [ ] Complete keyboard, screen-reader, focus, contrast, zoom/reflow, and external-link checks.
+- [ ] Verify approved hospital contact/address/clinical facts, privacy/legal pages, analytics/consent requirements, and social links.
+- [ ] Inspect browser console/network errors, API health/errors, Firebase authentication, email delivery, and production logs.
 
-## Batch 1 — Admin Operations
+## Known review items
 
-The current release includes the complete first admin batch:
+These are not confirmed defects in every deployment; they require access to the actual production configuration and organization-approved details:
 
-- Dashboard analytics and appointment activity overview
-- Upcoming and recent appointment summaries
-- Appointment search, status, department and date filters
-- Appointment detail view, internal notes, status workflow and deletion
-- Doctors CRUD with profile fields, slug, languages and publication status
-- Services CRUD with slug, description, icon and publication status
-- Articles CRUD with slug, category, excerpt, content, publish date and read time
-- FAQ CRUD with question, answer, category and publication status
-- Mock mode persistence through browser localStorage
-- Firebase CRUD preserved for production mode
-- Staff-only appointment deletion policy added to the Firebase schema
-
-Mock mode remains enabled by default for local development. Set `VITE_USE_MOCK_DATA=false` on the frontend and `USE_MOCK_DATA=false` on the backend when switching to configured Firebase infrastructure.
-
-
-## Current roadmap status
-
-- Batch 1 — Admin dashboard and core CMS/appointment UI: complete.
-- Batch 2 — Backend/API architecture, authentication, authorization, validation and standardized API contracts: complete.
-- Batch 3 — Storage & Media Management: complete.
-- Batch 4 — Notifications & Communication: complete.
-- Batch 5 — Security & Production Hardening: complete.
-- Batch 6 — Firebase integration: complete at the application-code level.
-- Supabase data migration: intentionally not included; the source Supabase project contains no application data.
-- Firebase live configuration and authenticated browser QA require the target Firebase project credentials.
-
-## Batch 3 — Media Management
-
-The admin console includes a Media Library and reusable image upload controls for Doctors, Services and Articles. Media is stored locally under `backend/uploads/media` in both mock and Firebase modes. Firebase Storage is intentionally not used.
-
-## Current development batches
-
-- Batch 1 — Admin & CMS features
-- Batch 2 — Backend/API architecture
-- Batch 3 — Storage & Media Management
-- Batch 4 — Notifications & Communication
-
-
-
-
-## Batch 5 — Security & Production Hardening
-
-The backend now includes Helmet security headers, exact CORS origin allowlisting, request IDs, API/public-write/authentication rate limits, strict JSON parsing, production mock-mode protection, non-leaking production error responses, image magic-byte validation, and an operational audit trail. The admin Security page exposes runtime protection status and recent audit events.
-
-Security environment variables include `NODE_ENV`, `ALLOWED_ORIGINS`, `API_RATE_LIMIT`, `PUBLIC_WRITE_RATE_LIMIT`, `AUTH_RATE_LIMIT`, and `ALLOW_MOCK_IN_PRODUCTION`. Mock mode is intentionally blocked when `NODE_ENV=production` unless explicitly overridden.
-
-
-## Data provider
-
-P2Care uses Firebase Authentication + Firestore through the Express backend. Firebase Storage is intentionally not used; media is stored locally under `backend/uploads/media/`. Mock mode remains available for development.
-
-For Firebase setup, seeding, and final verification, follow [docs/firebase-setup.md](./docs/firebase-setup.md).
-
-For the source-based website and SEO audit, production readiness gates, and
-current documentation index, see [docs/site-audit/](./docs/site-audit/).
+- The sample environment files contain example domains and local API URLs. Replace them in production.
+- Vercel serves only the frontend; a separately deployed backend and correct API URL are required for live API features.
+- A production bundle build has reported a non-blocking main JavaScript chunk-size warning above 500 kB. Consider code splitting and verify mobile performance.
+- Verify the live Vercel domain is publicly accessible; a deployment can be successful while Deployment Protection requires sign-in.
+- No complete production crawl, live Firebase patient flow, real email delivery, accessibility audit, or full device/browser matrix is implied by a local build or mock-mode test.
