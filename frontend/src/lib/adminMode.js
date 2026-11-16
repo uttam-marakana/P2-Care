@@ -1,9 +1,7 @@
-// Local development is mock-first. Set VITE_USE_MOCK_DATA=false when Firebase is configured.
+// Mock mode is opt-in; default to Firebase-backed behavior in every environment.
 const configuredMockMode = import.meta.env.VITE_USE_MOCK_DATA;
 export const isMockMode =
-  String(
-    configuredMockMode ?? (import.meta.env.DEV ? "true" : "false"),
-  ).toLowerCase() === "true";
+  String(configuredMockMode ?? "false").toLowerCase() === "true";
 export const MOCK_ADMIN = {
   email: "admin@p2care.local",
   password: "P2Care@123",

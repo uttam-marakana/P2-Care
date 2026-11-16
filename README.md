@@ -63,9 +63,9 @@ npm start
 
 There are no dedicated frontend or backend `test` or `lint` scripts in the package manifests. The production build checks frontend compilation, not full functional, accessibility, or Firebase integration behavior.
 
-### Mock mode
+### Optional mock mode
 
-For local public-site and admin-panel development, configure:
+Firebase-backed mode is the default. Set the following flags to `true` only when intentionally testing against local mock data:
 
 ```env
 # frontend/.env

@@ -6,8 +6,16 @@ import {
   articles as fallbackArticles,
   faqs as fallbackFaqs,
 } from "@/data";
+import { isMockMode } from "@/lib/adminMode";
 
 const CmsContext = createContext(null);
+const emptyContent = { doctors: [], specialties: [], articles: [], faqs: [] };
+const mockFallbackContent = {
+  doctors: fallbackDoctors,
+  specialties: fallbackServices,
+  articles: fallbackArticles,
+  faqs: fallbackFaqs,
+};
 
 const normalizeDoctors = (items) =>
   items.map((d) => ({
@@ -39,12 +47,9 @@ const normalizeArticles = (items) =>
   }));
 
 export function CmsProvider({ children }) {
-  const [content, setContent] = useState({
-    doctors: fallbackDoctors,
-    specialties: fallbackServices,
-    articles: fallbackArticles,
-    faqs: fallbackFaqs,
-  });
+  const [content, setContent] = useState(
+    isMockMode ? mockFallbackContent : emptyContent,
+  );
 
   useEffect(() => {
     let active = true;
@@ -57,17 +62,27 @@ export function CmsProvider({ children }) {
       .then(([doctors, specialties, articles, faqs]) => {
         if (!active) return;
         setContent({
-          doctors: doctors.length ? normalizeDoctors(doctors) : fallbackDoctors,
+          doctors: doctors.length
+            ? normalizeDoctors(doctors)
+            : isMockMode
+              ? fallbackDoctors
+              : [],
           specialties: specialties.length
             ? normalizeServices(specialties)
-            : fallbackServices,
+            : isMockMode
+              ? fallbackServices
+              : [],
           articles: articles.length
             ? normalizeArticles(articles)
-            : fallbackArticles,
-          faqs: faqs.length ? faqs : fallbackFaqs,
+            : isMockMode
+              ? fallbackArticles
+              : [],
+          faqs: faqs.length ? faqs : isMockMode ? fallbackFaqs : [],
         });
       })
-      .catch(() => {});
+      .catch((error) => {
+        if (active) console.error("Unable to load public CMS content.", error);
+      });
     return () => {
       active = false;
     };
@@ -80,10 +95,7 @@ export function CmsProvider({ children }) {
 export function useCmsData() {
   return (
     useContext(CmsContext) ?? {
-      doctors: fallbackDoctors,
-      specialties: fallbackServices,
-      articles: fallbackArticles,
-      faqs: fallbackFaqs,
+      ...(isMockMode ? mockFallbackContent : emptyContent),
     }
   );
 }

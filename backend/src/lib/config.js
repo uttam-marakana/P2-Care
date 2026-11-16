@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
-// Mock mode remains available for local development. Firebase is the production data/auth provider.
-const useMockData = String(process.env.USE_MOCK_DATA ?? 'true').toLowerCase() === 'true';
+// Mock mode is opt-in. Firebase is the default data/auth provider.
+const useMockData = String(process.env.USE_MOCK_DATA ?? 'false').toLowerCase() === 'true';
 const nodeEnv = process.env.NODE_ENV || 'development';
 if (nodeEnv === 'production' && useMockData && String(process.env.ALLOW_MOCK_IN_PRODUCTION).toLowerCase() !== 'true') {
   throw new Error('Mock mode is disabled in production. Set USE_MOCK_DATA=false before deployment.');

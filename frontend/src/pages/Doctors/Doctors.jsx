@@ -36,6 +36,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 import { useCmsData } from "@/context/CmsContext";
+import { isMockMode } from "@/lib/adminMode";
 import {
   ButtonLink,
   PageHero,
@@ -64,7 +65,7 @@ function DoctorsPage() {
             .toLowerCase()
             .includes(query.toLowerCase()),
       ),
-    [query, specialty, t],
+    [doctors, query, specialty, t],
   );
   return (
     <Shell>
@@ -118,10 +119,12 @@ function DoctorsPage() {
             >
               {filtered.length} {t("care professionals")}
             </p>
-            <span className="hidden items-center gap-2 text-xs text-[hsl(var(--muted-foreground))] sm:flex">
-              <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
-              {t("Showing sample profiles")}
-            </span>
+            {isMockMode && (
+              <span className="hidden items-center gap-2 text-xs text-[hsl(var(--muted-foreground))] sm:flex">
+                <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
+                {t("Showing sample profiles")}
+              </span>
+            )}
           </div>
           {filtered.length ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
