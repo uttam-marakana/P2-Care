@@ -171,6 +171,10 @@ firebase deploy --only firestore:rules,firestore:indexes,storage
 
 The project files are `firebase/firestore.rules`, `firebase/firestore.indexes.json`, and `firebase/storage.rules`. Confirm the configured Storage bucket name in Firebase before setting `FIREBASE_STORAGE_BUCKET`.
 
+The currently shared production rules use a different direct-client data model (`users`, `patientId`, `blogs`, and `contacts`). P2Care's backend instead uses `profiles/{uid}`, `patient_uid`, `articles`, `services`, and `contact_inquiries`, and performs data operations through the Admin SDK. Admin SDK requests bypass Firestore rules, so API authorization is enforced in Express. Keep repository rules deny-all for direct client access; do not merge the shared owner/admin rules into this backend-only model without intentionally adding direct client Firestore access and its complete ownership/security design. Deploying repository rules requires an explicit Firebase CLI/console action and was not performed as part of this repository change.
+
+The existing Firebase Console index for `appointments(patientId ASC, createdAt DESC, __name__ DESC)` does not match P2Care's appointment schema or sort order. It is retained in the repository config so deploying the updated indexes does not discard an existing console index that may be used elsewhere. The API filters appointments by `patient_uid` and sorts them by `appointment_date` descending; the matching API index is also configured as `patient_uid ASC, appointment_date DESC`. Matching patient-owned indexes are configured for `patient_reports` and `patient_notifications`, whose API queries sort by `created_at` descending. Indexes are performance/query configuration, not security rules, and Admin SDK access is not restricted by them.
+
 ### Media and report storage
 
 - Public website media is stored at `backend/uploads/media/`, with metadata in `backend/uploads/media/media.json`. Production backend hosting must provide persistent storage and backups for this directory; ephemeral serverless filesystems are not sufficient.
