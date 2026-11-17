@@ -16,6 +16,7 @@ import PatientDashboard from "@/pages/Patient/Dashboard";
 import PatientNotifications from "@/pages/Patient/Notifications";
 import PatientReports from "@/pages/Patient/Reports";
 import NewsletterUnsubscribe from "@/pages/Patient/NewsletterUnsubscribe";
+import Policies from "@/pages/Policies/Policies";
 import PatientLayout from "@/components/patient/PatientLayout";
 import RequirePatient from "@/components/patient/RequirePatient";
 import { HospitalSchema, SEO } from "@/components/seo";
@@ -121,6 +122,7 @@ export function PublicRoutes() {
       <Route path="/account/login" element={<PatientLogin />} />
       <Route path="/account/signup" element={<PatientSignup />} />
       <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribe />} />
+      <Route path="/policies/:slug" element={<Policies />} />
       <Route element={<RequirePatient />}>
         <Route element={<PatientLayout />}>
           <Route path="/account" element={<PatientDashboard />} />

@@ -5,6 +5,7 @@ import logo from "../../../public/logo.png";
 import LanguageSelect from "./LanguageSelect";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
+import { policyLinks } from "@/pages/Policies/Policies";
 import {
   FaArrowRight,
   FaCheck,
@@ -20,6 +21,7 @@ function Footer() {
   const [openMenus, setOpenMenus] = useState({
     care: false,
     p2care: false,
+    policies: false,
   });
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
@@ -31,7 +33,7 @@ function Footer() {
 
   return (
     <footer className="bg-[hsl(202_42%_15%)] text-[hsl(190_35%_91%)]">
-      <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-5 px-5 py-8 sm:grid-cols-2 sm:gap-7 sm:px-6 sm:py-10 lg:grid-cols-[1.2fr_.75fr_.75fr_1.15fr] lg:gap-12 lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-[1400px] 2xl:max-w-[1600px] gap-5 px-5 py-8 sm:grid-cols-2 sm:gap-7 sm:px-6 sm:py-10 lg:grid-cols-[1.05fr_.65fr_.75fr_.85fr_1.15fr] lg:gap-8 lg:px-8 lg:py-16">
         <div>
           <Link
             to="/"
@@ -151,6 +153,40 @@ function Footer() {
               {profile?.role === "patient" ? t("My account") : t("Patient sign in")}
             </Link>
           </div>
+        </div>
+        <div className="border-b border-[hsl(190_25%_27%)] pb-4 sm:border-0 sm:pb-0">
+          <h3 className="mb-4 hidden text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:block">
+            {t("Policies")}
+          </h3>
+          <button
+            type="button"
+            aria-expanded={openMenus.policies}
+            aria-controls="footer-policy-links"
+            data-testid="button-footer-policies"
+            onClick={() => toggleMenu("policies")}
+            className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))] sm:hidden"
+          >
+            {t("Policies")}
+            <FaChevronDown
+              aria-hidden="true"
+              className={`transition-transform ${openMenus.policies ? "rotate-180" : ""}`}
+            />
+          </button>
+          <nav
+            id="footer-policy-links"
+            aria-label={t("Hospital policies")}
+            className={`${openMenus.policies ? "grid" : "hidden"} gap-3 pt-2 text-sm text-[hsl(193_20%_75%)] sm:grid sm:pt-0`}
+          >
+            {policyLinks.map(({ slug, label }) => (
+              <Link
+                key={slug}
+                to={`/policies/${slug}`}
+                data-testid={`link-footer-policy-${slug}`}
+              >
+                {t(label)}
+              </Link>
+            ))}
+          </nav>
         </div>
         <div>
           <h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[hsl(var(--secondary))]">

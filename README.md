@@ -178,7 +178,11 @@ The existing Firebase Console index for `appointments(patientId ASC, createdAt D
 ### Media and report storage
 
 - Public website media is stored at `backend/uploads/media/`, with metadata in `backend/uploads/media/media.json`. Production backend hosting must provide persistent storage and backups for this directory; ephemeral serverless filesystems are not sufficient.
-- Patient reports use a private Firebase Storage bucket and are downloaded through authenticated, ownership-checked API routes.
+- Patient reports use a private Firebase Storage bucket and are downloaded through authenticated, ownership-checked API routes. Without a configured Firebase Storage bucket, report upload and download are unavailable; do not use backend local disk for patient reports.
+
+### Hospital policy drafts
+
+The footer links to draft privacy, patient-rights, website-terms, accessibility, complaints, appointment, and medical-emergency policies. They are marked as drafts and excluded from search indexing. They are not approved legal documents: the hospital must confirm its legal identity, actual data practices, retention, contacts, operational procedures, local-language translations, and applicable Indian requirements with its legal, privacy, and clinical leads before removing draft notices or handling real patient information.
 
 ### Email and notifications
 
@@ -218,6 +222,8 @@ Before a production release:
 - [ ] Configure production Firebase web-app and server-only Admin credentials, Storage bucket, and Firebase Authentication authorized domains.
 - [ ] Deploy Firestore/Storage rules and indexes. Confirm browser-direct access is denied.
 - [ ] Configure exact backend CORS origins, Resend sender/recipient details, and persistent backend media storage with backups.
+- [ ] Complete legal, privacy, and clinical review of all hospital policy drafts; publish approved contacts, retention periods, grievance steps, and translations.
+- [ ] Keep patient report upload disabled until private Firebase Storage is configured, tested, and included in backup and access-control procedures.
 - [ ] Verify a real admin account, patient sign-up/email verification, appointment claiming, appointment status notifications, and patient data isolation.
 - [ ] Verify authorized admin report upload and patient-only report download using test files; ensure reports do not become public URLs.
 - [ ] Test each public route, appointment/contact/newsletter validation, language switching, and mobile/tablet/desktop layouts.

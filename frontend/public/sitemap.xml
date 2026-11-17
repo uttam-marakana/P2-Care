@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.example.com/</loc></url>
-  <url><loc>https://www.example.com/services</loc></url>
-  <url><loc>https://www.example.com/doctors</loc></url>
-  <url><loc>https://www.example.com/hospital</loc></url>
-  <url><loc>https://www.example.com/emergency</loc></url>
-  <url><loc>https://www.example.com/articles</loc></url>
-  <url><loc>https://www.example.com/appointment</loc></url>
-  <url><loc>https://www.example.com/contact</loc></url>
-  <url><loc>https://www.example.com/faq</loc></url>
+  <url><loc>https://p2care.vercel.app/</loc></url>
+  <url><loc>https://p2care.vercel.app/services</loc></url>
+  <url><loc>https://p2care.vercel.app/doctors</loc></url>
+  <url><loc>https://p2care.vercel.app/hospital</loc></url>
+  <url><loc>https://p2care.vercel.app/emergency</loc></url>
+  <url><loc>https://p2care.vercel.app/articles</loc></url>
+  <url><loc>https://p2care.vercel.app/appointment</loc></url>
+  <url><loc>https://p2care.vercel.app/contact</loc></url>
+  <url><loc>https://p2care.vercel.app/faq</loc></url>
 </urlset>
